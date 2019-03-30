@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<i18n>
+  <a key="laydateLang" text="ja" />
+  <a key="修改密码" text="パスワードを変更" />
+  <a key="请输入原密码" text="現在のパスワード" />
+  <a key="请输入新密码" text="新しいパスワード" />
+  <a key="再次输入新密码" text="新しいパスワードを再入力" />
+  <a key="确认修改" text="変更を保存" />
+  <a key="登陆" text="ログイン" />
+  <a key="语言" text="日本語" />
+  <a key="用户名" text="ユーザー名" />
+  <a key="必须填写此字段" text="このフィールドを入力してください。" />
+  <a key="密码" text="パスワード" />
+  <a key="侧边伸缩" text="メニューを隠す" />
+  <a key="刷新" text="刷新する" />
+  <a key="消息" text="メッセージ" />
+  <a key="全屏" text="全画面表示" />
+  <a key="个人信息" text="プロフィール" />
+  <a key="退出" text="ログアウト" />
+  <a key="主题" text="主題" />
+  <a key="关闭当前标签页" text="現在のタブを閉じる" />
+  <a key="关闭其它标签页" text="他のタブを閉じる" />
+  <a key="关闭全部标签页" text="すべてのタブを閉じる" />
+  <a key="数据库工具" text="データベースツール" />
+  <a key="设置" text="設定" />
+  <a key="多标签" text="タブ" />
+  <a key="开启|关闭" text="ON|OFF" />
+  <a key="用户名或密码错误" text="入力したパスワードは正しくないようです。" />
+  <a key="主页" text="ホームページ" />
+  <a key="机器码" text="機械コード" />
+  <a key="许可类型" text="認証タイプ" />
+  <a key="正式" text="フォーマル" />
+  <a key="临时" text="一時的な" />
+  <a key="试用" text="試用" />
+  <a key="接口" text="データベースタイプ" />
+  <a key="通道个数" text="チャネル" />
+  <a key="额度" text="データ制限" />
+  <a key="授权日期" text="有効時間" />
+  <a key="下载授权文件" text="認証ファイルをダウンロードする" />
+  <a key="必填项不能为空" text="このフィールドを入力してください。" />
+  <a key="机器码格式：XXXXXX-XXXXXX-XXXXXX-XXXXXX" text="フォーマットはXXXXXX-XXXXXX-XXXXXX-XXXXXX" />
+  <a key="失效日期" text="有効期限" />  
+</i18n>

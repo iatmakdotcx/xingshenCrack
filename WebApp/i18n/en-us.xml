@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<i18n>
+  <a key="laydateLang" text="en" sys="1" />
+  <a key="语言" text="English" sys="1" score="3" />
+  <a key="用户名或密码错误" text="the username or password is incorrect" score="3" />
+  <a key="必须填写此字段" text="This is a required field" score="5" />
+  <a key="登陆" text="Login" />
+  <a key="用户名" text="Username" />
+  <a key="密码" text="Password" />
+  <a key="修改密码" text="Change password" />
+  <a key="请输入原密码" text="Current password" />
+  <a key="请输入新密码" text="New password" />
+  <a key="再次输入新密码" text="Verify password" />
+  <a key="原密码不正确" text="The old password is invalid" />
+  <a key="参数错误" text="Invalid parameter" />
+  <a key="确认修改" text="Save changes" />
+  <a key="侧边伸缩" text="Hide sidebar" />
+  <a key="刷新" text="Refresh" />
+  <a key="消息" text="Message" />
+  <a key="全屏" text="Full Screen" />
+  <a key="个人信息" text="Profile" />
+  <a key="退出" text="Logout" />
+  <a key="主题" text="Theme" />
+  <a key="关闭当前标签页" text="Close Current Tab" />
+  <a key="关闭其它标签页" text="Close All Tabs BUT This" />
+  <a key="关闭全部标签页" text="Close All Tabs" />
+  <a key="数据库工具" text="Database Tools" />
+  <a key="设置" text="Settings" />
+  <a key="多标签" text="Multi-Tab" />
+  <a key="开启|关闭" text="ON|OFF" />
+  <a key="主页" text="Home" />
+  <a key="必填项不能为空" text="Can not be empty" />
+  <a key="机器码" text="Hardware ID" />
+  <a key="许可类型" text="Licence type" />
+  <a key="正式" text="Formal" />
+  <a key="临时" text="Temorarily" />
+  <a key="试用" text="Trial" />
+  <a key="接口" text="DB type" />
+  <a key="通道个数" text="Channel" />
+  <a key="额度" text="Data limit" />
+  <a key="下载授权文件" text="Down Key File" />
+  <a key="机器码格式：XXXXXX-XXXXXX-XXXXXX-XXXXXX" text="Hardware ID should look like：XXXXXX-XXXXXX-XXXXXX-XXXXXX" />
+  <a key="授权日期" text="Authorization date" />
+  <a key="失效日期" text="Expiry date" />
+</i18n>
