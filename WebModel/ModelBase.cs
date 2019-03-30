@@ -298,7 +298,7 @@ namespace Web.Model
         {
             T model = Activator.CreateInstance<T>();
             string tablename = (model as ModelBase).getTableName();
-            string SsSql = "select top 1 * from " + tablename;
+            string SsSql = "select * from " + tablename;
             if (!string.IsNullOrEmpty(strWhere))
                 SsSql += " where " + strWhere;            
             DataSet ds;
@@ -376,43 +376,33 @@ namespace Web.Model
         }
         protected static List<T> GetList<T>(DbTransaction transaction,string strWhere, string strFieldOrder, int PageSize, int page)
         {
-            bool flag = strWhere.IndexOf("lbsql{") > 0;
-            List<T> result = new List<T>();
-            if (strWhere.IndexOf("lbsql{") > 0)
-            {
-                throw new NotSupportedException("未处理 lbsql 关键字！");
-                //SQLPara para = new SQLPara(strWhere, strFieldOrder, "");
-                //result = this.GetList(para, PageSize, page);
-            }
+             List<T> result = new List<T>();
+            string strFieldKey = "id";
+            string strFieldShow = "*";
+            T model = Activator.CreateInstance<T>();
+            string tablename = (model as ModelBase).getTableName();
+            DbParameter[] paras = new DbParameter[7] {
+                dbh.MakeInParam("@TableName", tablename),
+                dbh.MakeInParam("@FieldKey", strFieldKey),
+                dbh.MakeInParam("@FieldShow", strFieldShow),
+                dbh.MakeInParam("@FieldOrder", strFieldOrder),
+                dbh.MakeInParam("@Where", strWhere),
+                dbh.MakeInParam("@PageSize", DbType.Int32, PageSize),
+                dbh.MakeInParam("@PageIndex", DbType.Int32, page)
+            };
+            DataSet ds;
+            if (transaction != null)
+                ds = dbh.ExecuteDataset(transaction, CommandType.StoredProcedure, "usp_CommonPagination", paras);
             else
+                ds = dbh.ExecuteDataset(CommandType.StoredProcedure, "usp_CommonPagination", paras);
+            if (ds != null && ds.Tables.Count > 0)
             {
-                string strFieldKey = "id";
-                string strFieldShow = "*";
-                T model = Activator.CreateInstance<T>();
-                string tablename = (model as ModelBase).getTableName();
-                DbParameter[] paras = new DbParameter[7] {
-                    dbh.MakeInParam("@TableName", tablename),
-                    dbh.MakeInParam("@FieldKey", strFieldKey),
-                    dbh.MakeInParam("@FieldShow", strFieldShow),
-                    dbh.MakeInParam("@FieldOrder", strFieldOrder),
-                    dbh.MakeInParam("@Where", strWhere),
-                    dbh.MakeInParam("@PageSize", DbType.Int32, PageSize),
-                    dbh.MakeInParam("@PageIndex", DbType.Int32, page)
-                };
-                DataSet ds;
-                if (transaction != null)
-                    ds = dbh.ExecuteDataset(transaction, CommandType.StoredProcedure, "usp_CommonPagination", paras);
-                else
-                    ds = dbh.ExecuteDataset(CommandType.StoredProcedure, "usp_CommonPagination", paras);
-                if (ds != null && ds.Tables.Count > 0)
+                PropertyInfo[] Properties = model.GetType().GetProperties();
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    PropertyInfo[] Properties = model.GetType().GetProperties();
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        model = Activator.CreateInstance<T>();
-                        DataRowToObj(model, dr, Properties);
-                        result.Add(model);
-                    }
+                    model = Activator.CreateInstance<T>();
+                    DataRowToObj(model, dr, Properties);
+                    result.Add(model);
                 }
             }
             return result;
@@ -453,27 +443,18 @@ namespace Web.Model
         }
         protected static int Counts<T>(DbTransaction transaction, string where, params DbParameter[] commandParameters)
         {
-            if (where.IndexOf("lbsql{") > 0)
+            T model = Activator.CreateInstance<T>();
+            string tablename = (model as ModelBase).getTableName();
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from " + tablename);
+            if (where.Trim() != "")
             {
-                throw new NotSupportedException("未处理 lbsql 关键字！");
-                //SQLPara para = new SQLPara(strWhere, "", "");
-                //result = this.Counts(para);
+                strSql.Append(" where " + where);
             }
+            if (transaction != null)
+                return (int)dbh.ExecuteScalar(transaction, CommandType.Text, strSql.ToString(), commandParameters);
             else
-            {
-                T model = Activator.CreateInstance<T>();
-                string tablename = (model as ModelBase).getTableName();
-                StringBuilder strSql = new StringBuilder();
-                strSql.Append("select count(1) from " + tablename);
-                if (where.Trim() != "")
-                {
-                    strSql.Append(" where " + where);
-                }
-                if (transaction != null)
-                    return (int)dbh.ExecuteScalar(transaction, CommandType.Text, strSql.ToString(), commandParameters);
-                else
-                    return (int)dbh.ExecuteScalar(CommandType.Text, strSql.ToString(), commandParameters);
-            }
+                return (int)dbh.ExecuteScalar(CommandType.Text, strSql.ToString(), commandParameters);
         }
         protected static int Delete<T>(string where, params DbParameter[] commandParameters)
         {
@@ -484,7 +465,7 @@ namespace Web.Model
             T model = Activator.CreateInstance<T>();
             string tablename = (model as ModelBase).getTableName();
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete " + tablename);
+            strSql.Append("delete from " + tablename);
             if (where.Trim() != "")
             {
                 strSql.Append(" where " + where);
@@ -500,33 +481,24 @@ namespace Web.Model
         }
         protected static string GetScalar<T>(DbTransaction transaction, string field, string where, params DbParameter[] commandParameters)
         {
-            if (where.IndexOf("lbsql{") > 0)
+            T model = Activator.CreateInstance<T>();
+            string tablename = (model as ModelBase).getTableName();
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select " + field + " from " + tablename);
+            if (where.Trim() != "")
             {
-                throw new NotSupportedException("未处理 lbsql 关键字！");
-                //SQLPara para = new SQLPara(strWhere, "", "");
-                //result = this.Counts(para);
+                strSql.Append(" where " + where);
             }
+            object scobj;
+            if (transaction != null)
+                scobj = dbh.ExecuteScalar(transaction, CommandType.Text, strSql.ToString(), commandParameters);
             else
+                scobj = dbh.ExecuteScalar(CommandType.Text, strSql.ToString(), commandParameters);
+            if (scobj == null || scobj == DBNull.Value)
             {
-                T model = Activator.CreateInstance<T>();
-                string tablename = (model as ModelBase).getTableName();
-                StringBuilder strSql = new StringBuilder();
-                strSql.Append("select top 1 " + field + " from " + tablename);
-                if (where.Trim() != "")
-                {
-                    strSql.Append(" where " + where);
-                }
-                object scobj;
-                if (transaction != null)
-                    scobj = dbh.ExecuteScalar(transaction, CommandType.Text, strSql.ToString(), commandParameters);
-                else
-                    scobj = dbh.ExecuteScalar(CommandType.Text, strSql.ToString(), commandParameters);
-                if (scobj == null || scobj == DBNull.Value)
-                {
-                    return "";
-                }
-                return scobj.ToString();
+                return "";
             }
+            return scobj.ToString();
         }
     }
 }

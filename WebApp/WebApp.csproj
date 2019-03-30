@@ -404,10 +404,6 @@
       <Project>{3a5908a1-1680-4f80-8b88-55d00f55833a}</Project>
       <Name>Mak.Data.MySql</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mak\Mak.Data.SqlServer\Mak.Data.SqlServer.csproj">
-      <Project>{d43ef747-5c1d-4283-8d9e-12ddba03cb25}</Project>
-      <Name>Mak.Data.SqlServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mak\Mak.Data\Mak.Data.csproj">
       <Project>{eac10a09-98e6-440b-b4e7-50d412001249}</Project>
       <Name>Mak.Data</Name>

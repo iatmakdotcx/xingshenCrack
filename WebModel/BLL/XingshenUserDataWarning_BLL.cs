@@ -10,7 +10,7 @@ namespace Web.Model
     {
         public static DataTable GetWarningList(string uuid)
         {
-            return dbh.GetDataTableBySQL("SELECT TOP 1000 [id],[jgxx],[jgrq] FROM [dbo].[userdataWarning] where uuid=@uuid order by id desc ",
+            return dbh.GetDataTableBySQL("SELECT id,jgxx,jgrq FROM userdataWarning where uuid=@uuid order by id desc ",
                 dbh.MakeInParam("uuid", uuid));
         }
 
