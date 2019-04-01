@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ALLFILE.aspx.cs" Inherits="telegramSvr.xingshen.ALLFILE" %>

@@ -414,8 +414,8 @@
             </script>
         </div>
     </div>
-    <script>
-        var ALLFILE_Item = <%=ALLFILE_Item.ToString(Newtonsoft.Json.Formatting.None)%>;
+    <script src="ALLFILE.aspx?v=1.27"></script>
+    <script>        
         var playerdata = <%=playerdata.ToString(Newtonsoft.Json.Formatting.None)%>;
         var itemlx = {
             "0": "武器",
