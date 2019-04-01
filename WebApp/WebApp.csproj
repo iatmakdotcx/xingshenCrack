@@ -22,6 +22,8 @@
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,90 +83,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\admin.css" />
-    <Content Include="css\bb2.png" />
-    <Content Include="css\bb3.png" />
-    <Content Include="css\font-awesome.min.css" />
-    <Content Include="css\login.css" />
-    <Content Include="css\select.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
-    <Content Include="css\base.css" />
-    <Content Include="css\skin_icons.png" />
-    <Content Include="css\style.css" />
-    <Content Include="css\valid_icons.png" />
     <Content Include="i18n\en-us.xml" />
     <Content Include="i18n\ja-jp.xml" />
     <Content Include="i18n\syskeys.xml" />
     <Content Include="i18n\translate.aspx" />
     <Content Include="i18n\zh-cn.xml" />
     <Content Include="index.html" />
-    <Content Include="js\artDialog\artDialog.js" />
-    <Content Include="js\artDialog\artDialog.source.js" />
-    <Content Include="js\artDialog\iframeTools.source.js" />
-    <Content Include="js\artDialog\jquery.artDialog.js" />
-    <Content Include="js\artDialog\jquery.artDialog.source.js" />
-    <Content Include="js\artDialog\skins\blue.css" />
-    <Content Include="js\artDialog\skins\blue\bg.png" />
-    <Content Include="js\artDialog\skins\blue\bg2.png" />
-    <Content Include="js\artDialog\skins\blue\bg_css3.png" />
-    <Content Include="js\artDialog\skins\blue\bg_css3_2.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\close.hover.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\close.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\e.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\n.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\ne.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\nw.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\s.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\se.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\sw.png" />
-    <Content Include="js\artDialog\skins\blue\ie6\w.png" />
-    <Content Include="js\artDialog\skins\icons\error.png" />
-    <Content Include="js\artDialog\skins\icons\face-sad.png" />
-    <Content Include="js\artDialog\skins\icons\face-smile.png" />
-    <Content Include="js\artDialog\skins\icons\loading.gif" />
-    <Content Include="js\artDialog\skins\icons\question.png" />
-    <Content Include="js\artDialog\skins\icons\succeed.png" />
-    <Content Include="js\artDialog\skins\icons\warning.png" />
-    <Content Include="js\jquery-3.3.1.min.js" />
-    <Content Include="js\jquery-treeview\.gitignore" />
-    <Content Include="js\jquery-treeview\demo\async.html" />
-    <Content Include="js\jquery-treeview\demo\bg.gif" />
-    <Content Include="js\jquery-treeview\demo\demo.js" />
-    <Content Include="js\jquery-treeview\demo\edit.html" />
-    <Content Include="js\jquery-treeview\demo\images.html" />
-    <Content Include="js\jquery-treeview\demo\index.html" />
-    <Content Include="js\jquery-treeview\demo\jquery.cookie.js" />
-    <Content Include="js\jquery-treeview\demo\large.html" />
-    <Content Include="js\jquery-treeview\demo\prerendered.html" />
-    <Content Include="js\jquery-treeview\demo\screen.css" />
-    <Content Include="js\jquery-treeview\demo\simple.html" />
-    <Content Include="js\jquery-treeview\demo\sortable.html" />
-    <Content Include="js\jquery-treeview\demo\source.php" />
-    <Content Include="js\jquery-treeview\images\ajax-loader.gif" />
-    <Content Include="js\jquery-treeview\images\file.gif" />
-    <Content Include="js\jquery-treeview\images\folder-closed.gif" />
-    <Content Include="js\jquery-treeview\images\folder.gif" />
-    <Content Include="js\jquery-treeview\images\minus.gif" />
-    <Content Include="js\jquery-treeview\images\plus.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-black-line.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-black.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-default-line.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-default.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-famfamfam-line.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-famfamfam.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-gray-line.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-gray.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-red-line.gif" />
-    <Content Include="js\jquery-treeview\images\treeview-red.gif" />
-    <Content Include="js\jquery-treeview\jquery.treeview.async.js" />
-    <Content Include="js\jquery-treeview\jquery.treeview.css" />
-    <Content Include="js\jquery-treeview\jquery.treeview.edit.js" />
-    <Content Include="js\jquery-treeview\jquery.treeview.js" />
-    <Content Include="js\jquery-treeview\jquery.treeview.sortable.js" />
-    <Content Include="js\jquery-treeview\screenshot.png" />
-    <Content Include="js\jquery.min.js" />
     <Content Include="js\layui\css\layui.css" />
     <Content Include="js\layui\css\layui.mobile.css" />
     <Content Include="js\layui\css\layuiext.css" />
@@ -251,31 +178,91 @@
     <Content Include="js\layui\images\face\9.gif" />
     <Content Include="js\layui\layui.all.js" />
     <Content Include="js\layui\layui.js" />
+    <Content Include="js\layui\layui.min.js">
+      <DependentUpon>layui.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\all-mobile.js" />
     <Content Include="js\layui\lay\all.js" />
     <Content Include="js\layui\lay\modules\carousel.js" />
+    <Content Include="js\layui\lay\modules\carousel.min.js">
+      <DependentUpon>carousel.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\code.js" />
+    <Content Include="js\layui\lay\modules\code.min.js">
+      <DependentUpon>code.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\colorpicker.js" />
+    <Content Include="js\layui\lay\modules\colorpicker.min.js">
+      <DependentUpon>colorpicker.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\element.js" />
+    <Content Include="js\layui\lay\modules\element.min.js">
+      <DependentUpon>element.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\flow.js" />
+    <Content Include="js\layui\lay\modules\flow.min.js">
+      <DependentUpon>flow.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\form.js" />
+    <Content Include="js\layui\lay\modules\form.min.js">
+      <DependentUpon>form.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\jquery.js" />
+    <Content Include="js\layui\lay\modules\jquery.min.js">
+      <DependentUpon>jquery.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\laydate.js" />
+    <Content Include="js\layui\lay\modules\laydate.min.js">
+      <DependentUpon>laydate.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\layedit.js" />
+    <Content Include="js\layui\lay\modules\layedit.min.js">
+      <DependentUpon>layedit.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\layer.js" />
+    <Content Include="js\layui\lay\modules\layer.min.js">
+      <DependentUpon>layer.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\laypage.js" />
+    <Content Include="js\layui\lay\modules\laypage.min.js">
+      <DependentUpon>laypage.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\laytpl.js" />
+    <Content Include="js\layui\lay\modules\laytpl.min.js">
+      <DependentUpon>laytpl.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\mobile.js" />
+    <Content Include="js\layui\lay\modules\mobile.min.js">
+      <DependentUpon>mobile.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\mobile\layer-mobile.js" />
     <Content Include="js\layui\lay\modules\mobile\layim-mobile-open.js" />
     <Content Include="js\layui\lay\modules\mobile\upload-mobile.js" />
     <Content Include="js\layui\lay\modules\mobile\zepto.js" />
     <Content Include="js\layui\lay\modules\rate.js" />
+    <Content Include="js\layui\lay\modules\rate.min.js">
+      <DependentUpon>rate.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\slider.js" />
+    <Content Include="js\layui\lay\modules\slider.min.js">
+      <DependentUpon>slider.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\table.js" />
+    <Content Include="js\layui\lay\modules\table.min.js">
+      <DependentUpon>table.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\tree.js" />
+    <Content Include="js\layui\lay\modules\tree.min.js">
+      <DependentUpon>tree.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\upload.js" />
+    <Content Include="js\layui\lay\modules\upload.min.js">
+      <DependentUpon>upload.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\lay\modules\util.js" />
+    <Content Include="js\layui\lay\modules\util.min.js">
+      <DependentUpon>util.js</DependentUpon>
+    </Content>
     <Content Include="js\layui\mod\admin.js" />
     <Content Include="js\layui\mod\config.js" />
     <Content Include="js\layui\mod\formSelects\formSelects-v4.all.js" />
@@ -284,39 +271,6 @@
     <Content Include="js\layui\mod\index.js" />
     <Content Include="js\layui\mod\treetable-lay\treetable.css" />
     <Content Include="js\layui\mod\treetable-lay\treetable.js" />
-    <Content Include="js\My97DatePicker\calendar.js" />
-    <Content Include="js\My97DatePicker\lang\zh-cn.js" />
-    <Content Include="js\My97DatePicker\skin\blueFresh\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\blueFresh\img.gif" />
-    <Content Include="js\My97DatePicker\skin\datePicker.gif" />
-    <Content Include="js\My97DatePicker\skin\default\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\default\img.gif" />
-    <Content Include="js\My97DatePicker\skin\green\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\green\img.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\bg.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\bg_calendar.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\simple\down.jpg" />
-    <Content Include="js\My97DatePicker\skin\simple\indexbg.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\left.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\navLeft.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\navRight.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\qs.jpg" />
-    <Content Include="js\My97DatePicker\skin\simple\right.gif" />
-    <Content Include="js\My97DatePicker\skin\simple\up.jpg" />
-    <Content Include="js\My97DatePicker\skin\simple\ymbg.jpg" />
-    <Content Include="js\My97DatePicker\skin\twoer\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\twoer\img.gif" />
-    <Content Include="js\My97DatePicker\skin\twoer\img.png" />
-    <Content Include="js\My97DatePicker\skin\WdatePicker.css" />
-    <Content Include="js\My97DatePicker\skin\whyGreen\bg.jpg" />
-    <Content Include="js\My97DatePicker\skin\whyGreen\datepicker.css" />
-    <Content Include="js\My97DatePicker\skin\whyGreen\img.gif" />
-    <Content Include="js\My97DatePicker\WdatePicker.js" />
-    <Content Include="js\newuilayout.js" />
-    <Content Include="js\pinyinFL.js" />
-    <Content Include="js\Validform\Validform_v5.3.2.js" />
-    <Content Include="js\Validform\Validform_v5.3.2_min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -368,10 +322,6 @@
     <Compile Include="xingshen\xingshenProxyMgr.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="js\jquery-treeview\bower.json" />
-    <Content Include="js\jquery-treeview\changelog.md" />
-    <Content Include="js\jquery-treeview\demo\source.phps" />
-    <Content Include="js\jquery-treeview\readme.md" />
     <Content Include="js\layui\font\iconfont.eot" />
     <Content Include="js\layui\font\iconfont.ttf" />
     <Content Include="js\layui\font\iconfont.woff" />
@@ -381,7 +331,11 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="config\xinshen.config" />
+    <Content Include="config\xinshen.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="bundleconfig.json" />
+    <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -403,6 +357,10 @@
     <ProjectReference Include="..\Mak\Mak.Data.MySql\Mak.Data.MySql.csproj">
       <Project>{3a5908a1-1680-4f80-8b88-55d00f55833a}</Project>
       <Name>Mak.Data.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mak\Mak.Data.SqlServer\Mak.Data.SqlServer.csproj">
+      <Project>{d43ef747-5c1d-4283-8d9e-12ddba03cb25}</Project>
+      <Name>Mak.Data.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mak\Mak.Data\Mak.Data.csproj">
       <Project>{eac10a09-98e6-440b-b4e7-50d412001249}</Project>
@@ -438,6 +396,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets" Condition="Exists('..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

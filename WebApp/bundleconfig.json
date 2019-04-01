@@ -1,0 +1,116 @@
+[
+  {
+    "outputFileName": "js/layui/lay/modules/tree.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/tree.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/upload.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/upload.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/util.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/util.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/table.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/table.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/rate.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/rate.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/slider.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/slider.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/mobile.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/mobile.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/laytpl.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/laytpl.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/laypage.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/laypage.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/layer.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/layer.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/layedit.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/layedit.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/laydate.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/laydate.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/form.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/form.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/flow.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/flow.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/element.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/element.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/colorpicker.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/colorpicker.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/code.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/code.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/carousel.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/carousel.js"
+    ]
+  },
+  {
+    "outputFileName": "js/layui/lay/modules/jquery.min.js",
+    "inputFiles": [
+      "js/layui/lay/modules/jquery.js"
+    ]
+  }
+]

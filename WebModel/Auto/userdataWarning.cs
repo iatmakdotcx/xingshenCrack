@@ -17,7 +17,7 @@ namespace Web.Model
 
         [AttrTableFieldInfo(DbType.String, 50)]
         public string uuid { get; set; }
-        [AttrTableFieldInfo(DbType.String, 50)]
+        [AttrTableFieldInfo(DbType.String, 5000)]
         public string jgxx { get; set; }
         [AttrTableFieldInfo(DbType.DateTime)]
         public DateTime jgrq { get; set; }
