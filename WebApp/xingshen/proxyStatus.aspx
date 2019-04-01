@@ -14,9 +14,9 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">状态</label>
                 <%if (telegramSvr.xingshen.xingshenProxyMgr2.IsRunning()){%>
-                    <div class="layui-form-mid" style="color:green">是</div>
+                    <div class="layui-form-mid" style="color:green">开启</div>
                 <%}else{ %>
-                    <div class="layui-form-mid" style="color:red">否</div>
+                    <div class="layui-form-mid" style="color:red">关闭</div>
                 <%} %>
             </div>
             <div class="layui-form-item">

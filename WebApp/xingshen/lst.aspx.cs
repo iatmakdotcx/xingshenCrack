@@ -24,7 +24,7 @@ namespace telegramSvr.xingshen
                 {
                     if (Request["a"] == "new")
                     {
-                        Rep = newUser(Rep);
+                        Rep = newUser(Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes)), Rep);
                     }
                 }
                 finally
@@ -34,13 +34,12 @@ namespace telegramSvr.xingshen
                 }
             }
         }
-        private JObject newUser(JObject Rep)
-        {
-            string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
+        public static JObject newUser(string JsonStr, JObject Rep)
+        {            
             JObject jo = null;
             try
             {
-                jo = (JObject)JsonConvert.DeserializeObject(Data);
+                jo = (JObject)JsonConvert.DeserializeObject(JsonStr);
             }
             catch (Exception exx)
             {

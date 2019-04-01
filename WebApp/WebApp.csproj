@@ -83,6 +83,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\login-background.png" />
+    <Content Include="assets\login.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
@@ -271,12 +273,15 @@
     <Content Include="js\layui\mod\index.js" />
     <Content Include="js\layui\mod\treetable-lay\treetable.css" />
     <Content Include="js\layui\mod\treetable-lay\treetable.js" />
+    <Content Include="login.aspx" />
+    <Content Include="main.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xingshen\ALLFILE.aspx" />
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\proxyStatus.aspx" />
+    <Content Include="xingshen\reg.aspx" />
     <Content Include="xingshen\uf.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +301,20 @@
     </Compile>
     <Compile Include="i18n\translate.aspx.designer.cs">
       <DependentUpon>translate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="main.aspx.cs">
+      <DependentUpon>main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="main.aspx.designer.cs">
+      <DependentUpon>main.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="xingshen\ALLFILE.aspx.cs">
@@ -318,6 +337,13 @@
     </Compile>
     <Compile Include="xingshen\proxyStatus.aspx.designer.cs">
       <DependentUpon>proxyStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\reg.aspx.cs">
+      <DependentUpon>reg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\reg.aspx.designer.cs">
+      <DependentUpon>reg.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\svrHelper.cs" />
     <Compile Include="xingshen\uf.aspx.cs">

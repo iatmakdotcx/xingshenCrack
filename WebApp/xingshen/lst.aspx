@@ -13,39 +13,8 @@
             max-width: 1000px;
             margin: 0 auto;
         }
-
-        .editor .strings {
-            width: 60%;
-            float: left;
-        }
-
-        .editor .meta {
-            background: #fff;
-            border: 1px solid #eee;
-            font-size: 13px;
-            margin: 0;
-            padding: 5px 10px;
-            width: 39%;
-            float: right;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            min-width: 160px
-        }
-
-        .layui-tab-content {
-            padding: 0;
-        }
-
         .layui-table {
             margin: 0
-        }
-
-        .fulldata {
-            height: 400px;
-        }
-        .layui-layer-content{
-            overflow:visible;
         }
     </style>
 </head>
