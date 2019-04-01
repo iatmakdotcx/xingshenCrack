@@ -153,4 +153,4 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-!WebApp/ApexSql/*.zip
+/packages/
