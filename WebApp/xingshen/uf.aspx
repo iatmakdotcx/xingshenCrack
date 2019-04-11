@@ -77,6 +77,7 @@
                     <li>物品</li>
                     <li>仓库</li>
                     <li>人物</li>
+                    <li>SignData</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show base">
@@ -340,6 +341,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="layui-tab-item signdata">
+                        <textarea class="layui-textarea data" style="height: 550px;"></textarea>
+                        <input type="button" class="layui-btn" value="Sign" />
+                        <textarea class="layui-textarea res" style="height: 50px;"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -469,11 +475,11 @@
                             id : 'adminPopupR',
                             title : "物品查询",
                             anim : 2,
-                            isOutAnim : false,
+                            isOutAnim: false,
                             closeBtn : false,
                             offset : 'r',
                             shadeClose : true,
-                            area : '500px',
+                            area : '650px',
                             skin : 'layui-layer-adminRight',
                             type: 1,
                             end: function () {
@@ -591,7 +597,11 @@
                 var html = "";
                 for (var i in d) {
                     html += "<tr class=\"data\" data-id=\"" + i + "\"><td>" + d[i].itemID + "</td>";
-                    html += "<td>" + ALLFILE_Item["ITEMFILE" + d[i].itemType][d[i].childType].name + "</td>";
+                    if (ALLFILE_Item["ITEMFILE" + d[i].itemType] && ALLFILE_Item["ITEMFILE" + d[i].itemType][d[i].childType]) {
+                        html += "<td>" + ALLFILE_Item["ITEMFILE" + d[i].itemType][d[i].childType].name + "</td>";
+                    } else {
+                         html += "<td style=\"color:red\">未知物品</td>";
+                    }
                     html += "<td>" + itemlx[d[i].itemType] + "</td>";
                     var bz = "";
                     if (typeof d[i].num != "undefined") {
@@ -869,7 +879,7 @@
                     if (i.startsWith("ITEMFILE")) {
                         var typeid = parseInt(i.substr(8));
                         for (var j in ALLFILE_Item[i]) {
-                            if (keyw == "" || ALLFILE_Item[i][j].ID == keyw || ALLFILE_Item[i][j].name.indexOf(keyw) > -1 || (ALLFILE_Item[i][j].miaosh || "").indexOf(keyw) > -1) {
+                            if (keyw == "" || ALLFILE_Item[i][j].ID == keyw || ALLFILE_Item[i][j].name.indexOf(keyw) > -1 || (ALLFILE_Item[i][j].miaoshu || "").indexOf(keyw) > -1) {
                                 ALLFILE_Item[i][j].itemtype = typeid;
                                 filterdata.push(ALLFILE_Item[i][j]);
                                 if (typeid < 9) {
@@ -887,7 +897,7 @@
                     { field: 'itemtype', width: 66, title: 'type', sort: true }
                     , { field: 'ID', width: 40, title: 'ID' }
                     , { field: 'name', width: 100, title: '名称', sort: true }
-                    , { field: 'miaoshu', width: 260, title: '描述' }
+                    , { field: 'miaoshu', width: 410, title: '描述' }
                 ]];
                 table.render({
                     elem: '#item-table-all'
@@ -1012,6 +1022,29 @@
                     }, 2000);                    
                 }, function () {
                     
+                });
+            });
+            $(".signdata .layui-btn").click(function () {
+                $.ajax({
+                    url: "<%=Request.Path%>?a=sign&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    data: $(".signdata textarea.data").val(),
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            var rr = "Server-Time: " + data.ServerTime + "\r\n";
+                            rr += "Sign: " + data.Sign;
+                            $(".signdata textarea.res").val(rr);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
                 });
             });
         });

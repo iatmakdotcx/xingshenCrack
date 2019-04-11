@@ -282,6 +282,7 @@
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\proxyStatus.aspx" />
     <Content Include="xingshen\reg.aspx" />
+    <Content Include="xingshen\sd.aspx" />
     <Content Include="xingshen\uf.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +345,13 @@
     </Compile>
     <Compile Include="xingshen\reg.aspx.designer.cs">
       <DependentUpon>reg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\sd.aspx.cs">
+      <DependentUpon>sd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\sd.aspx.designer.cs">
+      <DependentUpon>sd.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\svrHelper.cs" />
     <Compile Include="xingshen\uf.aspx.cs">

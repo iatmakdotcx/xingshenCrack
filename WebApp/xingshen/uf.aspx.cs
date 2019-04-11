@@ -184,6 +184,15 @@ namespace telegramSvr.xingshen
                     Rep["data"] = MakJsonHelper.DataTableToJsonArr_AllRow(XingshenUserDataWarning.GetWarningList(uid));
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "sign")
+                {
+                    string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
+                    string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                    Rep["ServerTime"] = dct;
+                    Rep["Sign"] = svrHelper.SignData(dct, Data);
+                    Rep["ok"] = true;
+                }
+
             }
             finally
             {

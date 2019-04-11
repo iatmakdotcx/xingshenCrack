@@ -15,7 +15,7 @@ namespace telegramSvr.xingshen
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.HttpMethod == "POST")
+            if (Request.HttpMethod == "POST") 
             {
                 JObject Rep = new JObject();
                 Rep["ok"] = false;
