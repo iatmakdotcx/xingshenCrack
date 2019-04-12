@@ -52,10 +52,7 @@
                     success: function (data) {
                         layer.closeAll('loading');
                         if (data.ok) {
-                            if (obj && obj.tr.siblings().length > 0) {
-                                obj.del();
-                            } else
-                                layer.closeAll("page")
+                            layer.msg("ok");
                         } else {
                             layer.msg(data.msg);
                         }

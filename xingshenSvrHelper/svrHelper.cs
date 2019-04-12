@@ -759,6 +759,17 @@ namespace xingshenSvrHelper
                         Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
                         if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "34")
                         {
+                            XingshenSect sect = XingshenSect.GetModel(user.uuid);
+                            sect.lastdonate = DateTime.Now;                            
+                            if (sect.id == 0)
+                            {
+                                sect.uuid = user.uuid;
+                                sect.Add();
+                            }
+                            else
+                            {
+                                sect.Update();
+                            }
                             return "";
                         }
                         else if (Repjo["message"] != null)

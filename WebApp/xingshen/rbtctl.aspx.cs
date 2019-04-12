@@ -72,12 +72,12 @@ namespace telegramSvr.xingshen
                     }
 
                     string errMsg = svrHelper.Create_sects_donate(user, 10000);
-                    if (string.IsNullOrEmpty(errMsg))
+                    if (!string.IsNullOrEmpty(errMsg))
                     {
-
-                       
+                        Rep["msg"] = errMsg;
+                        return;
                     }
-
+                    Rep["ok"] = true;
                 }
             }
             finally
