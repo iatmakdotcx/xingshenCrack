@@ -30,7 +30,7 @@ namespace telegramSvr.xingshen
         {
             if (Request.HttpMethod == "POST")
             {
-                Page_Load_POST();                         
+                Page_Load_POST();
             }
             else
             {

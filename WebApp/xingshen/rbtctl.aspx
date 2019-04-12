@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-                <input type="button" class="layui-btn" id="btn_donate" value="贡献" />
+                <input type="button" class="layui-btn" id="btn_donate" value="帮派贡献" />
                 <input type="button" class="layui-btn" id="btn_renewData" title="重新下载服务器存档" value="刷新存档" />
                 <input type="button" class="layui-btn" id="btn_downfirst" value="Down" />
                 <input type="button" class="layui-btn" id="btn_ok" value="确定" />
@@ -40,8 +40,32 @@
         var selectedRow;
 
         layui.use(['layer', 'element', 'table'], function () {
+            var layer = layui.layer, $ = layui.$, table = layui.table;
 
-
+            $("#btn_donate").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=donate&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            if (obj && obj.tr.siblings().length > 0) {
+                                obj.del();
+                            } else
+                                layer.closeAll("page")
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
+            });
         });
    </script>
         
