@@ -193,6 +193,30 @@ namespace telegramSvr.xingshen
                     Rep["Sign"] = svrHelper.SignData(dct, Data);
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "upload")
+                {
+                    ud = XingshenUserData.GetModel(uid);
+                    JObject jo = null;
+                    try
+                    {
+                        jo = (JObject)JsonConvert.DeserializeObject(ud.data);
+                    }
+                    catch (Exception exx)
+                    {
+                        Rep["msg"] = exx.Message;
+                        return;
+                    }
+                    string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
+                    jo["data"]["player_data"] = Data;
+                    ud.data = jo.ToString(Formatting.None);
+                    ud.Update();
+                    string errMsg = svrHelper.Create_save_user(user, ud);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                    }else
+                        Rep["ok"] = true;
+                }
 
             }
             finally

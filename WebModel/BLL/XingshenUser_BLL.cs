@@ -9,7 +9,11 @@ namespace Web.Model
     {
         public static List<XingshenUser> GetALL()
         {
-            return GetList<XingshenUser>("");
+            return GetList<XingshenUser>("isRobot=0");
+        }
+        public static List<XingshenUser> GetALLRobot()
+        {
+            return GetList<XingshenUser>("isRobot=1");
         }
         public static XingshenUser GetModel(string uid)
         {

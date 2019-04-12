@@ -126,6 +126,7 @@ namespace xingshenSvrHelper
             JObject role = new JObject();
             role["roleID"] = "1";
             role["ID"] = "00001";
+            role["addDict"] = new JObject();
             brLst.Add(role);
             playerDict["battleRolesArr"] = brLst;
 
@@ -278,10 +279,141 @@ namespace xingshenSvrHelper
             }
             JObject player_data = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_data"].ToString());
             player_data["playerDict"]["lastDCTime"] = dct;
+            player_data["playerDict"]["user_name"] = user.user_name;
+            player_data["playerDict"]["password"] = user.pass;
+            if (player_data["playerDict"]["playName"] == null)
+            {
+                player_data["playerDict"]["playName"] = player_data["playerDict"]["user_name"];
+            }
+            player_data["playerDict"]["uuid"] = user.uuid;
+            player_data["playerDict"]["token"] = user.token;
+
+            if (player_data["playerDict"]["VipCJGet"] == null)
+                player_data["playerDict"]["VipCJGet"] = "";
+            if (player_data["playerDict"]["cangkuArr"] == null)
+                player_data["playerDict"]["cangkuArr"] = new JArray();
+            if (player_data["playerDict"]["cdTime"] == null)
+                player_data["playerDict"]["cdTime"] = null;
+            if (player_data["playerDict"]["cjbzArr"] == null)
+                player_data["playerDict"]["cjbzArr"] = new JArray();
+            
+            if (player_data["playerDict"]["coin"] == null)
+                player_data["playerDict"]["coin"] = "600";
+            if (player_data["playerDict"]["createGCID"] == null)
+                player_data["playerDict"]["createGCID"] = player_data["playerDict"]["playerId"];
+            if (player_data["playerDict"]["czCJGet"] == null)
+                player_data["playerDict"]["czCJGet"] = "";
+            if (player_data["playerDict"]["czJiFen"] == null)
+                player_data["playerDict"]["czJiFen"] = "";
+            if (player_data["playerDict"]["dalaoChengJiuGet"] == null)
+                player_data["playerDict"]["dalaoChengJiuGet"] = "";
+            if (player_data["playerDict"]["equipDown"] == null)
+                player_data["playerDict"]["equipDown"] = null;
+            if (player_data["playerDict"]["firstPlayTime"] == null)
+                player_data["playerDict"]["firstPlayTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+            if (player_data["playerDict"]["guajiMapId"] == null)
+                player_data["playerDict"]["guajiMapId"] = null;
+            if (player_data["playerDict"]["hdTZDict"] == null)
+                player_data["playerDict"]["hdTZDict"] = new JObject();
+            if (player_data["playerDict"]["hsDict"] == null)
+                player_data["playerDict"]["hsDict"] = new JObject();
+            if (player_data["playerDict"]["huiyuanGetTime"] == null)
+                player_data["playerDict"]["huiyuanGetTime"] = null;
+            if (player_data["playerDict"]["hyJiFen"] == null)
+                player_data["playerDict"]["hyJiFen"] = "";
+            if (player_data["playerDict"]["isDLSave"] == null)
+                player_data["playerDict"]["isDLSave"] = "0";
+            if (player_data["playerDict"]["kssmLV"] == null)
+                player_data["playerDict"]["kssmLV"] = "0";
+            if (player_data["playerDict"]["lastLoginTime"] == null || player_data["playerDict"]["lastLoginTime"].Type == JTokenType.Null)
+                player_data["playerDict"]["lastLoginTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+            if (player_data["playerDict"]["ldDict"] == null)
+                player_data["playerDict"]["ldDict"] = new JObject();
+            if (player_data["playerDict"]["leftTL"] == null)
+                player_data["playerDict"]["leftTL"] = "";
+
+            if (player_data["playerDict"]["leftWithBoss"] == null)
+                player_data["playerDict"]["leftWithBoss"] = "";
+            if (player_data["playerDict"]["lqDict"] == null)
+                player_data["playerDict"]["lqDict"] = new JObject();
+
+
+            if (player_data["playerDict"]["lvChengJiuGet"] == null)
+                player_data["playerDict"]["lvChengJiuGet"] = "";
+            if (player_data["playerDict"]["mjslNum"] == null)
+                player_data["playerDict"]["mjslNum"] = "";
+            if (player_data["playerDict"]["mzslJCDict"] == null)
+                player_data["playerDict"]["mzslJCDict"] = new JObject();
+            if (player_data["playerDict"]["normalMapUnLock"] == null)
+                player_data["playerDict"]["normalMapUnLock"] = "";
+            if (player_data["playerDict"]["packageArr"] == null)
+                player_data["playerDict"]["packageArr"] = new JArray();
+            if (player_data["playerDict"]["mapSLDDict"] == null)
+                player_data["playerDict"]["mapSLDDict"] = new JObject();
+            if (player_data["playerDict"]["scslLv"] == null)
+                player_data["playerDict"]["scslLv"] = "";
+            if (player_data["playerDict"]["secondPlay"] == null || player_data["playerDict"]["secondPlay"].Type == JTokenType.Null)
+                player_data["playerDict"]["secondPlay"] = "1";
+            if (player_data["playerDict"]["shNum"] == null)
+                player_data["playerDict"]["shNum"] = "";
+            if (player_data["playerDict"]["shuye"] == null)
+                player_data["playerDict"]["shuye"] = null;
+            if (player_data["playerDict"]["sjUseNum"] == null)
+                player_data["playerDict"]["sjUseNum"] = "";
+            if (player_data["playerDict"]["sldNum"] == null)
+                player_data["playerDict"]["sldNum"] = "";
+            if (player_data["playerDict"]["sltChengJiuGet"] == null)
+                player_data["playerDict"]["sltChengJiuGet"] = "";
+            if (player_data["playerDict"]["smTGLV"] == null)
+                player_data["playerDict"]["smTGLV"] = "";
+            if (player_data["playerDict"]["syTGLV"] == null)
+                player_data["playerDict"]["syTGLV"] = "";
+            if (player_data["playerDict"]["syXH"] == null)
+                player_data["playerDict"]["syXH"] = null;
+            if (player_data["playerDict"]["tgChengJiuGet"] == null)
+                player_data["playerDict"]["tgChengJiuGet"] = "";
+            if (player_data["playerDict"]["tsChengJiuGet"] == null)
+                player_data["playerDict"]["tsChengJiuGet"] = "";
+            if (player_data["playerDict"]["tsJCDict"] == null)
+                player_data["playerDict"]["tsJCDict"] = new JObject();
+            if (player_data["playerDict"]["tzlXH"] == null)
+                player_data["playerDict"]["tzlXH"] = null;
+            if (player_data["playerDict"]["xsjLDExp"] == null)
+                player_data["playerDict"]["xsjLDExp"] = "";
+            if (player_data["playerDict"]["xsjLQExp"] == null)
+                player_data["playerDict"]["xsjLQExp"] = "";
+            if (player_data["playerDict"]["xsjLv"] == null)
+                player_data["playerDict"]["xsjLv"] = "";
+            if (player_data["playerDict"]["ybao"] == null || player_data["playerDict"]["ybao"].Type == JTokenType.Null)
+                player_data["playerDict"]["ybao"] = "0";
+            if (player_data["playerDict"]["ybaoXH"] == null)
+                player_data["playerDict"]["ybaoXH"] = null;
+            if (player_data["playerDict"]["ykLQNum"] == null)
+                player_data["playerDict"]["ykLQNum"] = null;
+            if (player_data["playerDict"]["yuekaNum"] == null)
+                player_data["playerDict"]["yuekaNum"] = null;
+            if (player_data["playerDict"]["zdglDict"] == null)
+                player_data["playerDict"]["zdglDict"] = new JObject();
+            if (player_data["playerDict"]["zfDict"] == null)
+                player_data["playerDict"]["zfDict"] = new JObject();
+            if (player_data["playerDict"]["zfKG"] == null)
+                player_data["playerDict"]["zfKG"] = new JObject();
+            if (player_data["playerDict"]["zhaomuling"] == null)
+                player_data["playerDict"]["zhaomuling"] = "";
+            if (player_data["playerDict"]["zkLQNum"] == null)
+                player_data["playerDict"]["zkLQNum"] = null;
+            if (player_data["playerDict"]["zkaNum"] == null)
+                player_data["playerDict"]["zkaNum"] = null;
+            if (player_data["playerDict"]["zmlqsChengJiuGet"] == null)
+                player_data["playerDict"]["zmlqsChengJiuGet"] = "";
+            if (player_data["playerDict"]["zmlqs_gjNum"] == null)
+                player_data["playerDict"]["zmlqs_gjNum"] = "";
+            if (player_data["playerDict"]["zzybChengJiuGet"] == null)
+                player_data["playerDict"]["zzybChengJiuGet"] = "";
+
             jo["data"]["player_data"] = player_data.ToString(Formatting.None);
             JObject player_zhong_yao = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_zhong_yao"].ToString());
             player_zhong_yao["lastDCTime"] = dct;
-
             player_zhong_yao["shiliantaLevel"] = player_data["playerDict"]["scslLv"];
             player_zhong_yao["shenyuanLevel"] = player_data["playerDict"]["syTGLV"];
             player_zhong_yao["playerBaoShiDai"] = player_data["playerDict"]["czJiFen"];
@@ -289,8 +421,10 @@ namespace xingshenSvrHelper
             player_zhong_yao["playerBuyYbKey"] = player_data["playerDict"]["normalMapUnLock"];
             player_zhong_yao["playerYbKey"] = player_data["playerDict"]["ybao"];
             player_zhong_yao["createTime"] = player_data["playerDict"]["firstPlayTime"];
+            if (player_zhong_yao["iCloudName"] == null)
+                player_zhong_yao["iCloudName"] = user.user_name;
+            
             string playerGJBaoShiDai = "";//挑战令
-
             foreach (var item in (JArray)player_data["playerDict"]["packageArr"])
             {
                 if (item["itemType"].ToString() == "8" && item["childType"].ToString() == "33")
@@ -315,7 +449,7 @@ namespace xingshenSvrHelper
         {
             if (ud == null)
             {
-                ud = new XingshenUserData();
+                ud = XingshenUserData.GetModel(user.uuid);
             }
             JObject jO = new JObject();
             string url = "/api/v1/users/first_login";
@@ -477,20 +611,170 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
-        public static string Create_save_user(XingshenUser user)
+        public static string Create_save_user(XingshenUser user, XingshenUserData ud)
         {
-            string dct;
-            string errMsg = GetUserLastDCTime(user, out dct);
+            if (ud == null)
+            {
+                ud = XingshenUserData.GetModel(user.uuid);
+            }
+            if (ud.id == 0 || string.IsNullOrEmpty(ud.data))
+            {
+                return "未找到用户存档！";
+            }
+            JObject jo = (JObject)JsonConvert.DeserializeObject(ud.data);
+            string errMsg = adjustmentData(jo, user);
             if (string.IsNullOrEmpty(errMsg))
             {
-                XingshenUserData ud = XingshenUserData.GetModel(user.uuid);
-                if (string.IsNullOrEmpty(ud.data))
-                {                    
-                    return "未找到用户存档！";
+                jo["net_id"] = user.net_id + 1;
+                string url = "/api/v2/users/save_user";
+                if (user.isAndroid)
+                {
+                    jo["sg_version"] = Andorid_VERSION;
+                    url = Andorid_Svr + url;
                 }
+                else
+                {
+                    jo["sg_version"] = IOS_VERSION;
+                    url = IOS_Svr + url;
+                }
+                jo["userdata"] = "{}";
+                jo["uuid"] = user.uuid;
+                jo["token"] = user.token;
+                jo["player_data"] = jo["data"]["player_data"];
+                jo["player_zhong_yao"] = jo["data"]["player_zhong_yao"];
+                jo.Remove("type");
+                jo.Remove("code");
+                jo.Remove("data");
+                string repdata = PostData(url, jo.ToString(Formatting.None), out errMsg);
+                if (!string.IsNullOrEmpty(repdata))
+                {
+                    JObject Repjo = null;
+                    try
+                    {
+                        Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                        if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "2")
+                        {
+                            return "";
+                        }
+                        else if (Repjo["message"] != null)
+                        {
+                            return Repjo["message"].ToString();
+                        }
+                        else
+                        {
+                            return repdata;
+                        }
+                    }
+                    catch (Exception exx)
+                    {
+                        return exx.Message;
+                    }
+                }
+            }
+            return errMsg;
+        }
 
-
-
+        /// <summary>
+        /// 设置下品灵石
+        /// </summary>
+        /// <param name="jo"></param>
+        /// <param name="cnt"></param>
+        private static void resetLingshi(JObject jo,int cnt)
+        {
+            JObject player_data = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_data"].ToString());
+            JArray items = (JArray)player_data["playerDict"]["packageArr"];
+            if (items.Count == 0)
+            {
+                JObject it = new JObject();
+                it["itemType"] = "8";
+                it["childType"] = "34";
+                it["num"] = cnt.ToString();
+                it["itemID"] = "1";
+                items.Add(it);
+            }
+            else
+            {
+                bool found = false;
+                foreach (JObject it in items)
+                {
+                    if (it["itemType"].ToString() == "8" && it["childType"].ToString() == "34")
+                    {
+                        it["num"] = cnt.ToString();
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    JObject it = (JObject)items[0];
+                    it["itemType"] = "8";
+                    it["childType"] = "34";
+                    it["num"] = cnt.ToString();
+                    items[0] = it;
+                }
+            }
+            player_data["playerDict"]["packageArr"] = items;
+            jo["data"]["player_data"] = player_data.ToString(Formatting.None);
+        }
+        public static string Create_sects_donate(XingshenUser user, int cnt = 10000)
+        {
+            XingshenUserData ud = XingshenUserData.GetModel(user.uuid);
+            if (ud.id == 0 || string.IsNullOrEmpty(ud.data))
+            {
+                return "未找到用户存档！";
+            }
+            JObject jo = (JObject)JsonConvert.DeserializeObject(ud.data);
+            string errMsg = adjustmentData(jo, user);
+            if (string.IsNullOrEmpty(errMsg))
+            {
+                resetLingshi(jo, 11000);
+                jo["net_id"] = user.net_id + 1;
+                string url = "/api/v2/sects/donate";
+                if (user.isAndroid)
+                {
+                    jo["sg_version"] = Andorid_VERSION;
+                    url = Andorid_Svr + url;
+                }
+                else
+                {
+                    jo["sg_version"] = IOS_VERSION;
+                    url = IOS_Svr + url;
+                }
+                jo["net_id"] = user.net_id + 1;
+                jo["count"] = cnt.ToString();
+                jo["userdata"] = "{}";
+                jo["uuid"] = user.uuid;
+                jo["token"] = user.token;
+                jo["player_data"] = jo["data"]["player_data"];
+                jo["player_zhong_yao"] = jo["data"]["player_zhong_yao"];
+                jo.Remove("type");
+                jo.Remove("code");
+                jo.Remove("data");
+                string repdata = PostData(url, jo.ToString(Formatting.None), out errMsg);
+                if (!string.IsNullOrEmpty(repdata))
+                {
+                    JObject Repjo = null;
+                    try
+                    {
+                        Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                        if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "34")
+                        {
+                            return "";
+                        }
+                        else if (Repjo["message"] != null)
+                        {
+                            return Repjo["message"].ToString();
+                        }
+                        else
+                        {
+                            return repdata;
+                        }
+                    }
+                    catch (Exception exx)
+                    {
+                        return exx.Message;
+                    }
+                }
             }
             return errMsg;
         }

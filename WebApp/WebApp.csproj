@@ -281,6 +281,8 @@
     <Content Include="xingshen\ALLFILE.aspx" />
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\proxyStatus.aspx" />
+    <Content Include="xingshen\rbtctl.aspx" />
+    <Content Include="xingshen\rbts.aspx" />
     <Content Include="xingshen\reg.aspx" />
     <Content Include="xingshen\sd.aspx" />
     <Content Include="xingshen\uf.aspx" />
@@ -338,6 +340,20 @@
     </Compile>
     <Compile Include="xingshen\proxyStatus.aspx.designer.cs">
       <DependentUpon>proxyStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\rbtctl.aspx.cs">
+      <DependentUpon>rbtctl.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\rbtctl.aspx.designer.cs">
+      <DependentUpon>rbtctl.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\rbts.aspx.cs">
+      <DependentUpon>rbts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\rbts.aspx.designer.cs">
+      <DependentUpon>rbts.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\reg.aspx.cs">
       <DependentUpon>reg.aspx</DependentUpon>

@@ -27,5 +27,7 @@ namespace Web.Model
         public bool isAndroid { get; set; }
         [AttrTableFieldInfo(DbType.Int32)]
         public int net_id { get; set; }
+        [AttrTableFieldInfo(DbType.Boolean)]
+        public bool isRobot { get; set; }
     }
 }

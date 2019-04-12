@@ -1009,17 +1009,32 @@
             });
 
             $("#btn_uploadData").click(function () {
-                layer.confirm('由于登录限制1小时一次！<br />使用代理后可突破登录限制。', {
+                layer.confirm('上传存档前请注销游戏！！！！', {
                     icon: 3
                     , title:"警告"
                     , btn: ['上传', '取消']
                 }, function () {
                     layer.closeAll("dialog");
                     layer.load(2);
-                    setTimeout(function () {
-                        layer.closeAll('loading');
-                        layer.msg("还没写完，所以不会成功");
-                    }, 2000);                    
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=upload&uid=<%=Request["uid"]%>",
+                        async: true,
+                        type: "POST",
+                        data: JSON.stringify(player_data),
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("成功");
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });                   
                 }, function () {
                     
                 });
