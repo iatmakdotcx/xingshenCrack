@@ -4,19 +4,22 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Web.Model;
 
-namespace telegramSvr.xingshen
+namespace xingshenSvrHelper
 {
     public class svrHelper
     {
-        public static string Andorid_VERSION = "127";
+        public static string Andorid_VERSION = "128";
         public static string IOS_VERSION = "405";
 
         public static string Andorid_Svr = "https://47.99.61.85";
         public static string IOS_Svr = "https://sanguo.chengduicecloud.com";
+
+        public static Random rd = new Random();
 
         /// <summary>
         /// 
@@ -32,6 +35,168 @@ namespace telegramSvr.xingshen
             return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(k1 + data.Trim() + k2, "MD5").ToLower();
         }
 
+        public static string GenMac()
+        {
+            return string.Format("00:{0:X}:{1:X}:{2:X}:{3:X}:{4:X}"
+               ,rd.Next(0, 255)
+               ,rd.Next(0, 255)
+               ,rd.Next(0, 255)
+               ,rd.Next(0, 255)
+               ,rd.Next(0, 255)
+                );
+        }
+        public static string GenJmKey()
+        {            
+            return Guid.NewGuid().ToString().Replace("-", "").Replace("{", "").Replace("}", "");
+        }
+
+        public static string Create_register(string user_name, string password, bool isAndroid = true, string mac = null)
+        {
+            string url = "/api/v2/users/register";
+            if (string.IsNullOrEmpty(mac))
+            {
+                mac = GenMac();
+            }
+            JObject resJo = new JObject();
+            if (isAndroid)
+            {
+                resJo["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                resJo["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            resJo["password"] = password;
+            resJo["user_name"] = user_name;
+            resJo["userdata"] = "{}";
+            JObject player_data = new JObject();
+            JObject playerDict = new JObject();
+            playerDict["rolesArr"] = new JArray();
+            playerDict["roleID"] = "1";
+            playerDict["jmkey"] = GenJmKey();
+            playerDict["lastLoginTime"] = null;
+            playerDict["playerId"] = mac;
+            playerDict["settingDict"] = new JObject();
+            playerDict["secondPlay"] = null;
+            playerDict["xsjLDExp"] = "";
+
+            playerDict["mapSLDDict"] = new JObject();
+            playerDict["zhaomuling"] = "";
+            playerDict["shuye"] = "";
+            playerDict["mjslNum"] = "";
+            playerDict["scslLv"] = "";
+            playerDict["hyJiFen"] = "";
+            playerDict["juntuanExp"] = "";
+            playerDict["ybao"] = "";
+            playerDict["coin"] = "";
+            playerDict["guajiMapId"] = null;
+            playerDict["smTGLV"] = "";
+            playerDict["xsjLv"] = "";
+            playerDict["tsChengJiuGet"] = "";
+            playerDict["lvChengJiuGet"] = "";
+            playerDict["czJiFen"] = "";
+            playerDict["shNum"] = "";
+            playerDict["dalaoChengJiuGet"] = "";
+            playerDict["zzybChengJiuGet"] = "";
+            playerDict["zmlqsChengJiuGet"] = "";
+            playerDict["zmlqs_gjNum"] = "";
+            playerDict["cangkuArr"] = new JArray();
+            playerDict["sldNum"] = "";
+            playerDict["packageArr"] = new JArray();
+            playerDict["tgChengJiuGet"] = "";
+            playerDict["leftTL"] = "";
+            playerDict["qdTime"] = "0";
+            playerDict["xsjLQExp"] = "";
+            playerDict["sltChengJiuGet"] = "";
+            playerDict["battleRolesArr"] = new JArray();
+            playerDict["syTGLV"] = "";
+            playerDict["normalMapUnLock"] = "";
+            playerDict["VipCJGet"] = "";
+            playerDict["czCJGet"] = "";
+
+            ulong exp = (ulong)rd.Next(300000000, 900000000);
+            exp = exp * 10 + (ulong)rd.Next(1, 9);
+            playerDict["juntuanExp"] = exp.ToString();
+
+            #region battleRolesArr
+
+            JArray brLst = new JArray();
+            JObject role = new JObject();
+            role["roleID"] = "1";
+            role["ID"] = "00001";
+            brLst.Add(role);
+            playerDict["battleRolesArr"] = brLst;
+
+            #endregion
+
+            #region items
+
+
+
+            #endregion
+            player_data["playerDict"] = playerDict;
+            resJo["player_data"] = player_data.ToString(Formatting.None);
+            JObject player_zhong_yao = new JObject();
+            player_zhong_yao["curGameCenterID"] = mac;
+            player_zhong_yao["createGCID"] = mac;
+            player_zhong_yao["shiliantaLevel"] = "";
+            player_zhong_yao["playerJFXHKey"] = "0";
+            player_zhong_yao["playerYbKey"] = "";
+            player_zhong_yao["playerGJBaoShiDai"] = "0";
+            player_zhong_yao["isDLSave"] = "0";
+            player_zhong_yao["playerLevel"] = "1";
+            player_zhong_yao["playerBuyYbKey"] = "";
+            player_zhong_yao["playerYBXHKey"] = "";
+            player_zhong_yao["playerBaoShiDai"] = "";
+            player_zhong_yao["lastDCTime"] = "";
+            player_zhong_yao["playerPaiZi"] = "";
+            player_zhong_yao["createTime"] = "0";
+            player_zhong_yao["shenyuanLevel"] = "";
+            resJo["player_zhong_yao"] = player_zhong_yao.ToString(Formatting.None);
+
+            string errMsg;
+            string repdata = PostData(url, resJo.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject jo = null;
+                try
+                {
+                    jo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (jo["code"].ToString() == "0" && jo["type"].ToString() == "4")
+                    {
+                        string uuid = jo["data"]["uuid"].ToString();
+                        XingshenUser user = XingshenUser.GetModelByUserName(user_name);
+                        user.user_name = user_name;
+                        user.pass = password;
+                        user.isAndroid = isAndroid;
+                        user.uuid = uuid;
+                        if (user.id == 0)
+                        {
+                            user.Add();
+                        }
+                        else
+                        {
+                            user.Update();
+                        }
+                    }
+                    else if (jo["message"] != null)
+                    {
+                        return jo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
         public static string Create_first_login(string user_name, string password, ref Dictionary<string, string> headers)
         {
             JObject resJo = new JObject();
@@ -51,7 +216,7 @@ namespace telegramSvr.xingshen
                     return Create_first_login(resJo, ref headers);
                 }
                 XingshenUserData savedata = XingshenUserData.GetModel(user.uuid);
-                if (savedata.id==0)
+                if (savedata.id == 0)
                 {
                     resJo["message"] = "未找到用户存在，请在代理系统中刷新后重试！";
                     return Create_first_login(resJo, ref headers);
@@ -67,11 +232,11 @@ namespace telegramSvr.xingshen
                 DataJO["type"] = 8;
                 return Create_first_login(DataJO, ref headers);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                resJo["message"] = ex.Message;               
+                resJo["message"] = ex.Message;
             }
-            return Create_first_login(resJo,ref headers);
+            return Create_first_login(resJo, ref headers);
         }
         public static string Create_first_login(JObject DataJO, ref Dictionary<string, string> headers)
         {
@@ -146,7 +311,7 @@ namespace telegramSvr.xingshen
 
             return "";
         }
-        public static string first_login(XingshenUser user,ref XingshenUserData ud)
+        public static string first_login(XingshenUser user, ref XingshenUserData ud)
         {
             if (ud == null)
             {
@@ -198,10 +363,10 @@ namespace telegramSvr.xingshen
                     return exx.Message;
                 }
             }
-            return errMsg;            
+            return errMsg;
         }
 
-        public static string system_user_info(XingshenUser user,ref XingshenUserData ud)
+        public static string system_user_info(XingshenUser user, ref XingshenUserData ud)
         {
             if (ud == null)
             {
@@ -237,7 +402,10 @@ namespace telegramSvr.xingshen
                         jo["data"]["userdata"] = "{}";
 
                         JObject player_data = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_data"].ToString());
-                        user.token = player_data["playerDict"]["token"].ToString();
+                        if (player_data["playerDict"]["token"]!=null)
+                        {
+                            user.token = player_data["playerDict"]["token"].ToString();
+                        }
 
                         ud.uuid = user.uuid;
                         ud.data = jo.ToString(Formatting.None);
@@ -306,6 +474,23 @@ namespace telegramSvr.xingshen
                 {
                     return exx.Message;
                 }
+            }
+            return errMsg;
+        }
+        public static string Create_save_user(XingshenUser user)
+        {
+            string dct;
+            string errMsg = GetUserLastDCTime(user, out dct);
+            if (string.IsNullOrEmpty(errMsg))
+            {
+                XingshenUserData ud = XingshenUserData.GetModel(user.uuid);
+                if (string.IsNullOrEmpty(ud.data))
+                {                    
+                    return "未找到用户存档！";
+                }
+
+
+
             }
             return errMsg;
         }

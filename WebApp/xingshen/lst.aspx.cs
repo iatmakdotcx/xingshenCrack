@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Web.Model;
+using xingshenSvrHelper;
 
 namespace telegramSvr.xingshen
 {
@@ -25,6 +26,9 @@ namespace telegramSvr.xingshen
                     if (Request["a"] == "new")
                     {
                         Rep = newUser(Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes)), Rep);
+                    }else if (Request["a"] == "create")
+                    {
+                        Rep = CreatenewUser(Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes)), Rep);
                     }
                 }
                 finally
@@ -97,6 +101,45 @@ namespace telegramSvr.xingshen
                 ud.Add();
                 Rep["ok"] = true;
                 Rep["uid"] = user.uuid;
+            }
+            return Rep;
+        }
+        public static JObject CreatenewUser(string JsonStr, JObject Rep)
+        {
+            JObject jo = null;
+            try
+            {
+                jo = (JObject)JsonConvert.DeserializeObject(JsonStr);
+            }
+            catch (Exception exx)
+            {
+                Rep["msg"] = exx.Message;
+                return Rep;
+            }
+            string user_name = jo["user_name"].ToString();
+            string password = jo["password"].ToString();
+            bool isAndroid = jo["platform"].ToString() == "0";
+            string mac = jo["mac"] == null ? "" : jo["mac"].ToString();
+
+            if (string.IsNullOrEmpty(user_name))
+            {
+                Rep["msg"] = "参数错误:user_name";
+                return Rep;
+            }
+            if (string.IsNullOrEmpty(password))
+            {
+                Rep["msg"] = "参数错误:password";
+                return Rep;
+            }
+            string msg = svrHelper.Create_register(user_name, password, isAndroid, mac);
+            if (string.IsNullOrEmpty(msg))
+            {
+                Rep["msg"] = "ok";
+                Rep["ok"] = true;
+            }
+            else
+            {
+                Rep["msg"] = msg;
             }
             return Rep;
         }

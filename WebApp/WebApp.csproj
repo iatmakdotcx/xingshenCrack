@@ -353,7 +353,6 @@
     <Compile Include="xingshen\sd.aspx.designer.cs">
       <DependentUpon>sd.aspx</DependentUpon>
     </Compile>
-    <Compile Include="xingshen\svrHelper.cs" />
     <Compile Include="xingshen\uf.aspx.cs">
       <DependentUpon>uf.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -361,7 +360,6 @@
     <Compile Include="xingshen\uf.aspx.designer.cs">
       <DependentUpon>uf.aspx</DependentUpon>
     </Compile>
-    <Compile Include="xingshen\xingshenProxyMgr.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="js\layui\font\iconfont.eot" />
@@ -411,6 +409,10 @@
     <ProjectReference Include="..\WebModel\WebModel.csproj">
       <Project>{d6871df1-c7d1-4117-9f17-829fee6a083a}</Project>
       <Name>WebModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xingshenSvrHelper\xingshenSvrHelper.csproj">
+      <Project>{3b7dd3de-d139-40f2-8353-9b8ef55e6a94}</Project>
+      <Name>xingshenSvrHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

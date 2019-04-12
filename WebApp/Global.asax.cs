@@ -11,8 +11,6 @@ using System.Web.SessionState;
 
 namespace telegramSvr
 {
-
-
     public class Global : System.Web.HttpApplication
     {        
        
@@ -21,7 +19,7 @@ namespace telegramSvr
             log4net.Config.XmlConfigurator.Configure();
             Web.Model.ModelBase.Init("xinshen");
 
-            xingshen.xingshenProxyMgr2.Start();
+            //xingshen.xingshenProxyMgr2.Start();
             
         }
 
@@ -63,7 +61,7 @@ namespace telegramSvr
 
         protected void Application_End(object sender, EventArgs e)
         {
-            xingshen.xingshenProxyMgr2.Stop();
+            //xingshen.xingshenProxyMgr2.Stop();
         }
     }
 }

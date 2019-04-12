@@ -27,7 +27,8 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-                <input type="button" class="layui-btn" id="btn_new" value="新增" />
+                <input type="button" class="layui-btn" id="btn_Createnew" value="创建新账号" />
+                <input type="button" class="layui-btn" id="btn_new" value="添加" />
             </div>
         </div>
         <table class="layui-table alluids" lay-skin="line">
@@ -71,6 +72,12 @@
                     </div>
                 </li>
                 <li class="layui-form-item">
+                    <label class="layui-form-label">DeviceID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mac" placeholder="选填" autocomplete="off" class="layui-input" />
+                    </div>
+                </li>
+                <li class="layui-form-item">
                     <label class="layui-form-label">平台</label>
                     <div class="layui-input-block">
                         <select name="platform">
@@ -102,28 +109,8 @@
                     , content: $('.dialog .newdlg')
                     , success: function (layero) {
                         layero.find('.layui-layer-content').css('overflow', 'visible');
-                        form.render().on('submit(*)', function (data) {                            
-                            layer.load(2);
-                            $.ajax({
-                                type: "POST",
-                                url: "<%=Request.Path%>?a=new",
-                                data: JSON.stringify(data.field),
-                                dataType: "json",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-                                    layer.closeAll('loading');
-                                    if (data.ok) {
-                                        location.href = "uf.aspx?uid=" + data.uid;
-                                    } else {
-                                        layer.msg(data.msg);
-                                    }
-                                },
-                                error: function (err) {
-                                    layer.closeAll('loading');
-                                    layer.msg(err.responseText, { icon: 2 });
-                                }
-                            })
-                        });
+                        $("input[name=uuid]").closest("li").show();
+                        $("input[name=mac]").closest("li").hide();
                     }
                 });
 
@@ -141,6 +128,47 @@
                     }
                 });
 
+            });
+            $("#btn_Createnew").click(function () {
+                layer.open({
+                    type: 1
+                    , title:"新增"
+                    , resize: false
+                    , content: $('.dialog .newdlg')
+                    , success: function (layero) {
+                        layero.find('.layui-layer-content').css('overflow', 'visible');
+                        $("input[name=uuid]").closest("li").hide();
+                        $("input[name=mac]").closest("li").show();
+                    }
+                });
+            });
+            form.render().on('submit(*)', function (data) {
+                layer.load(2);
+                var url = "<%=Request.Path%>?a=";
+                if ($("input[name=uuid]").closest("li").is(":visible")) {
+                    url += "new";
+                } else {
+                    url += "create";
+                }
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            location.href = "uf.aspx?uid=" + data.uid;
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                })
             });
         });
     </script>
