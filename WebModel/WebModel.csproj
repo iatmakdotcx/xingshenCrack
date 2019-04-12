@@ -50,9 +50,11 @@
     <Compile Include="AttrTableName.cs" />
     <Compile Include="Auto\userdataWarning.cs" />
     <Compile Include="Auto\XingshenItems.cs" />
+    <Compile Include="Auto\XingshenSect.cs" />
     <Compile Include="Auto\XingshenUser.cs" />
     <Compile Include="Auto\XingshenUserData.cs" />
     <Compile Include="BLL\XingshenItems_BLL.cs" />
+    <Compile Include="BLL\XingshenSect_BLL.cs" />
     <Compile Include="BLL\XingshenUserDataWarning_BLL.cs" />
     <Compile Include="BLL\XingshenUserData_BLL.cs" />
     <Compile Include="BLL\XingshenUser_BLL.cs" />
