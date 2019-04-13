@@ -27,9 +27,9 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-                <input type="button" class="layui-btn" id="btn_donate" value="帮派贡献" />
-                <input type="button" class="layui-btn" id="btn_renewData" title="重新下载服务器存档" value="刷新存档" />
-                <input type="button" class="layui-btn" id="btn_downfirst" value="Down" />
+                <input type="button" class="layui-btn" id="btn_donate" value="宗门贡献" />
+                <input type="button" class="layui-btn" id="btn_qrysects" value="宗门查询" />
+                <input type="button" class="layui-btn" id="btn_sectjoin" value="宗门加入" />
                 <input type="button" class="layui-btn" id="btn_ok" value="确定" />
             </div>
         </div>
@@ -63,8 +63,53 @@
                     }
                 });
             });
+            $("#btn_qrysects").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=qs&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg("ok:"+data.name);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
+            });
+            $("#btn_sectjoin").click(function () {
+                layer.prompt({ title: '宗门id' }, function (sid, index) {
+                    layer.close(index);
+                    layer.load(2);
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=sj&uid=<%=Request["uid"]%>&sid="+sid,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("ok");
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });
+                });
+            });
         });
-   </script>
+    </script>
         
 </body>
 </html>
