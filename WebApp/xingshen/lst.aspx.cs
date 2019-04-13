@@ -131,7 +131,8 @@ namespace telegramSvr.xingshen
                 Rep["msg"] = "参数错误:password";
                 return Rep;
             }
-            string msg = svrHelper.Create_register(user_name, password, isAndroid, mac);
+            XingshenUser Newuser;
+            string msg = svrHelper.Create_register(out Newuser, user_name, password, isAndroid, mac);
             if (string.IsNullOrEmpty(msg))
             {
                 Rep["msg"] = "ok";

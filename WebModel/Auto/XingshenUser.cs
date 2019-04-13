@@ -29,5 +29,7 @@ namespace Web.Model
         public int net_id { get; set; }
         [AttrTableFieldInfo(DbType.Int32)]
         public int RobotGroup { get; set; }
+        [AttrTableFieldInfo(DbType.Boolean)]
+        public bool isBanned { get; set; }
     }
 }

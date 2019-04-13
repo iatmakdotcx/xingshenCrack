@@ -27,9 +27,9 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-                <input type="button" class="layui-btn" id="btn_donate" value="宗门贡献" />
                 <input type="button" class="layui-btn" id="btn_qrysects" value="宗门查询" />
                 <input type="button" class="layui-btn" id="btn_sectjoin" value="宗门加入" />
+                <input type="button" class="layui-btn" id="btn_donate" value="宗门贡献" />
                 <input type="button" class="layui-btn" id="btn_ok" value="确定" />
             </div>
         </div>

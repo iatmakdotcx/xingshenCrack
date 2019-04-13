@@ -41,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                <%foreach (var item in Web.Model.XingshenUser_BLL.GetALLRobot()){%>
+                <%foreach (var item in Web.Model.XingshenUser_BLL.GetGroup(Mak.Common.MakRequest.GetInt("gid", 1))){%>
                 <tr>
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>
@@ -55,27 +55,10 @@
         <div class="newdlg" style="display: none">
             <ul class="layui-form" style="margin: 10px;">
                 <li class="layui-form-item">
-                    <label class="layui-form-label">用户名</label>
+                    <label class="layui-form-label">账号个数</label>
                     <div class="layui-input-block">
-                        <input type="text" name="user_name" lay-verify="required" required lay-verType="tips" autocomplete="off" class="layui-input" />
-                    </div>
-                </li>
-                <li class="layui-form-item">
-                    <label class="layui-form-label">密码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="password" lay-verify="required" required lay-verType="tips" autocomplete="off" class="layui-input" />
-                    </div>
-                </li>
-                <li class="layui-form-item">
-                    <label class="layui-form-label">UUID</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="uuid" placeholder="选填" autocomplete="off" class="layui-input" />
-                    </div>
-                </li>
-                <li class="layui-form-item">
-                    <label class="layui-form-label">DeviceID</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="mac" placeholder="选填" autocomplete="off" class="layui-input" />
+                        <input type="text" name="cnt" value="1" autocomplete="off" class="layui-input" />
+                        <input type="hidden" name="groupid" value="<%=Mak.Common.MakRequest.GetInt("gid",1) %>"" />
                     </div>
                 </li>
                 <li class="layui-form-item">
@@ -102,21 +85,6 @@
                 location.href = "rbtctl.aspx?uid=" + $(this).find("td:eq(1)").text();
             });
 
-            $("#btn_new").click(function () {
-                layer.open({
-                    type: 1
-                    , title:"新增"
-                    , resize: false
-                    , content: $('.dialog .newdlg')
-                    , success: function (layero) {
-                        layero.find('.layui-layer-content').css('overflow', 'visible');
-                        $("input[name=uuid]").closest("li").show();
-                        $("input[name=mac]").closest("li").hide();
-                    }
-                });
-
-            });
-
             $("#btn_Createnew").click(function () {
                 layer.open({
                     type: 1
@@ -132,22 +100,16 @@
             });
             form.render().on('submit(*)', function (data) {
                 layer.load(2);
-                var url = "<%=Request.Path%>?a=";
-                if ($("input[name=uuid]").closest("li").is(":visible")) {
-                    url += "new";
-                } else {
-                    url += "create";
-                }
                 $.ajax({
                     type: "POST",
-                    url: url,
+                    url: "<%=Request.Path%>?a=rc",
                     data: JSON.stringify(data.field),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         layer.closeAll('loading');
                         if (data.ok) {
-                            location.href = "uf.aspx?uid=" + data.uid;
+                            location.reload();
                         } else {
                             layer.msg(data.msg);
                         }

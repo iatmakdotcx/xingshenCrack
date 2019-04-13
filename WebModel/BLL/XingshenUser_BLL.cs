@@ -7,9 +7,9 @@ namespace Web.Model
 {
     public class XingshenUser_BLL:ModelBase
     {
-        public static List<XingshenUser> GetALL()
+        public static List<XingshenUser> GetNormalALL()
         {
-            return GetList<XingshenUser>("RobotGroup=0");
+            return GetList<XingshenUser>("isBanned=0 and RobotGroup=0");
         }
         public static List<XingshenUser> GetALLRobot()
         {

@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <%foreach (var item in Web.Model.XingshenUser_BLL.GetALL()){%>
+                <%foreach (var item in Web.Model.XingshenUser_BLL.GetNormalALL()){%>
                 <tr>
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>

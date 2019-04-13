@@ -50,8 +50,9 @@ namespace xingshenSvrHelper
             return Guid.NewGuid().ToString().Replace("-", "").Replace("{", "").Replace("}", "");
         }
 
-        public static string Create_register(string user_name, string password, bool isAndroid = true, string mac = null)
+        public static string Create_register(out XingshenUser Newuser, string user_name, string password, bool isAndroid = true, string mac = null)
         {
+            Newuser = null;
             string url = "/api/v2/users/register";
             if (string.IsNullOrEmpty(mac))
             {
@@ -181,6 +182,7 @@ namespace xingshenSvrHelper
                         {
                             user.Update();
                         }
+                        Newuser = user;
                     }
                     else if (jo["message"] != null)
                     {
