@@ -103,6 +103,15 @@ namespace telegramSvr.xingshen
                         return;
                     }
                     Rep["ok"] = true;
+                }else if (Request["a"] == "qu")
+                {
+                    string errMsg = svrHelper.Create_sects_quit(user);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
                 }
             }
             finally

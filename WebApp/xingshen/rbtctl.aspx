@@ -27,10 +27,10 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-                <input type="button" class="layui-btn" id="btn_qrysects" value="宗门查询" />
-                <input type="button" class="layui-btn" id="btn_sectjoin" value="宗门加入" />
-                <input type="button" class="layui-btn" id="btn_donate" value="宗门贡献" />
-                <input type="button" class="layui-btn" id="btn_ok" value="确定" />
+                <input type="button" class="layui-btn" id="btn_qrysects" value="查询" />
+                <input type="button" class="layui-btn" id="btn_sectjoin" value="加入" />
+                <input type="button" class="layui-btn" id="btn_donate" value="贡献" />
+                <input type="button" class="layui-btn" id="btn_quit" value="退出" />
             </div>
         </div>
     </form>
@@ -106,6 +106,27 @@
                             layer.msg(err.responseText, { icon: 2 });
                         }
                     });
+                });
+            });
+            $("#btn_quit").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=qu&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg("ok");
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
                 });
             });
         });
