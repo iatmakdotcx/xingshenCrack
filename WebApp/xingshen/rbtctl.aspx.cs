@@ -80,7 +80,8 @@ namespace telegramSvr.xingshen
                 }else if (Request["a"] == "qs")
                 {
                     string sectName;
-                    string errMsg = svrHelper.Create_sects_info(user, out sectName);
+                    int sectid;
+                    string errMsg = svrHelper.Create_sects_info(user, out sectName, out sectid);
                     if (!string.IsNullOrEmpty(errMsg))
                     {
                         Rep["msg"] = errMsg;

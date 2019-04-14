@@ -31,5 +31,7 @@ namespace Web.Model
         public int RobotGroup { get; set; }
         [AttrTableFieldInfo(DbType.Boolean)]
         public bool isBanned { get; set; }
+        [AttrTableFieldInfo(DbType.Boolean)]
+        public bool isGroupAdmin { get; set; }
     }
 }

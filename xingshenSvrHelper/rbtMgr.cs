@@ -32,6 +32,10 @@ namespace xingshenSvrHelper
                 {
                     Newuser.RobotGroup = groupid;
                     Newuser.Update();
+                    XingshenUserData ud = new XingshenUserData();
+                    svrHelper.system_user_info(Newuser, ref ud);
+                    ud.Add();
+
                     i++;
                 }
                 else if (msg == "用户名已经被占用")

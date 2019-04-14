@@ -19,6 +19,10 @@ namespace Web.Model
         {
             return GetList<XingshenUser>("RobotGroup=" + GroupId);
         }
+        public static XingshenUser GetGroupAdmin(int GroupId)
+        {
+            return GetModelWhere<XingshenUser>("RobotGroup=@gid and isGroupAdmin=1", dbh.MakeInParam("gid", GroupId));
+        }
         public static XingshenUser GetModel(string uid)
         {
             return GetModelWhere<XingshenUser>("uuid=@uid", dbh.MakeInParam("uid", uid));

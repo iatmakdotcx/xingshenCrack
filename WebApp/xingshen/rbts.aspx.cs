@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,6 +14,9 @@ namespace telegramSvr.xingshen
 {
     public partial class rbts : System.Web.UI.Page
     {
+        private static Dictionary<int, ZongmenAutoJob> Jobs = new Dictionary<int, ZongmenAutoJob>();
+        protected int sect_id = 0;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.HttpMethod == "POST")
@@ -26,6 +30,13 @@ namespace telegramSvr.xingshen
                     if (Request["a"] == "rc")
                     {
                         Rep = newUser(postdata, Rep);
+                    }else if (Request["a"] == "cj")
+                    {
+                        Rep = newJob(postdata, Rep);
+                    }
+                    else if (Request["a"] == "ji")
+                    {
+                        Rep = newJobinfo(postdata, Rep);
                     }
                 }
                 finally
@@ -37,20 +48,30 @@ namespace telegramSvr.xingshen
             {
                 Response.Redirect(Request.Path + "?gid=1");
             }
+            else
+            {
+                ZongmenAutoJob job;
+                if (Jobs.TryGetValue(Mak.Common.MakRequest.GetInt("gid", -1), out job) && !job.isfinish)
+                {
+                    sect_id = job.sect_id;
+                }
+            }
+
         }
 
-        private static JObject newUser(string JsonStr, JObject Rep)
+        private static JObject newUser(string postdata, JObject Rep)
         {
             JObject jo = null;
             try
             {
-                jo = (JObject)JsonConvert.DeserializeObject(JsonStr);
+                jo = (JObject)JsonConvert.DeserializeObject(postdata);
             }
             catch (Exception exx)
             {
                 Rep["msg"] = exx.Message;
                 return Rep;
             }
+
             var jr = new JsonReader(jo);
             bool isAndroid = jr.GetString("platform") == "0";
             int cnt = jr.GetInt("cnt");
@@ -60,6 +81,63 @@ namespace telegramSvr.xingshen
             {
                 Rep["msg"] = errmsg;
                 return Rep;
+            }
+            Rep["ok"] = true;
+            return Rep;
+        }
+
+        private static JObject newJob(string postdata, JObject Rep)
+        {
+            int gid = Mak.Common.MakRequest.GetInt("gid",0);
+            int sid = Mak.Common.MakRequest.GetInt("sid",0);
+            if (gid < 1 || sid < 1)
+            {
+                Rep["msg"] = "参数错误！";
+                return Rep;
+            }
+            lock (Jobs)
+            {
+                ZongmenAutoJob job;
+                if(!Jobs.TryGetValue(gid, out job))
+                {
+                    job = new ZongmenAutoJob(gid, sid);
+                    Jobs.Add(gid, job);
+                }
+                if (job.isfinish)
+                {
+                    Thread th = new Thread(() =>
+                    {
+                        job.start();
+                    });
+                    th.Start();
+                }
+            }
+            Rep["ok"] = true;
+            return Rep;
+        }
+        private static JObject newJobinfo(string postdata, JObject Rep)
+        {
+            int gid = Mak.Common.MakRequest.GetInt("gid", 0);
+            int sid = Mak.Common.MakRequest.GetInt("sid", 0);
+            if (gid < 1 || sid < 1)
+            {
+                Rep["msg"] = "参数错误！";
+                return Rep;
+            }
+            lock (Jobs)
+            {
+                ZongmenAutoJob job;
+                if (!Jobs.TryGetValue(gid, out job))
+                {
+                    job = new ZongmenAutoJob(gid, sid);
+                    Jobs.Add(gid, job);
+                }
+                JObject data = new JObject();
+                data["max"] = job.max;
+                data["posi"] = job.position;
+                data["msg"] = string.Join("\r\n", job.msgs);
+                data["finish"] = job.isfinish;
+                Rep["data"] = data;
             }
             Rep["ok"] = true;
             return Rep;

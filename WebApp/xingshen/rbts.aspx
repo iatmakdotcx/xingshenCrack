@@ -24,7 +24,7 @@
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
-                   
+                   <input type="button" class="layui-btn" id="btn_CreateJob" value="开始任务" />
                 </div>
             </div>
             <div class="layui-table-tool-self">
@@ -38,6 +38,7 @@
                     <th>用户名</th>
                     <th>uuid</th>
                     <th>Andorid</th>
+                    <th>组管理员</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +47,7 @@
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>
                     <td><%=item.isAndroid?"√":"" %></td>
+                    <td><%=item.isGroupAdmin?"√":"" %></td>
                 </tr>
                 <% } %>
             </tbody>
@@ -75,8 +77,12 @@
                 </li>
             </ul>
         </div>
+        <div class="process" style="display: none;height:100%;">
+           <div style="text-align:center"><span class="posi">0</span> / <span class="max">0</span></div>
+           <textarea style="height: calc(100% - 30px);width: 99%;margin: 5px;resize:none;"></textarea>
+        </div>
     </div>
-    <script src="../js/layui/layui.min.js"></script>
+    <script src="../js/layui/layui.js"></script>
     <script>
         var player_data, player_data_bak;
         layui.use(['layer', 'element', "form"], function () {
@@ -93,9 +99,31 @@
                     , content: $('.dialog .newdlg')
                     , success: function (layero) {
                         layero.find('.layui-layer-content').css('overflow', 'visible');
-                        $("input[name=uuid]").closest("li").hide();
-                        $("input[name=mac]").closest("li").show();
                     }
+                });
+            });
+            $("#btn_CreateJob").click(function () {
+                layer.prompt({ title: '宗门id' }, function (sid, index) {
+                    layer.close(index);
+                    layer.load(2);
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=cj&uid=<%=Request["uid"]%>&gid=<%=Mak.Common.MakRequest.GetInt("gid",1)%>&sid="+sid,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                showProcessDlg(sid)
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });
                 });
             });
             form.render().on('submit(*)', function (data) {
@@ -120,6 +148,47 @@
                     }
                 })
             });
+
+            function showProcessDlg(sid) {
+                layer.open({
+                    type: 1
+                    , title:"进度"
+                    , resize: false
+                    , closeBtn: 0
+                    , area: ['95%', '95%']
+                    , content: $('.dialog .process')
+                    , success: function (layero) {
+                        layero.find('.layui-layer-content').css('overflow', 'visible');
+                    }
+                });
+                var siid = setInterval(function () {
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=ji&uid=<%=Request["uid"]%>&gid=<%=Mak.Common.MakRequest.GetInt("gid",1)%>&sid=" + sid,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.ok) {
+                                $(".process .posi").html(data.data.posi);
+                                $(".process .max").html(data.data.max);
+                                $(".process textarea").val(data.data.msg);
+                                $('.process textarea').scrollTop($('.process textarea').prop("scrollHeight"), 10);
+                                if (data.data.finish) {
+                                    clearInterval(siid);
+                                }
+                            } else {
+                                clearInterval(siid);
+                            }
+                        },
+                        error: function (err) {
+                            clearInterval(siid);
+                        }
+                    });
+                }, 1000);
+            }
+            <% if(sect_id>0){%>
+            showProcessDlg(<%=sect_id%>);
+            <% }%>
         });
     </script>
 

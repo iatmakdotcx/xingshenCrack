@@ -376,6 +376,7 @@
     <Compile Include="xingshen\uf.aspx.designer.cs">
       <DependentUpon>uf.aspx</DependentUpon>
     </Compile>
+    <Compile Include="xingshen\ZongmenAutoJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="js\layui\font\iconfont.eot" />
