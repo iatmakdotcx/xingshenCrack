@@ -225,6 +225,12 @@
                                     <input type="text" name="firstPlayTime" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">神墓等级</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="smTGLV" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="layui-tab-item basejson">
@@ -1109,6 +1115,20 @@
             save_link.href = urlObject.createObjectURL(downloadData);
             save_link.download = name;
             fake_click(save_link);
+        }
+        function htt() {
+            var data = [{ "t": 5, "i": 59 }, { "t": 6, "i": 60 }, { "t": 11, "i": 59 }, { "t": 7, "i": 63 }, { "t": 0, "i": 163 }, { "t": 1, "i": 60 }, { "t": 2, "i": 64 }, { "t": 3, "i": 70 }, { "t": 4, "i": 60 }, { "t": 2, "i": 64 }, { "t": 4, "i": 60 }];            
+            var maxid = parseInt(player_data.playerDict.itemID);
+            for (var i in data) {
+                player_data.playerDict.packageArr.push({
+                    itemType: data[i].t.toString(),
+                    childType: data[i].i.toString(),
+                    addDict: {},
+                    itemID: (maxid + parseInt(i) + 1).toString(),
+                    qianghuaLv:"10"
+                });
+            }
+            player_data.playerDict.itemID = (maxid + data.length + 2).toString();
         }
 
     </script>
