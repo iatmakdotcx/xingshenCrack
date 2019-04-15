@@ -14,7 +14,7 @@ namespace nnproxy
 {
     public static class xingshenProxyMgr
     {
-        private static ushort defaultPort = 8877;
+        public static ushort defaultPort = 8877;
         public static string SvrApiUrl = "http://127.0.0.1:10666/xingshen/appApi.aspx";
         public static List<Fiddler.Session> oAllSessions;
 
@@ -141,6 +141,14 @@ namespace nnproxy
             FiddlerApplication.Log.OnLogString += delegate (object loger, LogEventArgs e)
             {
                 //throw new Exception(e.LogString);
+                if (e.LogString.StartsWith("! "))
+                {
+                    var olc = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(e.LogString);
+                    Console.ForegroundColor = olc;
+                }
+                else
                 Console.WriteLine(e.LogString);
             };
             //var oRootCert = new X509Certificate2("sss.pfx", "", X509KeyStorageFlags.Exportable);
@@ -209,7 +217,6 @@ namespace nnproxy
             FiddlerCoreStartupFlags oFCSF = FiddlerCoreStartupFlags.DecryptSSL | FiddlerCoreStartupFlags.MonitorAllConnections | FiddlerCoreStartupFlags.OptimizeThreadPool | FiddlerCoreStartupFlags.AllowRemoteClients;
             Fiddler.FiddlerApplication.Startup(defaultPort, oFCSF);
             Console.WriteLine(Fiddler.FiddlerApplication.GetDetailedInfo());
-
         }
         public static void Stop()
         {
