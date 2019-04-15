@@ -420,7 +420,7 @@
             </script>
         </div>
     </div>
-    <script src="ALLFILE.aspx?v=1.27"></script>
+    <script src="ALLFILE.aspx?v=<%=xingshenSvrHelper.svrHelper.Andorid_VERSION %>"></script>
     <script>        
         var playerdata = <%=playerdata.ToString(Newtonsoft.Json.Formatting.None)%>;
         var itemlx = {
@@ -445,7 +445,7 @@
         var warningdata = <%=warningdata.ToString(Newtonsoft.Json.Formatting.None)%>;
     </script>
 
-    <script src="../js/layui/layui.js"></script>
+    <script src="../js/layui/layui.min.js"></script>
     <script>
         var player_data, player_data_bak;
         var selectedRow;

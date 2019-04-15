@@ -15,7 +15,7 @@ namespace nnproxy
     public static class xingshenProxyMgr
     {
         public static ushort defaultPort = 8877;
-        public static string SvrApiUrl = "http://127.0.0.1:10666/xingshen/appApi.aspx";
+        public static string SvrApiUrl = "http://192.168.1.95:8899/xingshen/appApi.aspx";
         public static List<Fiddler.Session> oAllSessions;
 
         public static void Start()
@@ -301,6 +301,8 @@ namespace nnproxy
             reqData["a"] = "s";
             reqData["dct"] = dct;
             reqData["data"] = postData;
+            reqData["zbxx"] = zbxx;
+            reqData["uuid"] = uuid;
             string errmsg = "";
             string respData = PostData(SvrApiUrl, reqData.ToString(Formatting.None), out errmsg);
             if (!string.IsNullOrEmpty(errmsg))

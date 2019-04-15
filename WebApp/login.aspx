@@ -43,7 +43,7 @@
     </div>       
   </div>
 
-  <script src="js/layui/layui.js"></script>
+  <script src="js/layui/layui.min.js"></script>
   <script>
   layui.use(['form'], function(){
     var $ = layui.$

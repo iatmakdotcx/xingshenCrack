@@ -34,7 +34,7 @@
             </div>
         </div>
     </form>
-    <script src="../js/layui/layui.js"></script>
+    <script src="../js/layui/layui.min.js"></script>
     <script>
         var player_data, player_data_bak;
         var selectedRow;

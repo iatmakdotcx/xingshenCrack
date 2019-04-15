@@ -82,7 +82,7 @@
            <textarea style="height: calc(100% - 30px);width: 99%;margin: 5px;resize:none;"></textarea>
         </div>
     </div>
-    <script src="../js/layui/layui.js"></script>
+    <script src="../js/layui/layui.min.js"></script>
     <script>
         var player_data, player_data_bak;
         layui.use(['layer', 'element', "form"], function () {

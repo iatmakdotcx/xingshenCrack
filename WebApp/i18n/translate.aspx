@@ -112,7 +112,7 @@ body{padding: 20px;max-width:1000px;margin: 0 auto;}
         </asp:Repeater>
     <div id="paging2" class="paging layui-table-page"></div>
 
-    <script src="../js/layui/layui.js"></script>
+    <script src="../js/layui/layui.min.js"></script>
     <script>
         var sx = null;
         layui.use(['laypage', 'layer', 'rate'], function () {
