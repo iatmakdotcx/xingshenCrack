@@ -7,12 +7,25 @@ namespace nnproxy
 {
     class Program
     {
+        private const int APIVERSION = 1;
         static void Main(string[] args)
         {
-            Web.Model.ModelBase.Init("xinshen");
+            int svrapiversion;
+            string errmsg = xingshenProxyMgr.getApiVersion(out svrapiversion);
+            if (!string.IsNullOrEmpty(errmsg))
+            {
+                Console.WriteLine(errmsg);
+                Console.ReadKey();
+                return;
+            }
+            if (APIVERSION < svrapiversion)
+            {
+                Console.WriteLine("请重新下载新版本客户端！");
+                Console.ReadKey();
+                return;
+            }
 
-            xingshenSvrHelper.xingshenProxyMgr.Start();
-
+            xingshenProxyMgr.Start();
             while (true)
             {
                 var kk = Console.ReadKey();
@@ -26,7 +39,7 @@ namespace nnproxy
                     Console.WriteLine("key:" + kk.Key.ToString() + ",Modifiers:" + kk.Modifiers);
                 }
             }           
-            xingshenSvrHelper.xingshenProxyMgr.Stop();
+            xingshenProxyMgr.Stop();
             Console.WriteLine("Exit...");
         }
     }

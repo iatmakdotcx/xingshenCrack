@@ -279,6 +279,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xingshen\ALLFILE.aspx" />
+    <Content Include="xingshen\appApi.aspx" />
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\proxyStatus.aspx" />
     <Content Include="xingshen\rbtctl.aspx" />
@@ -326,6 +327,13 @@
     </Compile>
     <Compile Include="xingshen\ALLFILE.aspx.designer.cs">
       <DependentUpon>ALLFILE.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\appApi.aspx.cs">
+      <DependentUpon>appApi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\appApi.aspx.designer.cs">
+      <DependentUpon>appApi.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\lst.aspx.cs">
       <DependentUpon>lst.aspx</DependentUpon>
