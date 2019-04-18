@@ -46,6 +46,9 @@ namespace telegramSvr.xingshen
                         case "s":
                             SignData(ReqJo, Rep);
                             break;
+                        case "c":
+                            CheckCodeData(ReqJo, Rep);
+                            break;
                         default:
                             break;
                     }
@@ -98,6 +101,146 @@ namespace telegramSvr.xingshen
             string data = ReqJo["data"].ToString();
             Rep["sign"] = svrHelper.SignData(dct, data);
             Rep["ok"] = true;
+        }
+        private void CheckCodeData(JObject ReqJo, JObject Rep)
+        {
+            JObject jo;
+            try
+            {
+                jo = (JObject)JsonConvert.DeserializeObject(ReqJo["data"].ToString());
+            }
+            catch (Exception exx)
+            {
+                return;
+            }
+            XingshenCheckcode xcc = new XingshenCheckcode();
+            xcc.code = jo["code"].ToString();
+            xcc.mac_addr = jo["mac_address"].ToString();
+            xcc.player_name = jo["player_name"].ToString();
+            xcc.token = jo["token"].ToString();
+            xcc.user_name = jo["user_name"].ToString();
+            xcc.uuid = jo["uuid"].ToString();
+            xcc.net_id = int.Parse(jo["net_id"].ToString());
+            xcc.Add();
+
+            JObject GETBODY = new JObject();
+            if (xcc.code.StartsWith("jinbi:"))
+            {
+                string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                int sl;
+                if (int.TryParse(tmpsl, out sl))
+                {
+                    GETBODY["jinbi"] = sl;
+                }
+            } else if (xcc.code.StartsWith("yuanbao:"))
+            {
+                string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                int sl;
+                if (int.TryParse(tmpsl, out sl))
+                {
+                    GETBODY["yuanbao"] = sl;
+                }
+            }
+            else if (xcc.code.StartsWith("hyJiFen:"))
+            {
+                string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                int sl;
+                if (int.TryParse(tmpsl, out sl))
+                {
+                    GETBODY["hyJiFen"] = sl;
+                }
+            }
+            else if (xcc.code.StartsWith("yueka:"))
+            {
+                string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                int sl;
+                if (int.TryParse(tmpsl, out sl))
+                {
+                    GETBODY["yueka"] = sl;
+                }
+            }
+            else if (xcc.code.StartsWith("shl:"))
+            {
+                string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                int sl;
+                if (int.TryParse(tmpsl, out sl))
+                {
+                    GETBODY["shl"] = sl;
+                }
+            }
+            else if (xcc.code.StartsWith("wp:"))
+            {
+                string[] tmppars = xcc.code.Substring(xcc.code.IndexOf(":") + 1).Split(',');
+                if (tmppars.Length >= 2)
+                {
+                    int itemType = 0;
+                    int childType = 0;
+                    int num = 1;
+                    if (int.TryParse(tmppars[0],out itemType) && int.TryParse(tmppars[1], out childType))
+                    {
+                        if (tmppars.Length >= 3)
+                        {
+                            int.TryParse(tmppars[2], out num);
+                        }
+                        JArray itemGetArr = new JArray();
+                        JObject joitem = new JObject();
+                        joitem["itemType"] = itemType;
+                        joitem["childType"] = childType;
+                        joitem["num"] = num;
+                        itemGetArr.Add(joitem);
+                        GETBODY["itemGetArr"] = itemGetArr;
+                    }
+                }
+            }
+            else if (xcc.code.StartsWith("def:"))
+            {
+                string tmppars = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
+                string fn = System.IO.Path.GetFileName(Request.Path);
+                tmppars = Request.Path.Substring(0, Request.Path.Length - fn.Length) + "codedef/" + tmppars + ".txt";
+                tmppars = Mak.Common.Utils.GetMapPath(tmppars);
+                if (System.IO.File.Exists(tmppars))
+                {
+                    tmppars = System.IO.File.ReadAllText(tmppars);
+                    try
+                    {
+                        GETBODY["itemGetArr"] = (JArray)JsonConvert.DeserializeObject(tmppars);
+                    }
+                    catch (Exception)
+                    {}
+                }
+            }
+            if (GETBODY.HasValues)
+            {
+                JObject ppd = new JObject();
+                ppd["error"] = 0;
+                ppd["GETBODY"] = GETBODY;
+
+                string data = ppd.ToString(Formatting.None);
+                Rep["data"] = data;
+                
+                string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers["Content-Type"] = "application/json; charset=utf-8";
+                headers["Connection"] = "close";
+                headers["Cache-Control"] = "max-age=0, private, must-revalidate";
+                headers["Server-Time"] = dct;
+                headers["Sign"] = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(data + "QAbxK1exZYrK6WIO" + dct, "MD5").ToLower();
+
+                JArray head = new JArray();
+                foreach (var item in headers)
+                {
+                    JObject ar = new JObject();
+                    ar["k"] = item.Key;
+                    ar["v"] = item.Value;
+                    head.Add(ar);
+                }
+                Rep["head"] = head;
+                Rep["ok"] = true;
+            }
+            else
+            {
+                Rep["msg"] = "skip";
+            }
         }
     }
 }

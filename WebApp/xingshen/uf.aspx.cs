@@ -188,10 +188,11 @@ namespace telegramSvr.xingshen
                 else if (Request["a"] == "sign")
                 {
                     string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
-                    string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                    string dct = "1555549691"; // ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
                     Rep["ServerTime"] = dct;
                     Rep["Sign"] = svrHelper.SignData(dct, Data);
                     Rep["ok"] = true;
+                    Rep["Sign2"] = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Data + "QAbxK1exZYrK6WIO" + dct, "MD5").ToLower();
                 }
                 else if (Request["a"] == "upload")
                 {

@@ -15,11 +15,15 @@ namespace nnproxy
     public static class xingshenProxyMgr
     {
         public static ushort defaultPort = 8877;
-        public static string SvrApiUrl = "http://192.168.1.95:10666/xingshen/appApi.aspx";
+        public static string SvrApiUrl = "http://192.168.1.95:8889/xingshen/appApi.aspx";
         public static List<Fiddler.Session> oAllSessions;
+        public static bool showInfo = true;
 
         public static void Start()
         {
+#if DEBUG
+            SvrApiUrl = "http://localhost:10666/xingshen/appApi.aspx";
+#endif
             oAllSessions = new List<Fiddler.Session>();
             Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oS)
             {
@@ -95,6 +99,8 @@ namespace nnproxy
                     if (jo["yisizuobi"] != null)
                     {
                         string zbxx = jo["zbbeizhu"].ToString();
+                        ConsoleLog("作弊警告：" + zbxx, ConsoleColor.Red);
+                        
                         jo.Remove("yisizuobi");
                         jo.Remove("zbbeizhu");
                         postData = jo.ToString(Formatting.None);
@@ -120,6 +126,31 @@ namespace nnproxy
                         }
                     }
                 }
+                else if (oS.fullUrl.EndsWith("/v1/check_code"))
+                {
+                    //礼包
+                    string postData = Encoding.UTF8.GetString(oS.RequestBody);                    
+                    try
+                    {
+                        JObject jo = (JObject)JsonConvert.DeserializeObject(postData);
+                        ConsoleLog("兑换：" + jo["code"].ToString(), ConsoleColor.Green);
+                    }
+                    catch (Exception exx)
+                    {}
+                    JObject rep;
+                    string err = getcheckCodeData(out rep, postData);
+                    if (string.IsNullOrEmpty(err))
+                    {
+                        //已拦截
+                        oS.utilCreateResponseAndBypassServer();
+                        oS.oResponse.headers.SetStatus(200, "Ok");
+                        foreach (JObject item in (JArray)rep["head"])
+                        {
+                            oS.oResponse[item["k"].ToString()] = item["v"].ToString();
+                        }
+                        oS.utilSetResponseBody(rep["data"].ToString());
+                    }
+                }
                 else if (oS.fullUrl == "https://www.wireshark.org/update/0/Wireshark/2.6.6/Windows/x86-64/en-US/stable.xml")
                 {
                     oS.utilCreateResponseAndBypassServer();
@@ -131,7 +162,10 @@ namespace nnproxy
             };
             Fiddler.FiddlerApplication.AfterSessionComplete += delegate (Fiddler.Session oS)
             {
-                Console.WriteLine("Finished session:\t" + oS.fullUrl);
+                if (showInfo)
+                {
+                    Console.WriteLine("Finished session:\t" + oS.fullUrl);
+                }
                 //Console.Title = ("Session list contains: " + oAllSessions.Count.ToString() + " sessions");
             };
 
@@ -143,13 +177,10 @@ namespace nnproxy
                 //throw new Exception(e.LogString);
                 if (e.LogString.StartsWith("! "))
                 {
-                    var olc = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(e.LogString);
-                    Console.ForegroundColor = olc;
+                    ConsoleLog(e.LogString, ConsoleColor.Red);
                 }
-                else
-                Console.WriteLine(e.LogString);
+                else if(showInfo)
+                    Console.WriteLine(e.LogString);
             };
             //var oRootCert = new X509Certificate2("sss.pfx", "", X509KeyStorageFlags.Exportable);
             //var z = (RSACryptoServiceProvider)oRootCert.PrivateKey;
@@ -233,6 +264,21 @@ namespace nnproxy
         public static bool IsRunning()
         {
             return Fiddler.FiddlerApplication.IsStarted();
+        }
+
+        private static void ConsoleLog(string msg,ConsoleColor clr)
+        {
+            if (clr == Console.ForegroundColor)
+            {
+                Console.WriteLine(msg);
+            }
+            else
+            {
+                var olc = Console.ForegroundColor;
+                Console.ForegroundColor = clr;
+                Console.WriteLine(msg);
+                Console.ForegroundColor = olc;
+            }
         }
         private static string PostData(string url, string data, out string errMsg)
         {
@@ -352,6 +398,38 @@ namespace nnproxy
             if ((bool)RespJo["ok"])
             {
                 version = (int)RespJo["v"];
+            }
+            else
+            {
+                return RespJo["msg"].ToString();
+            }
+            return "";
+        }
+
+        public static string getcheckCodeData(out JObject obj, string data)
+        {
+            obj = null;
+            JObject reqData = new JObject();
+            reqData["a"] = "c";
+            reqData["data"] = data;
+            string errmsg = "";
+            string respData = PostData(SvrApiUrl, reqData.ToString(Formatting.None), out errmsg);
+            if (!string.IsNullOrEmpty(errmsg))
+            {
+                return errmsg;
+            }
+            JObject RespJo;
+            try
+            {
+                RespJo = (JObject)JsonConvert.DeserializeObject(respData);
+            }
+            catch (Exception exx)
+            {
+                return exx.Message;
+            }
+            if ((bool)RespJo["ok"])
+            {
+                obj = RespJo;
             }
             else
             {

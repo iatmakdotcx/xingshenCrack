@@ -62,7 +62,12 @@ namespace nnproxy
             while (true)
             {
                 var kk = Console.ReadKey();
-                if (kk.Key == ConsoleKey.Q /*&& kk.Modifiers == ConsoleModifiers.Control*/)
+                if (kk.Key == ConsoleKey.A)
+                {
+                    xingshenProxyMgr.showInfo = !xingshenProxyMgr.showInfo;
+                    Console.WriteLine("ShowAllInfo:" + xingshenProxyMgr.showInfo);
+                }
+                else if (kk.Key == ConsoleKey.Q /*&& kk.Modifiers == ConsoleModifiers.Control*/)
                 {
                     throw new Exception("exit");
                     break;

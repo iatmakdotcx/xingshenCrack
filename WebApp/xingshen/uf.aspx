@@ -1057,6 +1057,9 @@
                         if (data.ok) {
                             var rr = "Server-Time: " + data.ServerTime + "\r\n";
                             rr += "Sign: " + data.Sign;
+                            rr += "\r\n";
+                            rr += "Server-Time: " + data.ServerTime + "\r\n";
+                            rr += "Sign: " + data.Sign2;
                             $(".signdata textarea.res").val(rr);
                         } else {
                             layer.msg(data.msg);
