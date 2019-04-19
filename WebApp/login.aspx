@@ -49,7 +49,7 @@
     var $ = layui.$
           , form = layui.form
 
-    form.render().on('submit(LAY-user-login-submit)', function(obj){
+    form.render().on('submit(LAY-user-login-submit)', function(data){
         layer.load(2);
         $.ajax({
             type: "POST",
@@ -59,8 +59,8 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 layer.closeAll('loading');
-                if (data.ok) {
-                    location.href = "uf.aspx?uid=" + data.uid;
+                if (data.ok) {                    
+                    location.href = "<%=Request["fromurl"]==null?"main.aspx":Request["fromurl"]%>";
                 } else {
                     layer.msg(data.msg);
                 }

@@ -23,7 +23,7 @@
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
-                   <input type="button" class="layui-btn" id="btn_proxystatus" value="代理状态" />
+                   
                 </div>
             </div>
             <div class="layui-table-tool-self">
@@ -116,19 +116,6 @@
 
             });
 
-            $("#btn_proxystatus").click(function () {
-                layer.open({
-                    type: 2
-                    , title:"代理状态"
-                    , resize: false
-                    , area:['300px', '300px']
-                    , content: "proxyStatus.aspx"
-                    , success: function (layero) {
-                       
-                    }
-                });
-
-            });
             $("#btn_Createnew").click(function () {
                 layer.open({
                     type: 1

@@ -1055,9 +1055,7 @@
                     success: function (data) {
                         layer.closeAll('loading');
                         if (data.ok) {
-                            var rr = "Server-Time: " + data.ServerTime + "\r\n";
-                            rr += "Sign: " + data.Sign;
-                            rr += "\r\n";
+                            var rr = "Sign: " + data.Sign + "\r\n";
                             rr += "Server-Time: " + data.ServerTime + "\r\n";
                             rr += "Sign: " + data.Sign2;
                             $(".signdata textarea.res").val(rr);

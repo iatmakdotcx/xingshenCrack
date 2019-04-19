@@ -49,15 +49,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BCMakeCert">
-      <HintPath>xingshen\3rd\BCMakeCert.dll</HintPath>
-    </Reference>
-    <Reference Include="CertMaker">
-      <HintPath>xingshen\3rd\CertMaker.dll</HintPath>
-    </Reference>
-    <Reference Include="FiddlerCore4">
-      <HintPath>xingshen\3rd\FiddlerCore4.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>lib\log4net.dll</HintPath>
     </Reference>
@@ -280,13 +271,14 @@
     </Content>
     <Content Include="xingshen\ALLFILE.aspx" />
     <Content Include="xingshen\appApi.aspx" />
+    <Content Include="xingshen\codedef\ht.txt" />
     <Content Include="xingshen\lst.aspx" />
-    <Content Include="xingshen\proxyStatus.aspx" />
     <Content Include="xingshen\rbtctl.aspx" />
     <Content Include="xingshen\rbts.aspx" />
     <Content Include="xingshen\reg.aspx" />
     <Content Include="xingshen\sd.aspx" />
     <Content Include="xingshen\uf.aspx" />
+    <Content Include="xingshen\wp.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppCode\basePage.cs">
@@ -342,13 +334,6 @@
     <Compile Include="xingshen\lst.aspx.designer.cs">
       <DependentUpon>lst.aspx</DependentUpon>
     </Compile>
-    <Compile Include="xingshen\proxyStatus.aspx.cs">
-      <DependentUpon>proxyStatus.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="xingshen\proxyStatus.aspx.designer.cs">
-      <DependentUpon>proxyStatus.aspx</DependentUpon>
-    </Compile>
     <Compile Include="xingshen\rbtctl.aspx.cs">
       <DependentUpon>rbtctl.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -383,6 +368,13 @@
     </Compile>
     <Compile Include="xingshen\uf.aspx.designer.cs">
       <DependentUpon>uf.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\wp.aspx.cs">
+      <DependentUpon>wp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\wp.aspx.designer.cs">
+      <DependentUpon>wp.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\ZongmenAutoJob.cs" />
   </ItemGroup>

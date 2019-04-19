@@ -21,9 +21,6 @@ namespace nnproxy
 
         public static void Start()
         {
-#if DEBUG
-            SvrApiUrl = "http://localhost:10666/xingshen/appApi.aspx";
-#endif
             oAllSessions = new List<Fiddler.Session>();
             Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oS)
             {
@@ -150,14 +147,10 @@ namespace nnproxy
                         }
                         oS.utilSetResponseBody(rep["data"].ToString());
                     }
-                }
-                else if (oS.fullUrl == "https://www.wireshark.org/update/0/Wireshark/2.6.6/Windows/x86-64/en-US/stable.xml")
-                {
-                    oS.utilCreateResponseAndBypassServer();
-                    oS.oResponse.headers.SetStatus(200, "Ok");
-                    oS.oResponse["Content-Type"] = "text/html; charset=UTF-8";
-                    oS.oResponse["Cache-Control"] = "private, max-age=0";
-                    oS.utilSetResponseBody("<html><body>" + oS.fullUrl + "<br /><plaintext>" + oS.oRequest.headers.ToString());
+                    else
+                    {
+                        ConsoleLog("兑换错误:"+err, ConsoleColor.Red);
+                    }
                 }
             };
             Fiddler.FiddlerApplication.AfterSessionComplete += delegate (Fiddler.Session oS)
@@ -165,8 +158,7 @@ namespace nnproxy
                 if (showInfo)
                 {
                     Console.WriteLine("Finished session:\t" + oS.fullUrl);
-                }
-                //Console.Title = ("Session list contains: " + oAllSessions.Count.ToString() + " sessions");
+                }                
             };
 
             CONFIG.bDebugSpew = true;

@@ -17,7 +17,7 @@ namespace telegramSvr.xingshen
         {
             if (Request.HttpMethod == "POST")
             {
-                
+                Page_Load_POST();
             }
         }
 
@@ -28,13 +28,10 @@ namespace telegramSvr.xingshen
             Rep["msg"] = "";
             try
             {
+                string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
                 if (Request["a"] == "login")
                 {
-                    string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
-
-                    
-
-
+                    Rep["msg"] = "用户名或密码错误！";
                 }
             }
             finally

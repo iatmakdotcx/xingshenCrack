@@ -10,7 +10,7 @@
 namespace telegramSvr.xingshen {
     
     
-    public partial class proxyStatus {
+    public partial class wp {
         
         /// <summary>
         /// form1 控件。
