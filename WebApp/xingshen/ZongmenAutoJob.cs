@@ -194,6 +194,11 @@ namespace telegramSvr.xingshen
                         if (!string.IsNullOrEmpty(errMsg))
                         {
                             LogString("捐赠失败:" + errMsg);
+                            if (errMsg.IndexOf("100") > 0)
+                            {
+                                LogString("终止....");
+                                break;
+                            }
                         }
                         LogString("捐赠完成...");
                         svrHelper.Create_sects_quit(item);
@@ -215,6 +220,17 @@ namespace telegramSvr.xingshen
             {
                 LogString("任务完成...");
                 isfinish = true;
+            }
+        }
+
+        public void cjzm()
+        {
+            List<XingshenUser> rs = XingshenUser.GetGroup(groupid);
+            max = rs.Count;
+            position = 0;
+            foreach (var item in rs)
+            {
+
             }
         }
     }

@@ -121,6 +121,7 @@ namespace telegramSvr.xingshen
             xcc.user_name = jo["user_name"].ToString();
             xcc.uuid = jo["uuid"].ToString();
             xcc.net_id = int.Parse(jo["net_id"].ToString());
+            xcc.sg_version = jo["sg_version"].ToString();
             xcc.Add();
 
             JObject GETBODY = new JObject();
