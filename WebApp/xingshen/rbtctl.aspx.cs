@@ -104,7 +104,8 @@ namespace telegramSvr.xingshen
                         return;
                     }
                     Rep["ok"] = true;
-                }else if (Request["a"] == "qu")
+                }
+                else if (Request["a"] == "qu")
                 {
                     string errMsg = svrHelper.Create_sects_quit(user);
                     if (!string.IsNullOrEmpty(errMsg))
@@ -113,6 +114,45 @@ namespace telegramSvr.xingshen
                         return;
                     }
                     Rep["ok"] = true;
+                }
+                else if (Request["a"] == "bo")
+                {
+                    JArray ja;
+                    string errMsg = svrHelper.Create_shop_list(user, out ja);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    foreach (var item in ja)
+                    {
+                        int price = int.Parse(item["price"].ToString());
+                        if (price < 10)
+                        {
+                            int idone = int.Parse(item["id"].ToString());
+                            JObject jo;
+                            errMsg = svrHelper.Create_shop_buy(user, idone, out jo);
+                            if (!string.IsNullOrEmpty(errMsg))
+                            {
+                                Rep["msg"] = errMsg;
+                                return;
+                            }
+                            Rep["name"] = jo["item_name"].ToString();
+                            Rep["ok"] = true;
+                            return;
+                        }
+                        
+                    }
+                    
+                    //JObject jo;
+                    //errMsg = svrHelper.Create_shop_buy(user, idone, out jo);
+                    //if (!string.IsNullOrEmpty(errMsg))
+                    //{
+                    //    Rep["msg"] = errMsg;
+                    //    return;
+                    //}
+                    //Rep["name"] = jo["item_name"].ToString();
+                    //Rep["ok"] = true;
                 }
             }
             finally

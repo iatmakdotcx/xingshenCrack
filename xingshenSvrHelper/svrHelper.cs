@@ -1097,5 +1097,111 @@ namespace xingshenSvrHelper
             return "";
         }
 
+        public static string Create_shop_list(XingshenUser user, out JArray data)
+        {
+            data = null;
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v2/shops/list";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            
+            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "18")
+                    {
+                        data = (JArray)Repjo["data"]["list"];
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        public static string Create_shop_buy(XingshenUser user, int id,out JObject jo)
+        {
+            jo = null;
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v2/shops/buy";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["id"] = id.ToString();
+            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "21")
+                    {
+                        jo = (JObject)Repjo["data"]["item"];
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
     }
 }

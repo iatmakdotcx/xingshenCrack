@@ -4,15 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <link rel="stylesheet" href="../js/layui/css/layui.css" />
-        <style>
+    <style>
         body {
             padding: 20px;
             max-width: 1000px;
             margin: 0 auto;
         }
+
         .layui-table {
             margin: 0
         }
@@ -20,7 +21,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-            <div class="layui-table-tool layui-border-box">
+        <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
                     <input type="button" class="layui-btn" id="btn_back" onclick="location.href = 'rbts.aspx'" value="<<" />
@@ -31,6 +32,15 @@
                 <input type="button" class="layui-btn" id="btn_sectjoin" value="加入" />
                 <input type="button" class="layui-btn" id="btn_donate" value="贡献" />
                 <input type="button" class="layui-btn" id="btn_quit" value="退出" />
+            </div>
+        </div>
+        <div class="layui-table-tool layui-border-box">
+            <div class="layui-table-tool-temp">
+                <div class="layui-btn-container">
+                    <input type="button" class="layui-btn" id="btn_buyone" value="Buy" />
+                </div>
+            </div>
+            <div class="layui-table-tool-self">
             </div>
         </div>
     </form>
@@ -63,6 +73,28 @@
                     }
                 });
             });
+            $("#btn_buyone").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=bo&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg(data.name);
+                            console.log(data.name);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
+            });
             $("#btn_qrysects").click(function () {
                 layer.load(2);
                 $.ajax({
@@ -73,7 +105,7 @@
                     success: function (data) {
                         layer.closeAll('loading');
                         if (data.ok) {
-                            layer.msg("ok:"+data.name);
+                            layer.msg("ok:" + data.name);
                         } else {
                             layer.msg(data.msg);
                         }
@@ -89,7 +121,7 @@
                     layer.close(index);
                     layer.load(2);
                     $.ajax({
-                        url: "<%=Request.Path%>?a=sj&uid=<%=Request["uid"]%>&sid="+sid,
+                        url: "<%=Request.Path%>?a=sj&uid=<%=Request["uid"]%>&sid=" + sid,
                         async: true,
                         type: "POST",
                         dataType: "json",
@@ -130,7 +162,32 @@
                 });
             });
         });
+        var iiii = 0;
+        function byone() {
+            layui.$.ajax({
+                url: "<%=Request.Path%>?a=bo&uid=<%=Request["uid"]%>",
+                async: true,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if (data.ok) {
+                        console.log((iiii++) + "》" + data.name);
+                    } else {
+                        console.log((iiii++) + "》" + data.msg);
+                    }
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            });
+        }
+
+        function l100() {
+            for (var i = 0; i < 100; i++) {               
+                byone()
+            }
+        }
     </script>
-        
+
 </body>
 </html>
