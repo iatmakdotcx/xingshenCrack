@@ -72,7 +72,7 @@ namespace telegramSvr.xingshen
         }
         private void downUserData(JObject ReqJo, JObject Rep)
         {
-            XingshenUser xu = XingshenUser.GetModel(ReqJo["user"].ToString());
+            XingshenUser xu = XingshenUser.GetModelByUserName(ReqJo["user"].ToString());
             if (xu.id != 0 && xu.isHold)
             {
                 Dictionary<string, string> headers = new Dictionary<string, string>();
