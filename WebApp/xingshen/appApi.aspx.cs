@@ -72,18 +72,25 @@ namespace telegramSvr.xingshen
         }
         private void downUserData(JObject ReqJo, JObject Rep)
         {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            string dataStr = svrHelper.Create_first_login(ReqJo["user"].ToString(), ReqJo["pass"].ToString(), ref headers);
-            Rep["data"] = dataStr;
-            JArray head = new JArray();
-            foreach (var item in headers)
+            XingshenUser xu = XingshenUser.GetModel(ReqJo["user"].ToString());
+            if (xu.id != 0 && xu.isHold)
             {
-                JObject ar = new JObject();
-                ar["k"] = item.Key;
-                ar["v"] = item.Value;
-                head.Add(ar);
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                string dataStr = svrHelper.Create_first_login(ReqJo["user"].ToString(), ReqJo["pass"].ToString(), ref headers);
+                Rep["data"] = dataStr;
+                JArray head = new JArray();
+                foreach (var item in headers)
+                {
+                    JObject ar = new JObject();
+                    ar["k"] = item.Key;
+                    ar["v"] = item.Value;
+                    head.Add(ar);
+                }
+                Rep["head"] = head;
+                Rep["hold"] = true;
+                xu.isHold = false;
+                xu.Update();
             }
-            Rep["head"] = head;
             Rep["ok"] = true;
         }
         private void SignData(JObject ReqJo, JObject Rep)

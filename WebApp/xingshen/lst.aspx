@@ -37,14 +37,18 @@
                     <th>用户名</th>
                     <th>uuid</th>
                     <th>Andorid</th>
+                    <%if(ShowBanned){ %><th>Banned</th><%} %>
+                    <%if(ShowRobots){ %><th>isRobot</th><%} %>
                 </tr>
             </thead>
             <tbody>
-                <%foreach (var item in Web.Model.XingshenUser_BLL.GetNormalALL()){%>
+                <%foreach (var item in Web.Model.XingshenUser_BLL.GetNormalALL(ShowBanned, ShowRobots)){%>
                 <tr>
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>
                     <td><%=item.isAndroid?"√":"" %></td>
+                    <%if(ShowBanned){ %><td><%=item.isBanned?"√":"" %></td><%} %>
+                    <%if(ShowRobots){ %><td><%=item.RobotGroup%></td><%} %>
                 </tr>
                 <% } %>
             </tbody>

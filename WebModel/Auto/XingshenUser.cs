@@ -33,5 +33,11 @@ namespace Web.Model
         public bool isBanned { get; set; }
         [AttrTableFieldInfo(DbType.Boolean)]
         public bool isGroupAdmin { get; set; }
+
+        [AttrTableFieldInfo(DbType.Boolean)]
+        public bool isHold { get; set; }
+
+        [AttrTableFieldInfo(DbType.String, 255)]
+        public string BanMsg { get; set; }
     }
 }

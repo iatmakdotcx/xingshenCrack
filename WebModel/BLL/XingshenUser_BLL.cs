@@ -7,9 +7,21 @@ namespace Web.Model
 {
     public class XingshenUser_BLL:ModelBase
     {
-        public static List<XingshenUser> GetNormalALL()
+        public static List<XingshenUser> GetNormalALL(bool ShowBanned, bool ShowRobots)
         {
-            return GetList<XingshenUser>("isBanned=0 and RobotGroup=0");
+            string where = "";
+            if (!ShowBanned)
+            {
+                where = "isBanned=0";
+            }
+            if (!ShowRobots)
+            {
+                if (string.IsNullOrEmpty(where))
+                    where += "RobotGroup=0";
+                else
+                where += " and RobotGroup=0";
+            }
+            return GetList<XingshenUser>(where);
         }
         public static List<XingshenUser> GetALLRobot()
         {

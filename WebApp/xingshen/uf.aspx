@@ -69,6 +69,11 @@
                 <input type="button" class="layui-btn" id="btn_ok" value="确定" />
             </div>
         </div>
+        <%if(user!=null && user.isBanned ){ %>
+        <blockquote class="layui-elem-quote" style="background-color: #f9c2c2;"><%=user.BanMsg %></blockquote>
+        <%}else if(user!=null && user.isHold){ %>
+        <blockquote class="layui-elem-quote" style="background-color: #f7d763;">此存档已标记！下次登录将使用修改后的存档！</blockquote>
+        <%} %>
         <div class="layui">
             <div class="layui-tab">
                 <ul class="layui-tab-title">
@@ -792,6 +797,7 @@
                         layer.closeAll('loading');
                         if (data.ok) {
                             layer.msg("保存成功");
+                            location.reload();
                         } else {
                             layer.msg(data.msg);
                         }

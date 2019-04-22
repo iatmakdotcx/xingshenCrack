@@ -21,7 +21,7 @@ namespace telegramSvr.xingshen
         protected JObject playerdata = new JObject();
         protected JArray warningdata = new JArray();
 
-        XingshenUser user = null;
+        protected XingshenUser user = null;
         XingshenUserData ud = null;
 
         protected string errMsg = "";
@@ -114,6 +114,16 @@ namespace telegramSvr.xingshen
                     }
                     else
                         ud.Update();
+                    user = XingshenUser.GetModel(uid);
+                    if (user.id > 0)
+                    {
+                        //检查是否被封
+                        string dct;
+                        svrHelper.GetUserLastDCTime(user, out dct);
+
+                        user.isHold = false;
+                        user.Update();
+                    }
                     Rep["ok"] = true;
                 }
                 else if (Request["a"] == "delwarning")
@@ -178,6 +188,12 @@ namespace telegramSvr.xingshen
                     string data = jo.ToString(Formatting.None);
                     ud.data = data;
                     ud.Update();
+                    user = XingshenUser.GetModel(uid);
+                    if (user.id>0)
+                    {
+                        user.isHold = true;
+                        user.Update();
+                    }
                     Rep["ok"] = true;
                 }else if  (Request["a"] == "refreshwarn")
                 {

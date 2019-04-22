@@ -62,13 +62,16 @@ namespace nnproxy
                     }
                     else
                     {
-                        oS.utilCreateResponseAndBypassServer();
-                        oS.oResponse.headers.SetStatus(200, "Ok");
-                        foreach (JObject item in (JArray)rep["head"])
+                        if (rep["hold"] != null && (bool)rep["hold"])
                         {
-                            oS.oResponse[item["k"].ToString()] = item["v"].ToString();
+                            oS.utilCreateResponseAndBypassServer();
+                            oS.oResponse.headers.SetStatus(200, "Ok");
+                            foreach (JObject item in (JArray)rep["head"])
+                            {
+                                oS.oResponse[item["k"].ToString()] = item["v"].ToString();
+                            }
+                            oS.utilSetResponseBody(rep["data"].ToString());
                         }
-                        oS.utilSetResponseBody(rep["data"].ToString());
                     }
 
                 }

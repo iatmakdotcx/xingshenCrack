@@ -501,7 +501,6 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
-
         public static string system_user_info(XingshenUser user, ref XingshenUserData ud)
         {
             if (ud == null)
@@ -595,10 +594,14 @@ namespace xingshenSvrHelper
                         dct = jo["data"]["lastDCTime"].ToString();
                         user.token = jo["data"]["token"].ToString();
                         user.net_id = Utils.StrToInt(jo["data"]["net_id"].ToString(), 1);
+                        user.isBanned = false;
                         return "";
                     }
                     else if (jo["message"] != null)
                     {
+                        user.isBanned = true;
+                        user.BanMsg = jo["message"].ToString();
+                        user.Update();
                         return jo["message"].ToString();
                     }
                     else

@@ -14,8 +14,12 @@ namespace telegramSvr.xingshen
 {
     public partial class lst : System.Web.UI.Page
     {
+        protected bool ShowBanned = false;
+        protected bool ShowRobots = false;
         protected void Page_Load(object sender, EventArgs e)
         {
+            ShowBanned = Request["b"] == "1";
+            ShowRobots = Request["r"] == "1";
             if (Request.HttpMethod == "POST") 
             {
                 JObject Rep = new JObject();
