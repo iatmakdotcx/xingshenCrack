@@ -21,15 +21,15 @@
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
-          <input type="text" name="user_name" id="LAY-user-login-username" lay-verType="tips" lay-verify="required" placeholder="用户名" class="layui-input">
+          <input type="text" name="user_name" id="username" lay-verType="tips" lay-verify="required" placeholder="用户名" class="layui-input">
         </div>
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
-          <input type="password" name="password" id="LAY-user-login-password" lay-verType="tips" lay-verify="required" placeholder="密码" class="layui-input">
+          <input type="password" name="password" id="password" lay-verType="tips" lay-verify="required" placeholder="密码" class="layui-input">
         </div>
         <hr />
         <div class="layui-form-item">
-          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="submit">登 入</button>
         </div>
         <div class="layui-trans layui-form-item layadmin-user-login-other">
           <label></label>
@@ -49,7 +49,7 @@
     var $ = layui.$
           , form = layui.form
 
-    form.render().on('submit(LAY-user-login-submit)', function(data){
+    form.render().on('submit', function(data){
         layer.load(2);
         $.ajax({
             type: "POST",
@@ -70,9 +70,18 @@
                 layer.closeAll('loading');
                 layer.msg(err.responseText, { icon: 2 });
             }
-        })
+        });
     });
-    
+      $(".layui-form input").keydown(function (e) {
+          if (e.keyCode == 13) {
+              if (e.target.id == "username") {
+                  $("#password").focus();
+
+              } else {
+                  $("button[lay-submit]").click();
+              }
+          }
+    });
     layer.msg('Welcome', {
       offset: '15px'
       ,icon: 1

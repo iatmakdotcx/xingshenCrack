@@ -559,7 +559,7 @@ layui.use(['layer', 'element', 'table'], function () {
             layer.closeAll("dialog");
             layer.load(2);
             $.ajax({
-                url: window.location.pathname +"<%=Request.Path%>?a=upload&uid="+uid,
+                url: window.location.pathname +"?a=upload&uid="+uid,
                 async: true,
                 type: "POST",
                 data: JSON.stringify(player_data),
@@ -583,7 +583,7 @@ layui.use(['layer', 'element', 'table'], function () {
     });
     $(".signdata .layui-btn").click(function () {
         $.ajax({
-            url: window.location.pathname + "<%=Request.Path%>?a=sign&uid="+uid,
+            url: window.location.pathname + "?a=sign&uid="+uid,
             async: true,
             type: "POST",
             data: $(".signdata textarea.data").val(),

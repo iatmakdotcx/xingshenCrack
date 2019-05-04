@@ -28,6 +28,7 @@ namespace telegramSvr.xingshen
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            return;
             if (Request.HttpMethod == "POST")
             {
                 Page_Load_POST();

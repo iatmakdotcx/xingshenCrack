@@ -34,7 +34,7 @@ namespace telegramSvr.xingshen
                 {
                     Response.Redirect("/");
                     return;
-                }
+                }               
             }
 
             if (Request.HttpMethod == "POST")
@@ -82,6 +82,11 @@ namespace telegramSvr.xingshen
             Rep["msg"] = "";
             try
             {
+                if (!_optuser.isAdmin && _optuser.xingshenUser.ExpiryDate < DateTime.Now)
+                {
+                    Rep["msg"] = "操作时限已过 ";
+                    return;
+                }
                 string uid = Request["uid"];
                 if (string.IsNullOrEmpty(uid))
                 {
@@ -148,9 +153,9 @@ namespace telegramSvr.xingshen
                         Rep["msg"] = "无效id";
                     }
                 }
-                else if  (Request["a"] == "downfirst")
+                else if (Request["a"] == "downfirst")
                 {
-                    ud = XingshenUserData.GetModel(uid);                    
+                    ud = XingshenUserData.GetModel(uid);
                     JObject jo = null;
                     try
                     {
@@ -174,7 +179,7 @@ namespace telegramSvr.xingshen
                     string data = jo.ToString(Formatting.None);
                     ud.data = data;
                     ud.Update();
-                    
+
                     Rep["data"] = svrHelper.Create_first_login(data);
                     Rep["ok"] = true;
                 }
@@ -198,13 +203,14 @@ namespace telegramSvr.xingshen
                     ud.data = data;
                     ud.Update();
                     user = XingshenUser.GetModel(uid);
-                    if (user.id>0)
+                    if (user.id > 0)
                     {
                         user.isHold = true;
                         user.Update();
                     }
                     Rep["ok"] = true;
-                }else if  (Request["a"] == "refreshwarn")
+                }
+                else if (Request["a"] == "refreshwarn")
                 {
                     //刷新警告信息
                     Rep["data"] = MakJsonHelper.DataTableToJsonArr_AllRow(XingshenUserDataWarning.GetWarningList(uid));
@@ -213,7 +219,7 @@ namespace telegramSvr.xingshen
                 else if (Request["a"] == "sign")
                 {
                     string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
-                    string dct = "1555549691"; // ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                    string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
                     Rep["ServerTime"] = dct;
                     Rep["Sign"] = svrHelper.SignData(dct, Data);
                     Rep["ok"] = true;
@@ -240,8 +246,45 @@ namespace telegramSvr.xingshen
                     if (!string.IsNullOrEmpty(errMsg))
                     {
                         Rep["msg"] = errMsg;
-                    }else
+                    }
+                    else
                         Rep["ok"] = true;
+                }
+                else if (Request["a"] == "aed")
+                {
+                    if (!_optuser.isAdmin)
+                    {                        
+                        return;
+                    }
+                    string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
+                    JObject jo = null;
+                    try
+                    {
+                        jo = (JObject)JsonConvert.DeserializeObject(Data);
+                    }
+                    catch (Exception exx)
+                    {
+                        Rep["msg"] = exx.Message;
+                        return;
+                    }
+                    if (jo["timeval"] == null || jo["units"] == null)
+                    {
+                        Rep["msg"] = "参数错误";
+                        return;
+                    }
+                    int timeval = Utils.StrToInt(jo["timeval"].ToString(), 0);
+                    int units = Utils.StrToInt(jo["units"].ToString(), 0);
+                    DateTime dtt;
+                    switch (units)
+                    {
+                        case 0: dtt = DateTime.Now.AddMinutes(timeval); break;
+                        case 1: dtt = DateTime.Now.AddHours(timeval); break;
+                        case 2: dtt = DateTime.Now.AddDays(timeval); break;
+                        default: dtt = DateTime.Now; break;
+                    }
+                    user.ExpiryDate = dtt;
+                    user.Update();
+                    Rep["ok"] = true;
                 }
 
             }

@@ -67,11 +67,13 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <blockquote class="layui-elem-quote" id="countdownlabel"></blockquote>
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                  <%if(_optuser.isAdmin){ %>
                   <div class="layui-btn-container">
-                    <input type="button" class="layui-btn" id="btn_back" onclick="location.href = 'lst.aspx'" value="<<" />
+                    <input type="button" class="layui-btn" id="btn_back" onclick="history.go(-1);" value="<<" />
+                    <input type="button" class="layui-btn" id="btn_AddEtime" value="ExpiryDate" />
                 </div>
                  <%}%>
             </div>
@@ -432,6 +434,30 @@
               <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
             </script>
         </div>
+        <%if (_optuser.isAdmin){%>
+        <div class="newExpiryDate" style="display: none">
+            <ul class="layui-form" style="margin: 10px;">
+                <li class="layui-form-item">
+                    <label class="layui-form-label">时长</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="timeval" value="1" autocomplete="off" class="layui-input" />
+                    </div>
+                </li>
+                <li class="layui-form-item">
+                    <label class="layui-form-label">单位</label>
+                    <div class="layui-input-block">
+                        <select name="units">
+                            <option value="0">分钟</option>
+                            <option value="1" selected="selected">小时</option>
+                            <option value="2">天</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="layui-form-item" style="text-align: center;">
+                    <button type="submit" lay-submit lay-filter="ExpiryDate" class="layui-btn">提交</button>
+                </li>
+            </ul>
+        </div><%}%>
     </div>
     <script src="ALLFILE.aspx?v=<%=xingshenSvrHelper.svrHelper.Andorid_VERSION %>"></script>
     <script>        
@@ -461,13 +487,63 @@
     <script src="../js/layui/layui.min.js"></script>
     <script>      
         var uid = "<%=Request["uid"]%>";
-        <% if (!string.IsNullOrEmpty(errMsg)){ %>
-        layui.layer.alert("<%=errMsg%>", {},
-            function () {
-                location.href = "lst.aspx"
+        var thisTimer = null;
+        layui.use(["util","element", "form"], function () {
+            var $ = layui.$;
+            var endTime = new Date("<%=user.ExpiryDate.ToString("yyyy-MM-dd HH:mm:ss")%>"), serverTime = new Date("<%=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")%>");
+            clearTimeout(thisTimer);
+            layui.util.countdown(endTime, serverTime, function (date, serverTime, timer) {
+                if (date[0] || date[1] || date[2] || date[3]) {
+                    var str = date[1] + ':' + date[2] + ':' + date[3];
+                    if (date[0] > 0) {
+                        str = date[0] + '天' + str;
+                    }
+                    layui.$('#countdownlabel').html("修改时限：" + str);
+                } else {
+                    layui.$('#countdownlabel').html("修改时限已过:<%=user.ExpiryDate.ToString("yyyy-MM-dd HH:mm:ss")%>").css("background-color", "#f9c2c2");
+                }
+                thisTimer = timer;
             });
-        return;
-        <%}%>
+            <%if (_optuser.isAdmin){%>
+            //clearTimeout(thisTimer);
+            $("#btn_AddEtime").click(function () {
+                layer.open({
+                    type: 1
+                    , title: "ExpiryDate"
+                    , resize: false
+                    , content: $('.dialog .newExpiryDate')
+                    , success: function (layero) {
+                        layero.find('.layui-layer-content').css('overflow', 'visible');
+                    }
+                });
+            });
+            layui.form.render().on('submit(ExpiryDate)', function (data) {
+                layer.load(2);
+                var url = "<%=Request.Path%>?a=aed&uid=" + uid;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.closeAll();
+                            layer.msg("ok", { time: 1000 });
+                            location.reload();
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                })
+            });
+            <%}%>
+        });
     </script>
     <script src="assets/accinfo.min.js"></script>
 </body>
