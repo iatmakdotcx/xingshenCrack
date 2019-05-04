@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -28,6 +27,16 @@ namespace telegramSvr.xingshen
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!_optuser.isAdmin)
+            {
+                //普通用户只能看自己的
+                if (_optuser.xingshenUser == null || _optuser.xingshenUser.uuid != Request["uid"])
+                {
+                    Response.Redirect("/");
+                    return;
+                }
+            }
+
             if (Request.HttpMethod == "POST")
             {
                 Page_Load_POST();

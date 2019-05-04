@@ -59,8 +59,9 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 layer.closeAll('loading');
-                if (data.ok) {                    
-                    location.href = "<%=Request["fromurl"]==null?"main.aspx":Request["fromurl"]%>";
+                if (data.ok) {
+                    location.href = data.go;
+                    //location.href = "<%=Request["fromurl"]==null?"main.aspx":Request["fromurl"]%>";
                 } else {
                     layer.msg(data.msg);
                 }

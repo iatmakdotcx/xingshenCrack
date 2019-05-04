@@ -11,7 +11,7 @@ using Web.Model;
 
 namespace telegramSvr.xingshen
 {
-    public partial class login : System.Web.UI.Page
+    public partial class login : pubPagebase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,10 +44,30 @@ namespace telegramSvr.xingshen
                     {
                         return;
                     }
-
-
-
-                    
+                    OptAdmin admin = OptAdmin_BLL.GetModel(username);
+                    if (admin.id != 0 && admin.pass == password)
+                    {
+                        //管理员登陆
+                        _optuser = new pubPagebase.optUser();
+                        _optuser.isAdmin = true;
+                        _optuser.username = username;
+                        Session["usrifo"] = _optuser;
+                        Rep["go"] = "/xingshen/lst.aspx";
+                        Rep["ok"] = true;
+                        return;
+                    }
+                    //尝试普通登陆
+                    XingshenUser user = XingshenUser.GetModelByUserName(username);
+                    if (user.id != 0 && user.pass == password)
+                    {
+                        _optuser = new pubPagebase.optUser();
+                        _optuser.xingshenUser = user;
+                        _optuser.isAdmin = false;
+                        _optuser.username = username;
+                        Session["usrifo"] = _optuser;
+                        Rep["go"] = "/xingshen/accinfo.aspx?uid=" + user.uuid;
+                        Rep["ok"] = true;
+                    }
                 }
             }
             finally

@@ -34,6 +34,7 @@ namespace telegramSvr.xingshen
 
         public class optUser
         {
+            public string username = "";
             public bool isAdmin = false;
             public XingshenUser xingshenUser = null;
         }

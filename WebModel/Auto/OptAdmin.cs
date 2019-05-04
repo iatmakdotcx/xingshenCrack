@@ -17,10 +17,11 @@ namespace Web.Model
         public int id { get; protected set; }
 
         [AttrTableFieldInfo(DbType.String, 100)]
-        public string user_name { get; set; }
+        public string username { get; set; }
         [AttrTableFieldInfo(DbType.String, 100)]
         public string pass { get; set; }
 
-
+        [AttrTableFieldInfo(DbType.DateTime)]
+        public DateTime lastlogin { get; set; }
     }
 }

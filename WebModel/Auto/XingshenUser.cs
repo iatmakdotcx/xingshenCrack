@@ -39,5 +39,8 @@ namespace Web.Model
 
         [AttrTableFieldInfo(DbType.String, 255)]
         public string BanMsg { get; set; }
+
+        [AttrTableFieldInfo(DbType.DateTime, 255)]
+        public DateTime ExpiryDate { get; set; }
     }
 }

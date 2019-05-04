@@ -12,10 +12,18 @@
     <link rel="stylesheet" href="../js/layui/css/layui.css" />
 
     <style>
-        body {
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+        .layui-fixbar{
+               display:none;
+           }
+        @media (min-width: 1000px) {
+           body {
+                padding: 20px;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+           .layui-fixbar{
+               display:block;
+           }
         }
         .editor .strings {
             width: 60%;
@@ -97,7 +105,7 @@
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">token</label>
-                                <div class="layui-form-mid layui-word-aux" data-key="token">22</div>
+                                <div class="layui-form-mid layui-word-aux" data-key="token">22</div>                                
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">username</label>
@@ -340,16 +348,6 @@
                                             </div>
                                             <div class="actions">
                                                 <input type="button" class="layui-btn" value="确定" /></div>
-                                        </div>
-                                        <div class="meta">
-                                            <dl>
-                                                <dt>:</dt>
-                                                <dd></dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>附加属性:</dt>
-                                                <dd class="layui-select"></dd>
-                                            </dl>
                                         </div>
                                     </td>
                                 </tr>

@@ -11,10 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>    
     <link rel="stylesheet" href="../js/layui/css/layui.css" />
     <style>
-        body {
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+        @media (min-width: 1000px) {
+           body {
+                padding: 20px;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
         }
         .layui-table {
             margin: 0
@@ -105,7 +107,7 @@
         layui.use(['layer', 'element', "form"], function () {
             var layer = layui.layer, $ = layui.$, form = layui.form;
             $(".alluids tbody tr").click(function () {
-                location.href = "uf.aspx?uid=" + $(this).find("td:eq(1)").text();
+                location.href = "accinfo.aspx?uid=" + $(this).find("td:eq(1)").text();
             });
 
             $("#btn_new").click(function () {
@@ -153,7 +155,7 @@
                     success: function (data) {
                         layer.closeAll('loading');
                         if (data.ok) {
-                            location.href = "uf.aspx?uid=" + data.uid;
+                            location.href = "accinfo.aspx?uid=" + data.uid;
                         } else {
                             layer.msg(data.msg);
                         }
