@@ -112,5 +112,11 @@
     "inputFiles": [
       "js/layui/lay/modules/jquery.js"
     ]
+  },
+  {
+    "outputFileName": "xingshen/assets/accinfo.min.js",
+    "inputFiles": [
+      "xingshen/assets/accinfo.js"
+    ]
   }
 ]

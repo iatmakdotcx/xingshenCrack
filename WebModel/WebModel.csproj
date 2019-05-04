@@ -48,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttrTableName.cs" />
+    <Compile Include="Auto\OptAdmin.cs" />
     <Compile Include="Auto\userdataWarning.cs" />
     <Compile Include="Auto\XingshenCheckcode.cs" />
     <Compile Include="Auto\XingshenItems.cs" />
     <Compile Include="Auto\XingshenSect.cs" />
     <Compile Include="Auto\XingshenUser.cs" />
     <Compile Include="Auto\XingshenUserData.cs" />
+    <Compile Include="BLL\OptAdmin_BLL.cs" />
     <Compile Include="BLL\XingshenCheckcode_BLL.cs" />
     <Compile Include="BLL\XingshenItems_BLL.cs" />
     <Compile Include="BLL\XingshenSect_BLL.cs" />

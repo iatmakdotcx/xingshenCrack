@@ -271,12 +271,17 @@
     </Content>
     <Content Include="xingshen\ALLFILE.aspx" />
     <Content Include="xingshen\appApi.aspx" />
+    <Content Include="xingshen\assets\accinfo.js" />
+    <Content Include="xingshen\assets\accinfo.min.js">
+      <DependentUpon>accinfo.js</DependentUpon>
+    </Content>
     <Content Include="xingshen\codedef\ht.txt" />
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\rbtctl.aspx" />
     <Content Include="xingshen\rbts.aspx" />
     <Content Include="xingshen\reg.aspx" />
     <Content Include="xingshen\sd.aspx" />
+    <Content Include="xingshen\accinfo.aspx" />
     <Content Include="xingshen\uf.aspx" />
     <Content Include="xingshen\wp.aspx" />
   </ItemGroup>
@@ -334,6 +339,9 @@
     <Compile Include="xingshen\lst.aspx.designer.cs">
       <DependentUpon>lst.aspx</DependentUpon>
     </Compile>
+    <Compile Include="xingshen\pubPagebase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="xingshen\rbtctl.aspx.cs">
       <DependentUpon>rbtctl.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -361,6 +369,13 @@
     </Compile>
     <Compile Include="xingshen\sd.aspx.designer.cs">
       <DependentUpon>sd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xingshen\accinfo.aspx.cs">
+      <DependentUpon>accinfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xingshen\accinfo.aspx.designer.cs">
+      <DependentUpon>accinfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="xingshen\uf.aspx.cs">
       <DependentUpon>uf.aspx</DependentUpon>

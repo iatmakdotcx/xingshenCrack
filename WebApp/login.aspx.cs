@@ -32,6 +32,22 @@ namespace telegramSvr.xingshen
                 if (Request["a"] == "login")
                 {
                     Rep["msg"] = "用户名或密码错误！";
+                    string username = "";
+                    string password = "";
+                    try
+                    {
+                        JObject jo = (JObject)JsonConvert.DeserializeObject(Data);
+                        username = jo["user_name"].ToString();
+                        password = jo["password"].ToString();
+                    }
+                    catch (Exception )
+                    {
+                        return;
+                    }
+
+
+
+                    
                 }
             }
             finally
