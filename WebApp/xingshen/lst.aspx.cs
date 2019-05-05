@@ -81,11 +81,11 @@ namespace telegramSvr.xingshen
                 return Rep;
             }
             user.isAndroid = jo["platform"].ToString() == "0";
-            user.uuid = jo["uuid"].ToString();            
+            user.uuid = jo["uuid"].ToString();
+            XingshenUserData ud = null;
             if (string.IsNullOrEmpty(user.uuid))
             {
                 //没有UUid只能尝试登陆（登录有1小时只允许登录一次的限制
-                XingshenUserData ud = null;
                 string ErrData = svrHelper.first_login(user,ref ud);
                 if (!string.IsNullOrEmpty(ErrData))
                 {
@@ -93,24 +93,32 @@ namespace telegramSvr.xingshen
                     return Rep;
                 }
                 user.Add();
-                ud.Add();
                 Rep["ok"] = true;
                 Rep["uid"] = user.uuid;
             }
             else
             {
                 //如果有uuid可以通过system_user_info获取存档信息
-                XingshenUserData ud = null;
-                string ErrData = svrHelper.system_user_info(user,ref ud);
+                string ErrData = svrHelper.system_user_info(user, ref ud);
                 if (!string.IsNullOrEmpty(ErrData))
                 {
                     Rep["msg"] = "下载数据存档失败！" + ErrData;
                     return Rep;
                 }
                 user.Add();
-                ud.Add();
                 Rep["ok"] = true;
                 Rep["uid"] = user.uuid;
+            }
+            if (ud != null)
+            {
+                if (ud.id > 0)
+                {
+                    ud.Update();
+                }
+                else
+                {
+                    ud.Add();
+                }
             }
             return Rep;
         }

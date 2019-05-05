@@ -505,7 +505,7 @@ namespace xingshenSvrHelper
         {
             if (ud == null)
             {
-                ud = new XingshenUserData();
+                ud = XingshenUserData.GetModel(user.uuid);
             }
             JObject jO = new JObject();
             string url = "/api/v1/users/system_user_info";
