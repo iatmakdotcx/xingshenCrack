@@ -15,12 +15,24 @@ namespace nnproxy
     public static class xingshenProxyMgr
     {
         public static ushort defaultPort = 8877;
-        public static string SvrApiUrl = "http://192.168.1.95:8889/xingshen/appApi.aspx";
+        public static string SvrApiUrl = "http://183.56.216.206:8000/xingshen/appApi.aspx";
         public static List<Fiddler.Session> oAllSessions;
         public static bool showInfo = true;
+        public static List<string> whitelist = new List<string>();
 
         public static void Start()
         {
+            whitelist.Clear();
+            string whitelistPath = System.AppDomain.CurrentDomain.BaseDirectory + "whitelist.txt";
+            if (File.Exists(whitelistPath))
+            {
+                string tmpStr = File.ReadAllText(whitelistPath);
+                string[] tmpArr = tmpStr.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var item in tmpArr)
+                {
+                    whitelist.Add(item.Trim());
+                }
+            }
             oAllSessions = new List<Fiddler.Session>();
             Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oS)
             {
@@ -28,6 +40,16 @@ namespace nnproxy
                 Monitor.Enter(oAllSessions);
                 oAllSessions.Add(oS);
                 Monitor.Exit(oAllSessions);
+                if (whitelist.Count>0 && !whitelist.Exists(ii => oS.fullUrl.StartsWith(ii)) && !oS.fullUrl.EndsWith(":443"))
+                {
+                    oS.utilCreateResponseAndBypassServer();
+                    oS.oResponse.headers.SetStatus(200, "OK");
+                    oS.oResponse["Content-Type"] = "text/html; charset=UTF-8";
+                    oS.oResponse["Cache-Control"] = "private, max-age=0";
+                    oS.utilSetResponseBody("<html><body>" + oS.fullUrl + "<br /><plaintext>" + oS.oRequest.headers.ToString());
+                    return;
+                }
+
                 if (oS.fullUrl.EndsWith("api/v1/users/first_login"))
                 {
                     string postData = Encoding.UTF8.GetString(oS.RequestBody);
@@ -260,7 +282,6 @@ namespace nnproxy
         {
             return Fiddler.FiddlerApplication.IsStarted();
         }
-
         private static void ConsoleLog(string msg,ConsoleColor clr)
         {
             if (clr == Console.ForegroundColor)

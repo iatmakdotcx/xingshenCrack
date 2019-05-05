@@ -151,7 +151,7 @@
          <li class="layui-timeline-item">
         <i class="layui-icon layui-timeline-axis"></i>
         <div class="layui-timeline-content layui-text">
-            <h3 class="layui-timeline-title">2.礼包兑换</h3>
+            <h3 class="layui-timeline-title">3.礼包兑换</h3>
             <p><img src="help/3.1.png" /></p>
             <ul>
                 <li>jinbi:10000</li>
@@ -166,7 +166,7 @@
         <li class="layui-timeline-item">
         <i class="layui-icon layui-timeline-axis"></i>
         <div class="layui-timeline-content layui-text">
-            <div class="layui-timeline-title">3.手机登录游戏</div>
+            <div class="layui-timeline-title">4.手机登录游戏</div>
             <p>然后……开始浪</p>
         </div>
         </li>
@@ -174,9 +174,51 @@
     </div>
   </div>
   <div class="layui-colla-item">
-    <h2 class="layui-colla-title">还有啥？</h2>
+    <h2 class="layui-colla-title">自己搭建代理</h2>
     <div class="layui-colla-content layui-show">
-      <p>。。。</p>
+      <p>如果你需要使用代理，我们推荐你自己搭建。</p>
+
+     <ul class="layui-timeline">
+        <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">1.下载应用程序</h3>
+            <p>
+                >>>>>> <a href="/xingshen/help/proxy.zip" target="_blank">此处</a> <<<<<<
+            </p>
+        </div>
+        </li>
+        <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">2.运行nnproxy.exe</h3>
+            <p><img src="help/4.1.png" /></p>
+            选择“是(Y)”
+            <p><img src="help/4.2.png" /></p>
+            显示已监听8877端口，则说明运行成功！
+            <br />            
+        </div>
+        </li>
+         <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">3.设置代理</h3>
+            <p><img src="help/2.3.png" /></p>
+            图中的 “主机名” 改为电脑的ip即可.
+            <br />
+        </div>
+        </li>
+        <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <div class="layui-timeline-title"></div>
+            <p></p>
+        </div>
+        </li>
+    </ul> 
+
+
+
     </div>
   </div>
 </div>

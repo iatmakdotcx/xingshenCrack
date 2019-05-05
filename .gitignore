@@ -157,3 +157,4 @@ $RECYCLE.BIN/
 **/modules/*.min.js
 /WebApp/config/
 /nnproxy/config/
+/WebApp/xingshen/help/proxy.zip
