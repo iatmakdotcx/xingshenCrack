@@ -286,6 +286,8 @@
     <Content Include="xingshen\help\2.2.png" />
     <Content Include="xingshen\help\2.3.png" />
     <Content Include="xingshen\help\3.1.png" />
+    <Content Include="xingshen\help\4.1.png" />
+    <Content Include="xingshen\help\4.2.png" />
     <Content Include="xingshen\lst.aspx" />
     <Content Include="xingshen\rbtctl.aspx" />
     <Content Include="xingshen\rbts.aspx" />

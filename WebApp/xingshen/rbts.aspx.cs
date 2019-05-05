@@ -12,7 +12,7 @@ using xingshenSvrHelper;
 
 namespace telegramSvr.xingshen
 {
-    public partial class rbts : System.Web.UI.Page
+    public partial class rbts : pubPagebase
     {
         private static Dictionary<int, ZongmenAutoJob> Jobs = new Dictionary<int, ZongmenAutoJob>();
         protected int sect_id = 0;

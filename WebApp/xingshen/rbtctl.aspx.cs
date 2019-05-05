@@ -11,7 +11,7 @@ using xingshenSvrHelper;
 
 namespace telegramSvr.xingshen
 {
-    public partial class rbtctl : System.Web.UI.Page
+    public partial class rbtctl : pubPagebase
     {
         XingshenUser user = null;
         XingshenUserData ud = null;
