@@ -6,12 +6,17 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>    
     <link rel="stylesheet" href="../js/layui/css/layui.css" />
     <style>
-        body {
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+        @media (min-width: 1000px) {
+           body {
+                padding: 20px;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
         }
 
         .layui-table {
@@ -24,9 +29,16 @@
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
-                    <input type="button" class="layui-btn" id="btn_back" onclick="location.href = 'rbts.aspx'" value="<<" />
+                    <input type="button" class="layui-btn" id="btn_back" onclick="history.go(-1);" value="<<" />
                 </div>
             </div>
+            <div class="layui-table-tool-self">
+                <input type="button" class="layui-btn" onclick="location.href = 'accinfo.aspx?uid=<%=Request["uid"]%>'" value=">>" />
+            </div>
+        </div>
+
+        <div class="layui-table-tool layui-border-box">
+            <div class="layui-table-tool-temp">宗门</div>
             <div class="layui-table-tool-self">
                 <input type="button" class="layui-btn" id="btn_qrysects" value="查询" />
                 <input type="button" class="layui-btn" id="btn_sectjoin" value="加入" />
@@ -34,10 +46,20 @@
                 <input type="button" class="layui-btn" id="btn_quit" value="退出" />
             </div>
         </div>
+
+        <div class="layui-table-tool layui-border-box">
+            <div class="layui-table-tool-temp">商会</div>
+            <div class="layui-table-tool-self">
+                <input type="button" class="layui-btn" id="btn_qryling" value="查询" />
+                <input type="button" class="layui-btn" id="btn_addling" value="新增" />
+                <input type="button" class="layui-btn" id="btn_buyone" value="BuyFirst" />
+            </div>
+        </div>
+
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
-                    <input type="button" class="layui-btn" id="btn_buyone" value="Buy" />
+                    
                 </div>
             </div>
             <div class="layui-table-tool-self">
@@ -52,6 +74,51 @@
         layui.use(['layer', 'element', 'table'], function () {
             var layer = layui.layer, $ = layui.$, table = layui.table;
 
+            $("#btn_addling").click(function () {
+                layer.prompt({ title: '新增商会令数量' }, function (sid, index) {
+                    layer.close(index);
+                    layer.load(2);
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=shl&uid=<%=Request["uid"]%>&sl=" + sid,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("商会令：" + data.shl);
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });
+                });
+            });
+            $("#btn_qryling").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=qshl&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg("商会令：" + data.shl);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
+            });
             $("#btn_donate").click(function () {
                 layer.load(2);
                 $.ajax({

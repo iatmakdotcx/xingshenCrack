@@ -42,5 +42,7 @@ namespace Web.Model
 
         [AttrTableFieldInfo(DbType.DateTime, 255)]
         public DateTime ExpiryDate { get; set; }
+        [AttrTableFieldInfo(DbType.Int32)]
+        public int shl { get; set; }
     }
 }

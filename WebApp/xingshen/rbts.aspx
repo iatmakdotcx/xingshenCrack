@@ -7,12 +7,17 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
-     <link rel="stylesheet" href="../js/layui/css/layui.css" />
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>    
+    <link rel="stylesheet" href="../js/layui/css/layui.css" />
     <style>
-        body {
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+        @media (min-width: 1000px) {
+           body {
+                padding: 20px;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
         }
         .layui-table {
             margin: 0
@@ -37,8 +42,9 @@
                 <tr>
                     <th>用户名</th>
                     <th>uuid</th>
-                    <th>Andorid</th>
+                    <th title="Android">Ard</th>
                     <th>组管理员</th>
+                    <th>商会令</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +54,7 @@
                     <td><%=item.uuid %></td>
                     <td><%=item.isAndroid?"√":"" %></td>
                     <td><%=item.isGroupAdmin?"√":"" %></td>
+                    <td><%=item.shl %></td>
                 </tr>
                 <% } %>
             </tbody>

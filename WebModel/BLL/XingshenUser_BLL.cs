@@ -43,5 +43,15 @@ namespace Web.Model
         {
             return GetModelWhere<XingshenUser>("user_name=@user_name", dbh.MakeInParam("user_name", user_name));
         }
+        public bool Delete()
+        {
+            int id = ((XingshenUser)this).id;
+            string sql = "insert into users_delete(user_name,pass,uuid,token,isAndroid,net_id,RobotGroup,isBanned,isGroupAdmin,isHold,BanMsg,ExpiryDate,shl)" +
+            "select user_name, pass, uuid, token, isAndroid, net_id, RobotGroup, isBanned, isGroupAdmin, isHold, BanMsg, ExpiryDate, shl from users where id = " + id;
+            dbh.ExecuteNonQuery(sql);
+
+            sql = "delete from users where id=" + id;
+            return dbh.ExecuteNonQuery(sql) > 0;
+        }
     }
 }

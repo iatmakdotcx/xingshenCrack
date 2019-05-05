@@ -25,6 +25,14 @@
                display:block;
            }
         }
+        @media (max-width: 400px) {
+           .layui-table-tool-self{
+               right: 0;
+           }
+           .layui-table-tool{
+               padding:10px 0;
+           }
+        }
         .editor .strings {
             width: 60%;
             float: left;
@@ -63,6 +71,14 @@
             border-radius: 0;
             overflow: auto;
         }
+        .layui-nav-child{
+            display:block;
+            width:100px;
+            min-width:100px;
+        }
+        .layui-tab-item.other{
+            padding:10px;
+        }
     </style>
 </head>
 <body>
@@ -77,7 +93,7 @@
                 </div>
                  <%}%>
             </div>
-            <div class="layui-table-tool-self">
+            <div class="layui-table-tool-self layui-btn-group">
                 <input type="button" class="layui-btn" id="btn_uploadData" value="上传存档" />
                 <input type="button" class="layui-btn" id="btn_renewData" title="重新下载服务器存档" value="刷新存档" />
                 <input type="button" class="layui-btn" id="btn_ok" value="暂存" />
@@ -97,6 +113,7 @@
                     <li>仓库</li>
                     <li>人物</li>
                     <li>SignData</li>
+                    <li>其他</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show base">
@@ -360,6 +377,9 @@
                         <textarea class="layui-textarea data" style="height: 550px;"></textarea>
                         <input type="button" class="layui-btn" value="Sign" />
                         <textarea class="layui-textarea res" style="height: 50px;"></textarea>
+                    </div>
+                    <div class="layui-tab-item other">
+                        <input type="button" class="layui-btn layui-btn-danger" id="btn_delete" value="删除" />
                     </div>
                 </div>
             </div>

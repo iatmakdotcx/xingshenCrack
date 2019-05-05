@@ -118,7 +118,8 @@ namespace telegramSvr.xingshen
                 else if (Request["a"] == "bo")
                 {
                     JArray ja;
-                    string errMsg = svrHelper.Create_shop_list(user, out ja);
+                    int shl;
+                    string errMsg = svrHelper.Create_shop_list(user, out ja, out shl);
                     if (!string.IsNullOrEmpty(errMsg))
                     {
                         Rep["msg"] = errMsg;
@@ -153,6 +154,44 @@ namespace telegramSvr.xingshen
                     //}
                     //Rep["name"] = jo["item_name"].ToString();
                     //Rep["ok"] = true;
+                }
+                else if (Request["a"] == "shl")
+                {
+                    int sl = Mak.Common.MakRequest.GetInt("sl", 0);
+                    if (sl <= 0)
+                    {
+                        Rep["msg"] = "参数错误：sl";
+                        return;
+                    }
+                    string errMsg = svrHelper.Create_addling(user, sl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    JArray data;
+                    int shl;
+                    errMsg = svrHelper.Create_shop_list(user, out data, out shl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["shl"] = shl;
+                    Rep["ok"] = true;
+                }
+                else if (Request["a"] == "qshl")
+                {
+                    JArray data;
+                    int shl;
+                    string errMsg = svrHelper.Create_shop_list(user, out data, out shl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["shl"] = shl;
+                    Rep["ok"] = true;
                 }
             }
             finally

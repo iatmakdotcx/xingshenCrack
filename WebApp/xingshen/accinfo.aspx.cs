@@ -42,17 +42,31 @@ namespace telegramSvr.xingshen
                 Page_Load_POST();
             }
             else
-            {
+            {                
                 string uid = Request["uid"];
                 if (string.IsNullOrEmpty(uid))
                 {
-                    Response.Redirect("lst.aspx");
+                    if (_optuser.isAdmin)
+                    {
+                        Response.Redirect("lst.aspx");
+                    }
+                    else
+                    {
+                        Response.Redirect("/");
+                    }
                     return;
                 }
                 user = XingshenUser.GetModel(uid);
                 if (user.id == 0)
                 {
-                    Response.Redirect("lst.aspx");
+                    if (_optuser.isAdmin)
+                    {
+                        Response.Redirect("lst.aspx");
+                    }
+                    else
+                    {
+                        Response.Redirect("/");
+                    }
                     return;
                 }
                 ud = XingshenUserData.GetModel(uid);
@@ -71,10 +85,8 @@ namespace telegramSvr.xingshen
                 playerdata = (JObject)JsonConvert.DeserializeObject(ud.data);
 
                 warningdata = MakJsonHelper.DataTableToJsonArr_AllRow(XingshenUserDataWarning.GetWarningList(uid));
-
             }
         }
-
         private void Page_Load_POST()
         {
             JObject Rep = new JObject();
@@ -82,7 +94,7 @@ namespace telegramSvr.xingshen
             Rep["msg"] = "";
             try
             {
-                if (!_optuser.isAdmin && _optuser.xingshenUser.ExpiryDate < DateTime.Now)
+                if (!_optuser.isAdmin && _optuser.xingshenUser.ExpiryDate < DateTime.Now && Request["a"] != "del")
                 {
                     Rep["msg"] = "操作时限已过 ";
                     return;
@@ -253,7 +265,7 @@ namespace telegramSvr.xingshen
                 else if (Request["a"] == "aed")
                 {
                     if (!_optuser.isAdmin)
-                    {                        
+                    {
                         return;
                     }
                     string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
@@ -284,6 +296,12 @@ namespace telegramSvr.xingshen
                     }
                     user.ExpiryDate = dtt;
                     user.Update();
+                    Rep["ok"] = true;
+                }
+                else if (Request["a"] == "del")
+                {
+                    //从系统中删除账号
+                    user.Delete();
                     Rep["ok"] = true;
                 }
 

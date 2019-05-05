@@ -605,6 +605,37 @@ layui.use(['layer', 'element', 'table'], function () {
             }
         });
     });
+    $("#btn_delete").click(function () {
+        layer.confirm('确定要从<span style="color:red">本系统</span>中删除此账号相关信息吗？<br/> 注：仍然可以登录游戏', {
+            icon: 3
+            , title: "警告"
+            , btn: ['确定', '取消']
+        }, function () {
+            layer.closeAll("dialog");
+            layer.load(2);
+            $.ajax({
+                url: window.location.pathname + "?a=del&uid=" + uid,
+                async: true,
+                type: "POST",
+                data: JSON.stringify(player_data),
+                dataType: "json",
+                success: function (data) {
+                    layer.closeAll('loading');
+                    if (data.ok) {
+                        location.reload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (err) {
+                    layer.closeAll('loading');
+                    layer.msg(err.responseText, { icon: 2 });
+                }
+            });
+        }, function () {
+
+        });
+    });
 });
 function modifyLog() {
     function lop(a, b, c) {

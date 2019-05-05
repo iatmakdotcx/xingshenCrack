@@ -1099,10 +1099,16 @@ namespace xingshenSvrHelper
             }
             return "";
         }
-
-        public static string Create_shop_list(XingshenUser user, out JArray data)
+        /// <summary>
+        /// 查询商店列表、商会令
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Create_shop_list(XingshenUser user, out JArray data, out int shl)
         {
             data = null;
+            shl = 0;
             string dct = "";
             string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
             if (!string.IsNullOrEmpty(errMsg))
@@ -1135,6 +1141,9 @@ namespace xingshenSvrHelper
                     if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "18")
                     {
                         data = (JArray)Repjo["data"]["list"];
+                        shl = int.Parse(Repjo["data"]["ling"].ToString());
+                        user.shl = shl;
+                        user.Update();
                         return "";
                     }
                     else if (Repjo["message"] != null)
@@ -1188,6 +1197,66 @@ namespace xingshenSvrHelper
                     if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "21")
                     {
                         jo = (JObject)Repjo["data"]["item"];
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        /// <summary>
+        /// 添加商会令
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="shl"></param>
+        /// <returns></returns>
+        public static string Create_addling(XingshenUser user, int shl)
+        {
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v2/shops/add_ling";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["num"] = shl.ToString();
+            req["userdata"] = "{}";
+            req["player_zhong_yao"] = "";
+            req["player_data"] = "";
+            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "23")
+                    {                        
                         return "";
                     }
                     else if (Repjo["message"] != null)

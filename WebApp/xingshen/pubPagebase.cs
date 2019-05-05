@@ -14,11 +14,11 @@ namespace telegramSvr.xingshen
             base.OnInit(e);
             _optuser = (optUser)Session["usrifo"];
 #if DEBUG
-            //if (_optuser == null)
-            //{
-            //    _optuser = new optUser();
-            //    _optuser.isAdmin = true;
-            //}
+            if (_optuser == null)
+            {
+                _optuser = new optUser();
+                _optuser.isAdmin = true;
+            }
 #endif
             if (_optuser == null)
             {
