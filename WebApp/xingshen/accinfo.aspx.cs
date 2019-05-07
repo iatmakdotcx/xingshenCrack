@@ -304,6 +304,19 @@ namespace telegramSvr.xingshen
                     user.Delete();
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "login")
+                {
+                    //强制登录一波，刷新token
+                    string ErrData = svrHelper.first_login(user, ref ud);
+                    if (!string.IsNullOrEmpty(ErrData))
+                    {
+                        Rep["msg"] = "登录失败！" + ErrData;
+                        return;
+                    }
+                    user.Update();
+                    Rep["ok"] = true;
+                    Rep["uid"] = user.uuid;
+                }
 
             }
             finally

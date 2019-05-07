@@ -126,8 +126,8 @@
         </ul> 
     </div>
   </div>
-  <div class="layui-colla-item">
-    <h2 class="layui-colla-title">游戏不“注销”的修改</h2>
+  <div class="layui-colla-item" style="display:none">
+    <h2 class="layui-colla-title">游戏不“注销”的修改(程序猿福利)</h2>
     <div class="layui-colla-content">
      <ul class="layui-timeline">
         <li class="layui-timeline-item">

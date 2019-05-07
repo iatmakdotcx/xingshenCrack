@@ -123,7 +123,7 @@ layui.use(['layer', 'element', 'table'], function () {
                     if (obj && obj.tr.siblings().length > 0) {
                         obj.del();
                     } else
-                        layer.closeAll("page")
+                        layer.closeAll("page");
                 } else {
                     layer.msg(data.msg);
                 }
@@ -165,7 +165,8 @@ layui.use(['layer', 'element', 'table'], function () {
         $("table.package .meta .layui-select").html(datasss);
         $("table.cangku .meta .layui-select").html(datasss);
     })();
-    (function buildRolesdata() {
+    function buildRolesdata() {
+        $(".roles tbody tr.data").remove();
         var html = "";
         for (var i in player_data.playerDict.battleRolesArr) {
             html += "<tr class=\"data\" data-t=\"1\" data-id=\"" + i + "\"><td>√</td>";
@@ -182,8 +183,10 @@ layui.use(['layer', 'element', 'table'], function () {
             html += "</tr>";
         }
         $(".roles tbody").append(html);
-    })();
-    (function initBaseData() {
+    }
+    buildRolesdata();
+    window.buildRolesdata = buildRolesdata;
+    function initBaseData() {
         $(".layui-tab-item.base input").each(function () {
             if (this.name == "firstPlayTime") {
                 var ts = (Math.round(new Date().getTime() / 1000) - player_data.playerDict.firstPlayTime) / (60 * 60 * 24);
@@ -215,7 +218,10 @@ layui.use(['layer', 'element', 'table'], function () {
             }
         }
         $(".layui-tab-item.basejson .basefulldata").val(JSON.stringify(tmpjs, null, "\t"));
-    })();
+    }
+    initBaseData();
+    window.initBaseData = initBaseData;
+
     $("table.package tr.data").click(function () {
         selectedRow = $(this);
         var editor = $("table.package tr.editor");
@@ -268,6 +274,7 @@ layui.use(['layer', 'element', 'table'], function () {
             editor.insertAfter(selectedRow).show();
         }
     });
+
     $("table.translations tr.editor .layui-btn").click(function () {
         var data = {
             orig: selectedRow.data("orig"),
@@ -636,6 +643,17 @@ layui.use(['layer', 'element', 'table'], function () {
 
         });
     });
+    $("#btn_clear").click(function () {
+        layer.confirm('清空全部游戏数据？', {
+            icon: 3
+            , title: "警告"
+            , btn: ['确定', '取消']
+        }, function () {
+            cleardata();
+        }, function () {
+
+        });
+    });
 });
 function modifyLog() {
     function lop(a, b, c) {
@@ -697,4 +715,27 @@ function htt() {
         });
     }
     player_data.playerDict.itemID = (maxid + data.length + 2).toString();
+}
+function cleardata() {
+    var $ = layui.$;
+    $(".layui-tab-item.base input[name]").each(function () {
+        $(this).val("0").change();
+    });
+    player_data.playerDict.packageArr = [];
+    player_data.playerDict.cangkuArr = [];
+    player_data.playerDict.rolesArr = [];
+    player_data.playerDict.battleRolesArr = [{
+        "ID": "00000",
+        "addDict": {
+            "roleExp": "0",
+            "equipDict": {},
+            "skillArr": []
+        },
+        "roleID": "1"
+    }];
+    window.initBaseData();
+    window.buildRolesdata();
+    $(".package tbody tr.data").remove();
+    $(".cangku tbody tr.data").remove();
+    $("#btn_uploadData").click();
 }

@@ -167,7 +167,7 @@ namespace telegramSvr.xingshen
                     GETBODY["yueka"] = sl;
                 }
             }
-            else if (xcc.code.StartsWith("shl:"))
+            else if (xcc.code.StartsWith("00shl:"))
             {
                 string tmpsl = xcc.code.Substring(xcc.code.IndexOf(":") + 1);
                 int sl;

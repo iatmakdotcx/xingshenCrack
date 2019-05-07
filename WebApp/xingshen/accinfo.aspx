@@ -380,6 +380,16 @@
                     </div>
                     <div class="layui-tab-item other">
                         <input type="button" class="layui-btn layui-btn-danger" id="btn_delete" value="删除" />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <%if(_optuser.isAdmin){ %>
+                        <input type="button" class="layui-btn layui-btn-danger" id="btn_clear" value="清空" />
+                        <input type="button" class="layui-btn" id="btn_login" value="登录刷新token" />
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -451,7 +461,7 @@
         <div class="warninglistdlg" style="display:none">
             <table id="warninglist" lay-filter="warninglist"></table>            
             <script type="text/html" id="toolsbar">              
-              <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+              <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>              
             </script>
         </div>
         <%if (_optuser.isAdmin){%>
@@ -508,7 +518,7 @@
     <script>      
         var uid = "<%=Request["uid"]%>";
         var thisTimer = null;
-        layui.use(["util","element", "form"], function () {
+        layui.use(["util", "element", "form"], function () {
             var $ = layui.$;
             var endTime = new Date("<%=user.ExpiryDate.ToString("yyyy-MM-dd HH:mm:ss")%>"), serverTime = new Date("<%=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")%>");
             clearTimeout(thisTimer);
@@ -562,9 +572,33 @@
                     }
                 })
             });
+            $("#btn_login").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "<%=Request.Path%>?a=login&uid=" + uid,
+                    data: "",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.closeAll();
+                            layer.msg("ok", { time: 1000 });
+                            location.reload();
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                })
+            });
             <%}%>
         });
+        
     </script>
-    <script src="assets/accinfo.min.js"></script>
+    <script src="assets/accinfo.min.js?v=0.1"></script>
 </body>
 </html>
