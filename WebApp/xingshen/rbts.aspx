@@ -43,7 +43,7 @@
                     <th>用户名</th>
                     <th>uuid</th>
                     <th title="Android">Ard</th>
-                    <th>组管理员</th>
+                    <th>baned</th>
                     <th>商会令</th>
                 </tr>
             </thead>
@@ -53,7 +53,7 @@
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>
                     <td><%=item.isAndroid?"√":"" %></td>
-                    <td><%=item.isGroupAdmin?"√":"" %></td>
+                    <td><%=item.isBanned?"√":"" %></td>
                     <td><%=item.shl %></td>
                 </tr>
                 <% } %>

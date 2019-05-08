@@ -28,7 +28,7 @@
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
-                   
+                    <input type="button" class="layui-btn" onclick="location.href='rbts.aspx?gid=9'" value="G9" />
                 </div>
             </div>
             <div class="layui-table-tool-self">
