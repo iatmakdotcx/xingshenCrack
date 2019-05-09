@@ -14,7 +14,7 @@ namespace xingshenSvrHelper
     public class svrHelper
     {
         public static string Andorid_VERSION = "131";
-        public static string IOS_VERSION = "405";
+        public static string IOS_VERSION = "425";
 
         public static string Andorid_Svr = "https://47.99.61.85";
         public static string IOS_Svr = "https://sanguo.chengduicecloud.com";
@@ -289,130 +289,131 @@ namespace xingshenSvrHelper
             }
             player_data["playerDict"]["uuid"] = user.uuid;
             player_data["playerDict"]["token"] = user.token;
+            if (user.isAndroid)
+            {
+                if (player_data["playerDict"]["VipCJGet"] == null)
+                    player_data["playerDict"]["VipCJGet"] = "";
+                if (player_data["playerDict"]["cangkuArr"] == null)
+                    player_data["playerDict"]["cangkuArr"] = new JArray();
+                if (player_data["playerDict"]["cdTime"] == null)
+                    player_data["playerDict"]["cdTime"] = null;
+                if (player_data["playerDict"]["cjbzArr"] == null)
+                    player_data["playerDict"]["cjbzArr"] = new JArray();
 
-            if (player_data["playerDict"]["VipCJGet"] == null)
-                player_data["playerDict"]["VipCJGet"] = "";
-            if (player_data["playerDict"]["cangkuArr"] == null)
-                player_data["playerDict"]["cangkuArr"] = new JArray();
-            if (player_data["playerDict"]["cdTime"] == null)
-                player_data["playerDict"]["cdTime"] = null;
-            if (player_data["playerDict"]["cjbzArr"] == null)
-                player_data["playerDict"]["cjbzArr"] = new JArray();
-            
-            if (player_data["playerDict"]["coin"] == null)
-                player_data["playerDict"]["coin"] = "600";
-            if (player_data["playerDict"]["createGCID"] == null)
-                player_data["playerDict"]["createGCID"] = player_data["playerDict"]["playerId"];
-            if (player_data["playerDict"]["czCJGet"] == null)
-                player_data["playerDict"]["czCJGet"] = "";
-            if (player_data["playerDict"]["czJiFen"] == null)
-                player_data["playerDict"]["czJiFen"] = "";
-            if (player_data["playerDict"]["dalaoChengJiuGet"] == null)
-                player_data["playerDict"]["dalaoChengJiuGet"] = "";
-            if (player_data["playerDict"]["equipDown"] == null)
-                player_data["playerDict"]["equipDown"] = null;
-            if (player_data["playerDict"]["firstPlayTime"] == null)
-                player_data["playerDict"]["firstPlayTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-            if (player_data["playerDict"]["guajiMapId"] == null)
-                player_data["playerDict"]["guajiMapId"] = null;
-            if (player_data["playerDict"]["hdTZDict"] == null)
-                player_data["playerDict"]["hdTZDict"] = new JObject();
-            if (player_data["playerDict"]["hsDict"] == null)
-                player_data["playerDict"]["hsDict"] = new JObject();
-            if (player_data["playerDict"]["huiyuanGetTime"] == null)
-                player_data["playerDict"]["huiyuanGetTime"] = null;
-            if (player_data["playerDict"]["hyJiFen"] == null)
-                player_data["playerDict"]["hyJiFen"] = "";
-            if (player_data["playerDict"]["isDLSave"] == null)
-                player_data["playerDict"]["isDLSave"] = "0";
-            if (player_data["playerDict"]["kssmLV"] == null)
-                player_data["playerDict"]["kssmLV"] = "0";
-            if (player_data["playerDict"]["lastLoginTime"] == null || player_data["playerDict"]["lastLoginTime"].Type == JTokenType.Null)
-                player_data["playerDict"]["lastLoginTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-            if (player_data["playerDict"]["ldDict"] == null)
-                player_data["playerDict"]["ldDict"] = new JObject();
-            if (player_data["playerDict"]["leftTL"] == null)
-                player_data["playerDict"]["leftTL"] = "";
+                if (player_data["playerDict"]["coin"] == null)
+                    player_data["playerDict"]["coin"] = "600";
+                if (player_data["playerDict"]["createGCID"] == null)
+                    player_data["playerDict"]["createGCID"] = player_data["playerDict"]["playerId"];
+                if (player_data["playerDict"]["czCJGet"] == null)
+                    player_data["playerDict"]["czCJGet"] = "";
+                if (player_data["playerDict"]["czJiFen"] == null)
+                    player_data["playerDict"]["czJiFen"] = "";
+                if (player_data["playerDict"]["dalaoChengJiuGet"] == null)
+                    player_data["playerDict"]["dalaoChengJiuGet"] = "";
+                if (player_data["playerDict"]["equipDown"] == null)
+                    player_data["playerDict"]["equipDown"] = null;
+                if (player_data["playerDict"]["firstPlayTime"] == null)
+                    player_data["playerDict"]["firstPlayTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                if (player_data["playerDict"]["guajiMapId"] == null)
+                    player_data["playerDict"]["guajiMapId"] = null;
+                if (player_data["playerDict"]["hdTZDict"] == null)
+                    player_data["playerDict"]["hdTZDict"] = new JObject();
+                if (player_data["playerDict"]["hsDict"] == null)
+                    player_data["playerDict"]["hsDict"] = new JObject();
+                if (player_data["playerDict"]["huiyuanGetTime"] == null)
+                    player_data["playerDict"]["huiyuanGetTime"] = null;
+                if (player_data["playerDict"]["hyJiFen"] == null)
+                    player_data["playerDict"]["hyJiFen"] = "";
+                if (player_data["playerDict"]["isDLSave"] == null)
+                    player_data["playerDict"]["isDLSave"] = "0";
+                if (player_data["playerDict"]["kssmLV"] == null)
+                    player_data["playerDict"]["kssmLV"] = "0";
+                if (player_data["playerDict"]["lastLoginTime"] == null || player_data["playerDict"]["lastLoginTime"].Type == JTokenType.Null)
+                    player_data["playerDict"]["lastLoginTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                if (player_data["playerDict"]["ldDict"] == null)
+                    player_data["playerDict"]["ldDict"] = new JObject();
+                if (player_data["playerDict"]["leftTL"] == null)
+                    player_data["playerDict"]["leftTL"] = "";
 
-            if (player_data["playerDict"]["leftWithBoss"] == null)
-                player_data["playerDict"]["leftWithBoss"] = "";
-            if (player_data["playerDict"]["lqDict"] == null)
-                player_data["playerDict"]["lqDict"] = new JObject();
+                if (player_data["playerDict"]["leftWithBoss"] == null)
+                    player_data["playerDict"]["leftWithBoss"] = "";
+                if (player_data["playerDict"]["lqDict"] == null)
+                    player_data["playerDict"]["lqDict"] = new JObject();
 
 
-            if (player_data["playerDict"]["lvChengJiuGet"] == null)
-                player_data["playerDict"]["lvChengJiuGet"] = "";
-            if (player_data["playerDict"]["mjslNum"] == null)
-                player_data["playerDict"]["mjslNum"] = "";
-            if (player_data["playerDict"]["mzslJCDict"] == null)
-                player_data["playerDict"]["mzslJCDict"] = new JObject();
-            if (player_data["playerDict"]["normalMapUnLock"] == null)
-                player_data["playerDict"]["normalMapUnLock"] = "";
-            if (player_data["playerDict"]["packageArr"] == null)
-                player_data["playerDict"]["packageArr"] = new JArray();
-            if (player_data["playerDict"]["mapSLDDict"] == null)
-                player_data["playerDict"]["mapSLDDict"] = new JObject();
-            if (player_data["playerDict"]["scslLv"] == null)
-                player_data["playerDict"]["scslLv"] = "";
-            if (player_data["playerDict"]["secondPlay"] == null || player_data["playerDict"]["secondPlay"].Type == JTokenType.Null)
-                player_data["playerDict"]["secondPlay"] = "1";
-            if (player_data["playerDict"]["shNum"] == null)
-                player_data["playerDict"]["shNum"] = "";
-            if (player_data["playerDict"]["shuye"] == null)
-                player_data["playerDict"]["shuye"] = null;
-            if (player_data["playerDict"]["sjUseNum"] == null)
-                player_data["playerDict"]["sjUseNum"] = "";
-            if (player_data["playerDict"]["sldNum"] == null)
-                player_data["playerDict"]["sldNum"] = "";
-            if (player_data["playerDict"]["sltChengJiuGet"] == null)
-                player_data["playerDict"]["sltChengJiuGet"] = "";
-            if (player_data["playerDict"]["smTGLV"] == null)
-                player_data["playerDict"]["smTGLV"] = "";
-            if (player_data["playerDict"]["syTGLV"] == null)
-                player_data["playerDict"]["syTGLV"] = "";
-            if (player_data["playerDict"]["syXH"] == null)
-                player_data["playerDict"]["syXH"] = null;
-            if (player_data["playerDict"]["tgChengJiuGet"] == null)
-                player_data["playerDict"]["tgChengJiuGet"] = "";
-            if (player_data["playerDict"]["tsChengJiuGet"] == null)
-                player_data["playerDict"]["tsChengJiuGet"] = "";
-            if (player_data["playerDict"]["tsJCDict"] == null)
-                player_data["playerDict"]["tsJCDict"] = new JObject();
-            if (player_data["playerDict"]["tzlXH"] == null)
-                player_data["playerDict"]["tzlXH"] = null;
-            if (player_data["playerDict"]["xsjLDExp"] == null)
-                player_data["playerDict"]["xsjLDExp"] = "";
-            if (player_data["playerDict"]["xsjLQExp"] == null)
-                player_data["playerDict"]["xsjLQExp"] = "";
-            if (player_data["playerDict"]["xsjLv"] == null)
-                player_data["playerDict"]["xsjLv"] = "";
-            if (player_data["playerDict"]["ybao"] == null || player_data["playerDict"]["ybao"].Type == JTokenType.Null)
-                player_data["playerDict"]["ybao"] = "0";
-            if (player_data["playerDict"]["ybaoXH"] == null)
-                player_data["playerDict"]["ybaoXH"] = null;
-            if (player_data["playerDict"]["ykLQNum"] == null)
-                player_data["playerDict"]["ykLQNum"] = null;
-            if (player_data["playerDict"]["yuekaNum"] == null)
-                player_data["playerDict"]["yuekaNum"] = null;
-            if (player_data["playerDict"]["zdglDict"] == null)
-                player_data["playerDict"]["zdglDict"] = new JObject();
-            if (player_data["playerDict"]["zfDict"] == null)
-                player_data["playerDict"]["zfDict"] = new JObject();
-            if (player_data["playerDict"]["zfKG"] == null)
-                player_data["playerDict"]["zfKG"] = new JObject();
-            if (player_data["playerDict"]["zhaomuling"] == null)
-                player_data["playerDict"]["zhaomuling"] = "";
-            if (player_data["playerDict"]["zkLQNum"] == null)
-                player_data["playerDict"]["zkLQNum"] = null;
-            if (player_data["playerDict"]["zkaNum"] == null)
-                player_data["playerDict"]["zkaNum"] = null;
-            if (player_data["playerDict"]["zmlqsChengJiuGet"] == null)
-                player_data["playerDict"]["zmlqsChengJiuGet"] = "";
-            if (player_data["playerDict"]["zmlqs_gjNum"] == null)
-                player_data["playerDict"]["zmlqs_gjNum"] = "";
-            if (player_data["playerDict"]["zzybChengJiuGet"] == null)
-                player_data["playerDict"]["zzybChengJiuGet"] = "";
-
+                if (player_data["playerDict"]["lvChengJiuGet"] == null)
+                    player_data["playerDict"]["lvChengJiuGet"] = "";
+                if (player_data["playerDict"]["mjslNum"] == null)
+                    player_data["playerDict"]["mjslNum"] = "";
+                if (player_data["playerDict"]["mzslJCDict"] == null)
+                    player_data["playerDict"]["mzslJCDict"] = new JObject();
+                if (player_data["playerDict"]["normalMapUnLock"] == null)
+                    player_data["playerDict"]["normalMapUnLock"] = "";
+                if (player_data["playerDict"]["packageArr"] == null)
+                    player_data["playerDict"]["packageArr"] = new JArray();
+                if (player_data["playerDict"]["mapSLDDict"] == null)
+                    player_data["playerDict"]["mapSLDDict"] = new JObject();
+                if (player_data["playerDict"]["scslLv"] == null)
+                    player_data["playerDict"]["scslLv"] = "";
+                if (player_data["playerDict"]["secondPlay"] == null || player_data["playerDict"]["secondPlay"].Type == JTokenType.Null)
+                    player_data["playerDict"]["secondPlay"] = "1";
+                if (player_data["playerDict"]["shNum"] == null)
+                    player_data["playerDict"]["shNum"] = "";
+                if (player_data["playerDict"]["shuye"] == null)
+                    player_data["playerDict"]["shuye"] = null;
+                if (player_data["playerDict"]["sjUseNum"] == null)
+                    player_data["playerDict"]["sjUseNum"] = "";
+                if (player_data["playerDict"]["sldNum"] == null)
+                    player_data["playerDict"]["sldNum"] = "";
+                if (player_data["playerDict"]["sltChengJiuGet"] == null)
+                    player_data["playerDict"]["sltChengJiuGet"] = "";
+                if (player_data["playerDict"]["smTGLV"] == null)
+                    player_data["playerDict"]["smTGLV"] = "";
+                if (player_data["playerDict"]["syTGLV"] == null)
+                    player_data["playerDict"]["syTGLV"] = "";
+                if (player_data["playerDict"]["syXH"] == null)
+                    player_data["playerDict"]["syXH"] = null;
+                if (player_data["playerDict"]["tgChengJiuGet"] == null)
+                    player_data["playerDict"]["tgChengJiuGet"] = "";
+                if (player_data["playerDict"]["tsChengJiuGet"] == null)
+                    player_data["playerDict"]["tsChengJiuGet"] = "";
+                if (player_data["playerDict"]["tsJCDict"] == null)
+                    player_data["playerDict"]["tsJCDict"] = new JObject();
+                if (player_data["playerDict"]["tzlXH"] == null)
+                    player_data["playerDict"]["tzlXH"] = null;
+                if (player_data["playerDict"]["xsjLDExp"] == null)
+                    player_data["playerDict"]["xsjLDExp"] = "";
+                if (player_data["playerDict"]["xsjLQExp"] == null)
+                    player_data["playerDict"]["xsjLQExp"] = "";
+                if (player_data["playerDict"]["xsjLv"] == null)
+                    player_data["playerDict"]["xsjLv"] = "";
+                if (player_data["playerDict"]["ybao"] == null || player_data["playerDict"]["ybao"].Type == JTokenType.Null)
+                    player_data["playerDict"]["ybao"] = "0";
+                if (player_data["playerDict"]["ybaoXH"] == null)
+                    player_data["playerDict"]["ybaoXH"] = null;
+                if (player_data["playerDict"]["ykLQNum"] == null)
+                    player_data["playerDict"]["ykLQNum"] = null;
+                if (player_data["playerDict"]["yuekaNum"] == null)
+                    player_data["playerDict"]["yuekaNum"] = null;
+                if (player_data["playerDict"]["zdglDict"] == null)
+                    player_data["playerDict"]["zdglDict"] = new JObject();
+                if (player_data["playerDict"]["zfDict"] == null)
+                    player_data["playerDict"]["zfDict"] = new JObject();
+                if (player_data["playerDict"]["zfKG"] == null)
+                    player_data["playerDict"]["zfKG"] = new JObject();
+                if (player_data["playerDict"]["zhaomuling"] == null)
+                    player_data["playerDict"]["zhaomuling"] = "";
+                if (player_data["playerDict"]["zkLQNum"] == null)
+                    player_data["playerDict"]["zkLQNum"] = null;
+                if (player_data["playerDict"]["zkaNum"] == null)
+                    player_data["playerDict"]["zkaNum"] = null;
+                if (player_data["playerDict"]["zmlqsChengJiuGet"] == null)
+                    player_data["playerDict"]["zmlqsChengJiuGet"] = "";
+                if (player_data["playerDict"]["zmlqs_gjNum"] == null)
+                    player_data["playerDict"]["zmlqs_gjNum"] = "";
+                if (player_data["playerDict"]["zzybChengJiuGet"] == null)
+                    player_data["playerDict"]["zzybChengJiuGet"] = "";
+            }
             jo["data"]["player_data"] = player_data.ToString(Formatting.None);
             JObject player_zhong_yao = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_zhong_yao"].ToString());
             player_zhong_yao["lastDCTime"] = dct;

@@ -268,6 +268,26 @@
                                 </div>
                             </div>
                         </div>
+                       <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">下品灵石消耗数量</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="xplsUseNum" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">神精消耗数量</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="sjUseNum" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">下品仙晶消耗数量</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="xpxjUseNum" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="layui-tab-item basejson">
                         <textarea class="layui-textarea basefulldata" style="height: 550px;"></textarea>
@@ -288,8 +308,6 @@
                                 <tr class="editor layui-bg-gray" style="display: none">
                                     <td colspan="4">
                                         <div class="strings">
-                                            <%--<p class="original">数量：<span class="oldsl">10</span> >> <input type="text" id="newsl" value="" /></p>
-                                <p class="original">强化：<span class="oldqh">10</span> >> <input type="text" id="newqh" value="" /></p>--%>
                                             <div class="textareas">
                                                 <textarea class="layui-textarea fulldata"></textarea>
                                             </div>

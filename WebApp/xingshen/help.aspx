@@ -25,12 +25,36 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-  <legend>Help</legend>
-</fieldset>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>Help</legend>
+    </fieldset>
 <div class="layui-collapse" lay-filter="x">
+    <div class="layui-colla-item">
+    <h2 class="layui-colla-title">开心就好</h2>
+    <div class="layui-colla-content layui-show">
+      <p>改改游戏开心就好！</p>
+      <br/>
+      <p>进群联系群主发号。一人只发一个号，不要太浪....</p>
+      <br/>
+      <hr />
+      <p>以下操作100%会被封</p>
+      <br/>
+        <div class="layui-text">
+        <ul>
+            <li>大量神精</li>
+            <li>大量神器</li>
+            <li>大量先天</li>
+            <li>满炼阵</li>
+            <li>炼丹等级过高</li>
+            <li>炼器等级过高</li>
+            <li>........</li>
+        </ul></div>
+      <br/>
+      <p>太多太多懒得写了，改游戏就是装样子，装得像正常玩家一点就不容易被封。</p>
+    </div>
+  </div>
   <div class="layui-colla-item">
-    <h2 class="layui-colla-title">修改数据</h2>
+    <h2 class="layui-colla-title">如何修改数据</h2>
     <div class="layui-colla-content">
      <div class="layui-card-body">
             <ul class="layui-timeline">
@@ -106,9 +130,18 @@
             </div>
             </li>
             <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis"></i>
+                <div class="layui-timeline-content layui-text">
+                  <h3 class="layui-timeline-title">2.存档标记</h3>
+                  修改好存档后，点“暂存”。<br/>
+                  出现黄色提示框说明OK
+                  <p><img src="help/2.4.png" /></p>
+                </div>
+              </li>
+            <li class="layui-timeline-item">
             <i class="layui-icon layui-timeline-axis"></i>
             <div class="layui-timeline-content layui-text">
-                <h3 class="layui-timeline-title">2.设置代理</h3>
+                <h3 class="layui-timeline-title">3.设置代理</h3>
                 <p><img src="help/2.1.png" /></p>
                 <p><img src="help/2.2.png" /></p>
                 <p><img src="help/2.3.png" /></p>
@@ -175,7 +208,7 @@
   </div>
   <div class="layui-colla-item">
     <h2 class="layui-colla-title">自己搭建代理</h2>
-    <div class="layui-colla-content layui-show">
+    <div class="layui-colla-content">
       <p>如果你需要使用代理，我们推荐你自己搭建。</p>
 
      <ul class="layui-timeline">
