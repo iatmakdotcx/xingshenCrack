@@ -76,47 +76,59 @@ namespace xingshenSvrHelper
             JObject playerDict = new JObject();
             playerDict["rolesArr"] = new JArray();
             playerDict["roleID"] = "1";
+            playerDict["itemID"] = "1";
             playerDict["jmkey"] = GenJmKey();
-            playerDict["lastLoginTime"] = null;
-            playerDict["playerId"] = mac;
-            playerDict["settingDict"] = new JObject();
-            playerDict["secondPlay"] = null;
-            playerDict["xsjLDExp"] = "";
-
-            playerDict["mapSLDDict"] = new JObject();
-            playerDict["zhaomuling"] = "";
-            playerDict["shuye"] = "";
-            playerDict["mjslNum"] = "";
-            playerDict["scslLv"] = "";
-            playerDict["hyJiFen"] = "";
-            playerDict["juntuanExp"] = "";
-            playerDict["ybao"] = "";
-            playerDict["coin"] = "";
-            playerDict["guajiMapId"] = null;
-            playerDict["smTGLV"] = "";
-            playerDict["xsjLv"] = "";
-            playerDict["tsChengJiuGet"] = "";
-            playerDict["lvChengJiuGet"] = "";
-            playerDict["czJiFen"] = "";
-            playerDict["shNum"] = "";
-            playerDict["dalaoChengJiuGet"] = "";
-            playerDict["zzybChengJiuGet"] = "";
-            playerDict["zmlqsChengJiuGet"] = "";
-            playerDict["zmlqs_gjNum"] = "";
-            playerDict["cangkuArr"] = new JArray();
-            playerDict["sldNum"] = "";
-            playerDict["packageArr"] = new JArray();
-            playerDict["tgChengJiuGet"] = "";
-            playerDict["leftTL"] = "";
+            playerDict["lastLoginTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+            playerDict["secondPlay"] = "1";
+            //playerDict["playName"] = user_name;
+            //playerDict["user_name"] = user_name;
+            //playerDict["password"] = password;
             playerDict["qdTime"] = "0";
-            playerDict["xsjLQExp"] = "";
-            playerDict["sltChengJiuGet"] = "";
-            playerDict["battleRolesArr"] = new JArray();
-            playerDict["syTGLV"] = "";
-            playerDict["normalMapUnLock"] = "";
-            playerDict["VipCJGet"] = "";
-            playerDict["czCJGet"] = "";
+            playerDict["firstPlayTime"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+            playerDict["coin"] = "100";
+            playerDict["packageArr"] = new JArray();
+            playerDict["cangkuArr"] = new JArray();
 
+            if (isAndroid)
+            {
+                playerDict["playerId"] = mac;
+                playerDict["settingDict"] = new JObject();            
+                playerDict["xsjLDExp"] = "";
+                playerDict["mapSLDDict"] = new JObject();
+                playerDict["zhaomuling"] = "";
+                playerDict["shuye"] = "";
+                playerDict["mjslNum"] = "";
+                playerDict["scslLv"] = "";
+                playerDict["hyJiFen"] = "";
+                playerDict["juntuanExp"] = "";
+                playerDict["ybao"] = "";
+                playerDict["guajiMapId"] = null;
+                playerDict["smTGLV"] = "";
+                playerDict["xsjLv"] = "";
+                playerDict["tsChengJiuGet"] = "";
+                playerDict["lvChengJiuGet"] = "";
+                playerDict["czJiFen"] = "";
+                playerDict["shNum"] = "";
+                playerDict["dalaoChengJiuGet"] = "";
+                playerDict["zzybChengJiuGet"] = "";
+                playerDict["zmlqsChengJiuGet"] = "";
+                playerDict["zmlqs_gjNum"] = "";
+                playerDict["sldNum"] = "";
+                playerDict["tgChengJiuGet"] = "";
+                playerDict["leftTL"] = "";
+                playerDict["xsjLQExp"] = "";
+                playerDict["sltChengJiuGet"] = "";
+                playerDict["battleRolesArr"] = new JArray();
+                playerDict["syTGLV"] = "";
+                playerDict["normalMapUnLock"] = "";
+                playerDict["VipCJGet"] = "";
+                playerDict["czCJGet"] = "";
+            }
+            else
+            {
+                playerDict["isDLSave"] = "0";
+                playerDict["deviceUUID"] = Guid.NewGuid().ToString();
+            }
             ulong exp = (ulong)rd.Next(300000000, 900000000);
             exp = exp * 10 + (ulong)rd.Next(1, 9);
             playerDict["juntuanExp"] = exp.ToString();
