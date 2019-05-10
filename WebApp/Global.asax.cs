@@ -41,14 +41,14 @@ namespace telegramSvr
         protected void Application_Error(object sender, EventArgs e)
         {
 #if !DEBUG
-            //Exception objErr = Server.GetLastError().GetBaseException();
-            //StringBuilder sberror = new StringBuilder();
-            //sberror.Append("1.异常页面: " + Request.Url + "\r\n");
-            //sberror.Append("2.异常信息: " + objErr.Message + "\r\n");
-            //sberror.Append("3.堆栈信息: \r\n" + objErr.StackTrace + "\r\n");
-            //log4net.ILog log = log4net.LogManager.GetLogger("logerror");            
-            //log.Error(sberror.ToString());
-            //Server.ClearError();
+            Exception objErr = Server.GetLastError().GetBaseException();
+            StringBuilder sberror = new StringBuilder();
+            sberror.Append("1.异常页面: " + Request.Url + "\r\n");
+            sberror.Append("2.异常信息: " + objErr.Message + "\r\n");
+            sberror.Append("3.堆栈信息: \r\n" + objErr.StackTrace + "\r\n");
+            log4net.ILog log = log4net.LogManager.GetLogger("logerror");            
+            log.Error(sberror.ToString());
+            Server.ClearError();
             //Application["error"] = sberror.Replace("\r\n", "<br />");
             //Response.Redirect("~/ErrorPage.aspx");
 #endif

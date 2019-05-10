@@ -398,6 +398,7 @@
                     </div>
                     <div class="layui-tab-item other">
                         <input type="button" class="layui-btn layui-btn-danger" id="btn_delete" value="删除" />
+                        <input type="button" class="layui-btn" onclick="cfgdownload('a.txt', JSON.stringify(player_data.playerDict));" value="下载存档到本地" />
                         <br />
                         <br />
                         <br />
