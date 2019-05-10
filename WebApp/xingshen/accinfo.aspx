@@ -276,7 +276,7 @@
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label">神精消耗数量</label>
+                                <label class="layui-form-label">神晶消耗数量</label>
                                 <div class="layui-input-inline">
                                     <input type="text" name="sjUseNum" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
@@ -477,10 +477,10 @@
                 </div>
             </div>
         </div>
-        <div class="warninglistdlg" style="display:none">
-            <table id="warninglist" lay-filter="warninglist"></table>            
-            <script type="text/html" id="toolsbar">              
-              <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>              
+        <div class="warninglistdlg" style="display: none">
+            <table id="warninglist" lay-filter="warninglist"></table>
+            <script type="text/html" id="toolsbar">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
             </script>
         </div>
         <%if (_optuser.isAdmin){%>

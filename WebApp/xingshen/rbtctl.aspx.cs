@@ -115,6 +115,36 @@ namespace telegramSvr.xingshen
                     }
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "sl")
+                {
+                    //从商会列表
+                    JArray ja;
+                    int shl;
+                    string errMsg = svrHelper.Create_shop_list(user, out ja, out shl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["data"] = ja;
+                    Rep["ok"] = true;
+                } else if (Request["a"] == "slb1")
+                {
+                    //从商会购买一个物品
+                    int id = Mak.Common.MakRequest.GetInt("id", 0);
+                    if (id > 0)
+                    {
+                        JObject jo;
+                        string errMsg = svrHelper.Create_shop_buy(user, id, out jo);
+                        if (!string.IsNullOrEmpty(errMsg))
+                        {
+                            Rep["msg"] = errMsg;
+                            return;
+                        }
+                        Rep["name"] = jo["item_name"].ToString();
+                        Rep["ok"] = true;
+                    }
+                }
                 else if (Request["a"] == "bo")
                 {
                     JArray ja;

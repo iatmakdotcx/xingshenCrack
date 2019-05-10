@@ -52,7 +52,8 @@
             <div class="layui-table-tool-self">
                 <input type="button" class="layui-btn" id="btn_qryling" value="查询" />
                 <input type="button" class="layui-btn" id="btn_addling" value="新增" />
-                <input type="button" class="layui-btn" id="btn_buyone" value="BuyFirst" />
+                <input type="button" class="layui-btn" id="btn_shLst" value="列表" />
+                <input type="button" class="layui-btn" id="btn_buyone" style="display:none" value="BuyFirst" />
             </div>
         </div>
 
@@ -66,14 +67,95 @@
             </div>
         </div>
     </form>
+    <div class="dialog">
+        <div class="shoplistdlg" style="display: none">
+            <table id="shoplist" lay-filter="shoplist"></table>
+            <script type="text/html" id="toolsbar">
+                <a class="layui-btn layui-btn-xs" lay-event="buy"> - 买 - </a>
+            </script>
+        </div>
+    </div>
     <script src="../js/layui/layui.min.js"></script>
     <script>
         var player_data, player_data_bak;
         var selectedRow;
+        var uid ="<%=Request["uid"]%>";
 
         layui.use(['layer', 'element', 'table'], function () {
             var layer = layui.layer, $ = layui.$, table = layui.table;
-
+            $("#btn_shLst").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: window.location.pathname + "?a=sl&uid=" + uid,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            var initShopDlg = function () {
+                                var tablecols = [[
+                                    { field: 'id', width: 100, title: 'ID' }
+                                    , { field: 'item_name', width: 200, title: 'item_name' }
+                                    , { field: 'price', width: 100, title: 'price' }
+                                    , { width: 70, toolbar: '#toolsbar', title: "<a class=\"layui-btn layui-btn-danger layui-btn-xs buyall\">全买</a>" }
+                                ]];
+                                table.render({
+                                    elem: '#shoplist'
+                                    , cellMinWidth: 40
+                                    , height: "400px"
+                                    , cols: tablecols
+                                    , data: data.data
+                                    , limit: 99999
+                                });
+                                $(".buyall").click(function () {
+                                    layer.msg("算了吧这样做影响太大了");
+                                    return false;
+                                });
+                            }
+                            layer.open({
+                                type: 1
+                                , title: "商会列表"
+                                , resize: false
+                                , area: ['610px', '465px']
+                                , content: $('.dialog .shoplistdlg')
+                                , success: function (layero) {
+                                    warndlgdiv = layero;
+                                    initShopDlg();
+                                }
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                }); 
+            });
+            table.on('tool(shoplist)', function (obj) {
+                if (obj.event == "buy") {
+                    console.log(obj.data.id);
+                    layer.load(2);
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=slb1&uid=<%=Request["uid"]%>&id=" + obj.data.id,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("ok:" + data.name);
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });
+                }
+            });
             $("#btn_addling").click(function () {
                 layer.prompt({ title: '新增商会令数量' }, function (sid, index) {
                     layer.close(index);
