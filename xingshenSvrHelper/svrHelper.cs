@@ -14,7 +14,7 @@ namespace xingshenSvrHelper
     public class svrHelper
     {
         public static string Andorid_VERSION = "131";
-        public static string IOS_VERSION = "425";
+        public static string IOS_VERSION = "426";
 
         public static string Andorid_Svr = "https://47.99.61.85";
         public static string IOS_Svr = "https://sanguo.chengduicecloud.com";

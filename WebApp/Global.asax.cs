@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using xingshenSvrHelper;
 
 namespace telegramSvr
 {
@@ -20,7 +22,11 @@ namespace telegramSvr
             Web.Model.ModelBase.Init("xinshen");
 
             //xingshen.xingshenProxyMgr2.Start();
-            
+            svrHelper.Andorid_VERSION = ConfigurationManager.AppSettings["Andorid_VERSION"];
+            svrHelper.Andorid_Svr = ConfigurationManager.AppSettings["Andorid_Svr"];
+
+            svrHelper.IOS_VERSION = ConfigurationManager.AppSettings["IOS_VERSION"];
+            svrHelper.IOS_Svr = ConfigurationManager.AppSettings["IOS_Svr"];
         }
 
         protected void Session_Start(object sender, EventArgs e)

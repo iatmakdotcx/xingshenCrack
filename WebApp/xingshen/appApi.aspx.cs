@@ -122,7 +122,7 @@ namespace telegramSvr.xingshen
             }
             XingshenCheckcode xcc = new XingshenCheckcode();
             xcc.code = jo["code"].ToString();
-            xcc.mac_addr = jo["mac_address"].ToString();
+            xcc.mac_addr = jo["mac_address"]?.ToString();
             xcc.player_name = jo["player_name"].ToString();
             xcc.token = jo["token"].ToString();
             xcc.user_name = jo["user_name"].ToString();
@@ -204,6 +204,7 @@ namespace telegramSvr.xingshen
                         joitem["itemType"] = itemType;
                         joitem["childType"] = childType;
                         joitem["num"] = num;
+                        joitem["itemNum"] = num;
                         itemGetArr.Add(joitem);
                         GETBODY["itemGetArr"] = itemGetArr;
                     }

@@ -39,6 +39,10 @@
           
           <a href="reg.html" style="display:none" class="layadmin-user-jump-change layadmin-link">注册帐号</a>
         </div>
+        <div class="layui-trans layui-form-item">
+            Android:<%=xingshenSvrHelper.svrHelper.Andorid_VERSION %> <br />
+            ios:<%=xingshenSvrHelper.svrHelper.IOS_VERSION %>
+        </div>
       </div>
     </div>       
   </div>

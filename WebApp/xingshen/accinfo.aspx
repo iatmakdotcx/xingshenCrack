@@ -267,6 +267,12 @@
                                     <input type="text" name="smTGLV" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">挑战令消耗</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="tzlXH" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
                         </div>
                        <div class="layui-form-item">
                             <div class="layui-inline">
