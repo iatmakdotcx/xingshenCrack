@@ -399,7 +399,7 @@
                     </div>
                     <div class="layui-tab-item signdata">
                         <textarea class="layui-textarea data" style="height: 550px;"></textarea>
-                        <input type="button" class="layui-btn" value="Sign" />
+                        <input type="text" id="timestamp" value="" /><input type="button" class="layui-btn" value="Sign" />
                         <textarea class="layui-textarea res" style="height: 50px;"></textarea>
                     </div>
                     <div class="layui-tab-item other">

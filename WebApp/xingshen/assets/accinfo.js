@@ -590,7 +590,7 @@ layui.use(['layer', 'element', 'table'], function () {
     });
     $(".signdata .layui-btn").click(function () {
         $.ajax({
-            url: window.location.pathname + "?a=sign&uid="+uid,
+            url: window.location.pathname + "?a=sign&uid=" + uid + "&ts=" + $("#timestamp").val(),
             async: true,
             type: "POST",
             data: $(".signdata textarea.data").val(),
@@ -600,7 +600,9 @@ layui.use(['layer', 'element', 'table'], function () {
                 if (data.ok) {
                     var rr = "Sign: " + data.Sign + "\r\n";
                     rr += "Server-Time: " + data.ServerTime + "\r\n";
-                    rr += "Sign: " + data.Sign2;
+                    rr += "Sign: " + data.Sign2 + "\r\n";
+                    rr += "Server-Time: " + data.ServerTime + "\r\n";
+                    rr += "Sign: " + data.Sign1;
                     $(".signdata textarea.res").val(rr);
                 } else {
                     layer.msg(data.msg);

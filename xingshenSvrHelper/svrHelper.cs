@@ -27,14 +27,41 @@ namespace xingshenSvrHelper
         /// <param name="dct">Server-Time</param>
         /// <param name="data">postData</param>
         /// <returns></returns>
-        public static string SignData(string dct, string data)
+        public static string SignData(XingshenUser user,string dct, string data)
+        {
+            if (user.isAndroid)
+            {
+                return SignData_132Plus(dct, data);
+            }
+            else
+            {
+                if (int.Parse(IOS_VERSION) >= 428)
+                {
+                    return SignData_Ios428Plus(dct, data);
+                }
+                else
+                {
+                    string k1 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "^" + dct + "!" + dct, "MD5").ToLower();
+                    string k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile("zRBcyL2fy[ZsL7XJP$AIDJE*2DFF=#Dxjef2@LDLF", "MD5").ToLower();
+                    k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "#" + k2, "MD5").ToLower();
+                    return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(k1 + data.Trim() + k2, "MD5").ToLower();
+                }
+            }
+        }
+        public static string SignData_132Plus(string dct, string data)
         {
             string k1 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "^" + dct + "!" + dct, "MD5").ToLower();
             string k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile("zRBcyL2fy[ZsL7XJP$AIDJE*2DFF=#Dxjef2@LDLF", "MD5").ToLower();
             k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "#" + k2, "MD5").ToLower();
-            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(k1 + data.Trim() + k2, "MD5").ToLower();
+            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(k1 + data.Trim() + k2 + "TeeKB0a1Dmdg8oTovsZOu3E0o2gNhrL2", "MD5").ToLower();
         }
-
+        public static string SignData_Ios428Plus(string dct, string data)
+        {
+            string k1 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "^" + dct + "!" + dct, "MD5").ToLower();
+            string k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile("zRBcyL2fy[ZsL7XJP$AIDJE*2DFF=#Dxjef2@LDLF", "MD5").ToLower();
+            k2 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dct + "#" + k2, "MD5").ToLower();
+            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(k1 + data.Trim() + k2 + "U8VrXwFkELpEhiMSByrdftZQbnCUP8Vd", "MD5").ToLower();
+        }
         public static string GenMac()
         {
             return string.Format("00:{0:X}:{1:X}:{2:X}:{3:X}:{4:X}"
@@ -171,7 +198,7 @@ namespace xingshenSvrHelper
             resJo["player_zhong_yao"] = player_zhong_yao.ToString(Formatting.None);
 
             string errMsg;
-            string repdata = PostData(url, resJo.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(Newuser, url, resJo.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject jo = null;
@@ -212,56 +239,50 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
-        public static string Create_first_login(string user_name, string password, ref Dictionary<string, string> headers)
+        public static string Create_first_login(bool isAndroid,string user_name, string password, ref Dictionary<string, string> headers)
         {
             JObject resJo = new JObject();
+            XingshenUser user = null;
             try
             {
                 resJo["code"] = 1;
                 resJo["type"] = 7;
-                XingshenUser user = XingshenUser.GetModelByUserName(user_name);
+                user = XingshenUser.GetModelByUserName(user_name);
                 if (user.id == 0)
                 {
-                    resJo["message"] = "代理系统中不存在当前用户！请到系统中添加！";
-                    return Create_first_login(resJo, ref headers);
+                    user.isAndroid = isAndroid;
+                    throw new Exception("代理系统中不存在当前用户！请到系统中添加！");
                 }
                 if (user.pass != password)
                 {
-                    resJo["message"] = "密码错误！";
-                    return Create_first_login(resJo, ref headers);
+                    throw new Exception("密码错误！");
                 }
                 XingshenUserData savedata = XingshenUserData.GetModel(user.uuid);
                 if (savedata.id == 0)
                 {
-                    resJo["message"] = "未找到用户存在，请在代理系统中刷新后重试！";
-                    return Create_first_login(resJo, ref headers);
+                    throw new Exception("未找到用户存在，请在代理系统中刷新后重试！");
                 }
                 JObject DataJO = (JObject)JsonConvert.DeserializeObject(savedata.data);
                 string errMsg = adjustmentData(DataJO, user);
                 if (!string.IsNullOrEmpty(errMsg))
-                {
-                    resJo["message"] = errMsg;
-                    return Create_first_login(resJo, ref headers);
+                {                    
+                    throw new Exception(errMsg);
                 }
                 DataJO["code"] = 0;
                 DataJO["type"] = 8;
-                return Create_first_login(DataJO, ref headers);
+                headers = Create_first_login_getHeader(user, resJo.ToString(Formatting.None));
+                return DataJO.ToString(Formatting.None);
             }
             catch (Exception ex)
             {
                 resJo["message"] = ex.Message;
             }
-            return Create_first_login(resJo, ref headers);
+            headers = Create_first_login_getHeader(user, resJo.ToString(Formatting.None));
+            return resJo.ToString(Formatting.None);
         }
-        public static string Create_first_login(JObject DataJO, ref Dictionary<string, string> headers)
+        public static string Create_first_login(XingshenUser user, string data)
         {
-            string dataStr = DataJO.ToString(Formatting.None);
-            headers = Create_first_login_getHeader(DataJO.ToString(Formatting.None));
-            return dataStr;
-        }
-        public static string Create_first_login(string data)
-        {
-            Dictionary<string, string> headers = Create_first_login_getHeader(data);
+            Dictionary<string, string> headers = Create_first_login_getHeader(user, data);
             StringBuilder sbdata = new StringBuilder();
             sbdata.AppendLine("HTTP/1.1 200 OK");
             foreach (var item in headers)
@@ -272,7 +293,7 @@ namespace xingshenSvrHelper
             sbdata.Append(data);
             return sbdata.ToString();
         }
-        public static Dictionary<string, string> Create_first_login_getHeader(string data)
+        public static Dictionary<string, string> Create_first_login_getHeader(XingshenUser user, string data)
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
             string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
@@ -280,7 +301,7 @@ namespace xingshenSvrHelper
             headers["Connection"] = "close";
             headers["Cache-Control"] = "max-age=0, private, must-revalidate";
             headers["Server-Time"] = dct;
-            headers["Sign"] = SignData(dct, data);
+            headers["Sign"] = SignData(user, dct, data);
             return headers;
         }
         public static string adjustmentData(JObject jo, XingshenUser user)
@@ -481,7 +502,7 @@ namespace xingshenSvrHelper
             jO["user_name"] = user.user_name;
             jO["password"] = user.pass;
             string errMsg;
-            string repdata = PostData(url, jO.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, jO.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject jo = null;
@@ -536,7 +557,7 @@ namespace xingshenSvrHelper
             jO["password"] = user.pass;
             jO["uuid"] = user.uuid;
             string errMsg;
-            string repdata = PostData(url, jO.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, jO.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
 
@@ -595,7 +616,7 @@ namespace xingshenSvrHelper
             jO["password"] = user.pass;
             jO["uuid"] = user.uuid;
             string errMsg;
-            string repdata = PostData(url, jO.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, jO.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject jo = null;
@@ -663,7 +684,7 @@ namespace xingshenSvrHelper
                 jo.Remove("type");
                 jo.Remove("code");
                 jo.Remove("data");
-                string repdata = PostData(url, jo.ToString(Formatting.None), out errMsg);
+                string repdata = PostData(user, url, jo.ToString(Formatting.None), out errMsg);
                 if (!string.IsNullOrEmpty(repdata))
                 {
                     JObject Repjo = null;
@@ -768,7 +789,7 @@ namespace xingshenSvrHelper
                 jo.Remove("type");
                 jo.Remove("code");
                 jo.Remove("data");
-                string repdata = PostData(url, jo.ToString(Formatting.None), out errMsg);
+                string repdata = PostData(user, url, jo.ToString(Formatting.None), out errMsg);
                 if (!string.IsNullOrEmpty(repdata))
                 {
                     JObject Repjo = null;
@@ -839,7 +860,7 @@ namespace xingshenSvrHelper
             req["sect_info"] = sect_info;
             req["token"] = user.token;
             req["uuid"] = user.uuid;
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -895,7 +916,7 @@ namespace xingshenSvrHelper
             req["token"] = user.token;
             req["uuid"] = user.uuid;
             req["sect_id"] = sect_id;
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -949,7 +970,7 @@ namespace xingshenSvrHelper
             }
             req["token"] = user.token;
             req["uuid"] = user.uuid;
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -1004,7 +1025,7 @@ namespace xingshenSvrHelper
             }
             req["token"] = user.token;
             req["uuid"] = user.uuid;
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -1056,7 +1077,7 @@ namespace xingshenSvrHelper
             req["token"] = user.token;
             req["uuid"] = user.uuid;
             req["player_uuid"] = player_uuid;
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -1083,7 +1104,7 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
-        private static string PostData(string url, string data, out string errMsg)
+        private static string PostData(XingshenUser user, string url, string data, out string errMsg)
         {
             errMsg = "";
             ServicePointManager.ServerCertificateValidationCallback = (s, cert, chain, err) => true;
@@ -1095,7 +1116,7 @@ namespace xingshenSvrHelper
                 request.Method = "POST";
                 request.ContentType = "application/json; charset=utf-8";
                 request.Headers["Server-Time"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-                request.Headers["Sign"] = SignData(request.Headers["Server-Time"], data);
+                request.Headers["Sign"] = SignData(user, request.Headers["Server-Time"], data);
 
                 byte[] buffer = encoding.GetBytes(data);
                 request.ContentLength = buffer.Length;
@@ -1144,7 +1165,7 @@ namespace xingshenSvrHelper
             req["token"] = user.token;
             req["uuid"] = user.uuid;
             
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -1200,7 +1221,7 @@ namespace xingshenSvrHelper
             req["token"] = user.token;
             req["uuid"] = user.uuid;
             req["id"] = id.ToString();
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;
@@ -1261,7 +1282,7 @@ namespace xingshenSvrHelper
             req["userdata"] = "{}";
             req["player_zhong_yao"] = "";
             req["player_data"] = "";
-            string repdata = PostData(url, req.ToString(Formatting.None), out errMsg);
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
             {
                 JObject Repjo = null;

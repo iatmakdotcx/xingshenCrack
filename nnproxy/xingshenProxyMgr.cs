@@ -69,9 +69,9 @@ namespace nnproxy
                     }
                     string user_name = jo["user_name"].ToString();
                     string password = jo["password"].ToString();
-
+                    string sg_version = jo["sg_version"].ToString();
                     JObject rep;
-                    string errmsg = getUserSaveData(out rep, user_name, password);
+                    string errmsg = getUserSaveData(out rep, user_name, password, sg_version);
                     if (!string.IsNullOrEmpty(errmsg))
                     {
                         oS.utilCreateResponseAndBypassServer();
@@ -324,13 +324,14 @@ namespace nnproxy
             return "";
         }
 
-        private static string getUserSaveData(out JObject obj, string user,string pass)
+        private static string getUserSaveData(out JObject obj, string user,string pass,string sg_version)
         {
             obj = null;
             JObject reqData = new JObject();
             reqData["a"] = "d";
             reqData["user"] = user;
             reqData["pass"] = pass;
+            reqData["sg_version"] = sg_version;
             string errmsg = "";
             string respData = PostData(SvrApiUrl, reqData.ToString(Formatting.None), out errmsg);
             if (!string.IsNullOrEmpty(errmsg))

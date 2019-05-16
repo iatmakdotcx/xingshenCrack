@@ -76,7 +76,7 @@ namespace telegramSvr.xingshen
             if (xu.id != 0 && xu.isHold)
             {
                 Dictionary<string, string> headers = new Dictionary<string, string>();
-                string dataStr = svrHelper.Create_first_login(ReqJo["user"].ToString(), ReqJo["pass"].ToString(), ref headers);
+                string dataStr = svrHelper.Create_first_login(xu.isAndroid, ReqJo["user"].ToString(), ReqJo["pass"].ToString(), ref headers);
                 Rep["data"] = dataStr;
                 JArray head = new JArray();
                 foreach (var item in headers)
@@ -103,10 +103,10 @@ namespace telegramSvr.xingshen
                 ww.jgrq = DateTime.Now;
                 ww.Add();
             }
-
+            var user = XingshenUser.GetModel(ReqJo["uuid"].ToString());
             string dct = ReqJo["dct"].ToString();
             string data = ReqJo["data"].ToString();
-            Rep["sign"] = svrHelper.SignData(dct, data);
+            Rep["sign"] = svrHelper.SignData(user, dct, data);
             Rep["ok"] = true;
         }
         private void CheckCodeData(JObject ReqJo, JObject Rep)

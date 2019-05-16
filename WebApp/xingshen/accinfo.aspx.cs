@@ -192,7 +192,7 @@ namespace telegramSvr.xingshen
                     ud.data = data;
                     ud.Update();
 
-                    Rep["data"] = svrHelper.Create_first_login(data);
+                    Rep["data"] = svrHelper.Create_first_login(user, data);
                     Rep["ok"] = true;
                 }
                 else if (Request["a"] == "save")
@@ -231,9 +231,13 @@ namespace telegramSvr.xingshen
                 else if (Request["a"] == "sign")
                 {
                     string Data = Encoding.UTF8.GetString(HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes));
-                    string dct = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                    string dct = MakRequest.GetString("ts");
+                    if (string.IsNullOrEmpty(dct))
+                    {
+                        ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                    }
                     Rep["ServerTime"] = dct;
-                    Rep["Sign"] = svrHelper.SignData(dct, Data);
+                    Rep["Sign"] = svrHelper.SignData(user, dct, Data);                    
                     Rep["ok"] = true;
                     Rep["Sign2"] = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Data + "QAbxK1exZYrK6WIO" + dct, "MD5").ToLower();
                 }
