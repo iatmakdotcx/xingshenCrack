@@ -93,6 +93,7 @@ namespace nnproxy
                                 oS.oResponse[item["k"].ToString()] = item["v"].ToString();
                             }
                             oS.utilSetResponseBody(rep["data"].ToString());
+                            oS.oResponse.headers.Remove("Content-Length");
                         }
                     }
 

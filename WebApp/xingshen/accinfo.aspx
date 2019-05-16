@@ -414,6 +414,7 @@
                         <%if(_optuser.isAdmin){ %>
                         <input type="button" class="layui-btn layui-btn-danger" id="btn_clear" value="清空" />
                         <input type="button" class="layui-btn" id="btn_login" value="登录刷新token" />
+                        <input type="button" class="layui-btn" id="btn_downfirst" value="Down" />
                         <%}%>
                     </div>
                 </div>

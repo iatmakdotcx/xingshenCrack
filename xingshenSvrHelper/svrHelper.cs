@@ -79,7 +79,7 @@ namespace xingshenSvrHelper
 
         public static string Create_register(out XingshenUser Newuser, string user_name, string password, bool isAndroid = true, string mac = null)
         {
-            Newuser = null;
+            Newuser = new XingshenUser();
             string url = "/api/v2/users/register";
             if (string.IsNullOrEmpty(mac))
             {
@@ -197,6 +197,7 @@ namespace xingshenSvrHelper
             player_zhong_yao["shenyuanLevel"] = "";
             resJo["player_zhong_yao"] = player_zhong_yao.ToString(Formatting.None);
 
+            Newuser.isAndroid = isAndroid;
             string errMsg;
             string repdata = PostData(Newuser, url, resJo.ToString(Formatting.None), out errMsg);
             if (!string.IsNullOrEmpty(repdata))
@@ -270,7 +271,7 @@ namespace xingshenSvrHelper
                 }
                 DataJO["code"] = 0;
                 DataJO["type"] = 8;
-                headers = Create_first_login_getHeader(user, resJo.ToString(Formatting.None));
+                headers = Create_first_login_getHeader(user, DataJO.ToString(Formatting.None));
                 return DataJO.ToString(Formatting.None);
             }
             catch (Exception ex)
