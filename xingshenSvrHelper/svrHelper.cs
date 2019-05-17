@@ -629,7 +629,15 @@ namespace xingshenSvrHelper
                         dct = jo["data"]["lastDCTime"].ToString();
                         user.token = jo["data"]["token"].ToString();
                         user.net_id = Utils.StrToInt(jo["data"]["net_id"].ToString(), 1);
-                        user.isBanned = false;
+                        user.BanMsg = jo["data"]["userdata"].ToString();
+                        if (string.IsNullOrEmpty(user.BanMsg) || user.BanMsg=="{}")
+                        {
+                            user.isBanned = false;
+                        }
+                        else
+                        {
+                            user.isBanned = true;
+                        }
                         return "";
                     }
                     else if (jo["message"] != null)

@@ -33,8 +33,7 @@
     <h2 class="layui-colla-title">开心就好</h2>
     <div class="layui-colla-content layui-show">
       <p>改改游戏开心就好！</p>
-      <br/>
-      <p>进群联系群主发号。一人只发一个号，不要太浪....</p>
+      <br/>      
       <br/>
       <hr />
       <p>以下操作100%会被封</p>
@@ -50,7 +49,7 @@
             <li>........</li>
         </ul></div>
       <br/>
-      <p>还有太多太多懒得写了
+      <p><span>还有太多太多</span>懒得写了
       <br />改游戏就是装样子，装得像正常玩家一点就不容易被封。</p>
     </div>
   </div>
