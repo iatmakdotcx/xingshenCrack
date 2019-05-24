@@ -1318,5 +1318,110 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
+        public static string Create_Bossinfo(XingshenUser user, out int level, out long HP)
+        {
+            level = 0;
+            HP = 0;
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v3/sects/get_boss_info";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "52")
+                    {
+                        level = int.Parse(Repjo["data"]["boss_level"].ToString());
+                        HP = long.Parse(Repjo["data"]["remain_boss_hp"].ToString());
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        public static string Create_attack_damage(XingshenUser user, long HP)
+        {
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v3/sects/attack_damage";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["val"] = HP;
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "53")
+                    {
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
     }
 }

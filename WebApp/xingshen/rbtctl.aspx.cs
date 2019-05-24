@@ -223,6 +223,36 @@ namespace telegramSvr.xingshen
                     Rep["shl"] = shl;
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "bossinfo")
+                {
+                    int level;
+                    long HP;
+                    string errMsg = svrHelper.Create_Bossinfo(user, out level, out HP);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["level"] = level;
+                    Rep["hp"] = HP;
+                    Rep["ok"] = true;
+                }
+                else if (Request["a"] == "ad")//attack_damage
+                {
+                    int sl = Mak.Common.MakRequest.GetInt("sl", 0);
+                    if (sl <= 0)
+                    {
+                        Rep["msg"] = "参数错误：sl";
+                        return;
+                    }
+                    string errMsg = svrHelper.Create_attack_damage(user, sl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
+                }
             }
             finally
             {

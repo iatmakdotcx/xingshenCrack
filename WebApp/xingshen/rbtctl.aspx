@@ -43,6 +43,7 @@
                 <input type="button" class="layui-btn" id="btn_qrysects" value="查询" />
                 <input type="button" class="layui-btn" id="btn_sectjoin" value="加入" />
                 <input type="button" class="layui-btn" id="btn_donate" value="贡献" />
+                <input type="button" class="layui-btn" id="btn_attack_damage" value="打Boss" />
                 <input type="button" class="layui-btn" id="btn_quit" value="退出" />
             </div>
         </div>
@@ -155,6 +156,49 @@
                         }
                     });
                 }
+            });
+            $("#btn_attack_damage").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=bossinfo&uid=<%=Request["uid"]%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg("level:"+data.level);
+                            layer.prompt({ title: '打多少血？',value:data.hp }, function (sid, index) {
+                                layer.close(index);
+                                layer.load(2);
+                                $.ajax({
+                                    url: "<%=Request.Path%>?a=ad&uid=<%=Request["uid"]%>&sl=" + sid,
+                                    async: true,
+                                    type: "POST",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        layer.closeAll('loading');
+                                        if (data.ok) {
+                                            layer.msg("ok");
+                                        } else {
+                                            layer.msg(data.msg);
+                                        }
+                                    },
+                                    error: function (err) {
+                                        layer.closeAll('loading');
+                                        layer.msg(err.responseText, { icon: 2 });
+                                    }
+                                });
+                            });
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
             });
             $("#btn_addling").click(function () {
                 layer.prompt({ title: '新增商会令数量' }, function (sid, index) {
@@ -290,24 +334,33 @@
                 });
             });
             $("#btn_quit").click(function () {
-                layer.load(2);
-                $.ajax({
-                    url: "<%=Request.Path%>?a=qu&uid=<%=Request["uid"]%>",
-                    async: true,
-                    type: "POST",
-                    dataType: "json",
-                    success: function (data) {
-                        layer.closeAll('loading');
-                        if (data.ok) {
-                            layer.msg("ok");
-                        } else {
-                            layer.msg(data.msg);
+                layer.confirm('退出宗门？', {
+                    icon: 3
+                    , title: "警告"
+                    , btn: ['退出宗门', '取消']
+                }, function () {
+                    layer.closeAll("dialog");
+                    layer.load(2);
+                    $.ajax({
+                        url: "<%=Request.Path%>?a=qu&uid=<%=Request["uid"]%>",
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("ok");
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
                         }
-                    },
-                    error: function (err) {
-                        layer.closeAll('loading');
-                        layer.msg(err.responseText, { icon: 2 });
-                    }
+                    });
+                }, function () {
+
                 });
             });
         });
