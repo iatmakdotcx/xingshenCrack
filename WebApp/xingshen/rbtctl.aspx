@@ -168,7 +168,7 @@
                         layer.closeAll('loading');
                         if (data.ok) {
                             layer.msg("level:"+data.level);
-                            layer.prompt({ title: '打多少血？',value:data.hp }, function (sid, index) {
+                            layer.prompt({ title: '打多少血？',value:data.hp+Math.ceil(Math.random()*1000000) }, function (sid, index) {
                                 layer.close(index);
                                 layer.load(2);
                                 $.ajax({
