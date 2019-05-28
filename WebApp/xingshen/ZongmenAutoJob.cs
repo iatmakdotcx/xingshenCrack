@@ -223,14 +223,15 @@ namespace telegramSvr.xingshen
             }
         }
 
-        public void cjzm()
+        public void checkBan()
         {
             List<XingshenUser> rs = XingshenUser.GetGroup(groupid);
             max = rs.Count;
             position = 0;
             foreach (var item in rs)
             {
-
+                string dct;
+                string errmsg = svrHelper.GetUserLastDCTime(item, out dct);
             }
         }
     }

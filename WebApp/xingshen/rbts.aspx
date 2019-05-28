@@ -30,6 +30,7 @@
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
                    <input type="button" class="layui-btn" id="btn_CreateJob" value="开始任务" />
+                   <input type="button" class="layui-btn" id="btn_checkBan" value="CheckBan" />
                 </div>
             </div>
             <div class="layui-table-tool-self">
@@ -131,6 +132,27 @@
                             layer.msg(err.responseText, { icon: 2 });
                         }
                     });
+                });
+            });
+            $("#btn_checkBan").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=chkb&uid=<%=Request["uid"]%>&gid=<%=Mak.Common.MakRequest.GetInt("gid",1)%>",
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            layer.msg("ok");
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
                 });
             });
             form.render().on('submit(*)', function (data) {

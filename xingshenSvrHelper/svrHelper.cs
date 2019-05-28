@@ -637,7 +637,8 @@ namespace xingshenSvrHelper
                         else
                         {
                             user.isBanned = true;
-                        }
+                            user.Update();
+                        }                        
                         return "";
                     }
                     else if (jo["message"] != null)

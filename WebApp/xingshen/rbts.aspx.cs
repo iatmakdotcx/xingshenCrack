@@ -37,6 +37,9 @@ namespace telegramSvr.xingshen
                     else if (Request["a"] == "ji")
                     {
                         Rep = newJobinfo(postdata, Rep);
+                    } else if (Request["a"] == "chkb")
+                    {
+                        Rep = newCheckBan(postdata, Rep);
                     }
                 }
                 finally
@@ -72,10 +75,9 @@ namespace telegramSvr.xingshen
                 return Rep;
             }
 
-            var jr = new JsonReader(jo);
-            bool isAndroid = jr.GetString("platform") == "0";
-            int cnt = jr.GetInt("cnt");
-            int groupid =jr.GetInt("groupid");
+            bool isAndroid = jo["platform"]?.ToString() == "0";
+            int cnt = int.Parse(jo["cnt"]?.ToString());
+            int groupid = int.Parse(jo["groupid"]?.ToString());
             string errmsg = rbtMgr.CreateRobot2Group(groupid, isAndroid, cnt);
             if (!string.IsNullOrEmpty(errmsg))
             {
@@ -142,48 +144,22 @@ namespace telegramSvr.xingshen
             Rep["ok"] = true;
             return Rep;
         }
-    }
 
-    public class JsonReader
-    {
-        private JObject jObj;
-        public JsonReader(JObject jo)
+        private static JObject newCheckBan(string postdata, JObject Rep)
         {
-            jObj = jo;
-        }
-        public JToken this[string propertyName]
-        {
-            get
+            int gid = Mak.Common.MakRequest.GetInt("gid", 0);
+            if (gid < 1)
             {
-                return jObj[propertyName];
+                Rep["msg"] = "参数错误！";
+                return Rep;
             }
-            set
+            lock (Jobs)
             {
-                jObj[propertyName] = value;
+                ZongmenAutoJob job = new ZongmenAutoJob(gid, 0);
+                job.checkBan();
             }
-        }
-
-        public bool ExistsKey(string key)
-        {
-            return jObj[key] == null;
-        }
-        public string GetString(string key)
-        {
-            var val = jObj[key];
-            if (val==null)
-            {
-                return "";
-            }
-            return val.ToString();
-        }
-        public int GetInt(string key, int defVal = 0)
-        {
-            var val = jObj[key];
-            if (val == null)
-            {
-                return defVal;
-            }
-            return Mak.Common.Utils.StrToInt(val.ToString(), defVal);
+            Rep["ok"] = true;
+            return Rep;
         }
     }
 
