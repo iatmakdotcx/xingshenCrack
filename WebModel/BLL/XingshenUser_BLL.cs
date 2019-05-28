@@ -27,9 +27,14 @@ namespace Web.Model
         {
             return GetList<XingshenUser>("RobotGroup>0");
         }
-        public static List<XingshenUser> GetGroup(int GroupId)
+        public static List<XingshenUser> GetGroup(int GroupId, bool ShowBanned = false)
         {
-            return GetList<XingshenUser>("RobotGroup=" + GroupId);
+            if (ShowBanned)
+            {
+                return GetList<XingshenUser>("RobotGroup=" + GroupId);
+            }
+            else
+                return GetList<XingshenUser>("isBanned=0 and RobotGroup=" + GroupId);
         }
         public static XingshenUser GetGroupAdmin(int GroupId)
         {

@@ -54,6 +54,8 @@
                 <input type="button" class="layui-btn" id="btn_qryling" value="查询" />
                 <input type="button" class="layui-btn" id="btn_addling" value="新增" />
                 <input type="button" class="layui-btn" id="btn_shLst" value="列表" />
+                <input type="button" class="layui-btn" id="btn_ownershop" value="寄售列表" />
+                <input type="button" class="layui-btn" id="btn_sell" value=" - 卖 - " />
                 <input type="button" class="layui-btn" id="btn_buyone" style="display:none" value="BuyFirst" />
             </div>
         </div>
@@ -65,6 +67,7 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
+
             </div>
         </div>
     </form>
@@ -74,6 +77,9 @@
             <script type="text/html" id="toolsbar">
                 <a class="layui-btn layui-btn-xs" lay-event="buy"> - 买 - </a>
             </script>
+        </div>
+        <div class="ownershopdlg" style="display: none">
+            <table id="ownershop" lay-filter="ownershop"></table>
         </div>
     </div>
     <script src="../js/layui/layui.min.js"></script>
@@ -121,7 +127,6 @@
                                 , area: ['610px', '465px']
                                 , content: $('.dialog .shoplistdlg')
                                 , success: function (layero) {
-                                    warndlgdiv = layero;
                                     initShopDlg();
                                 }
                             });
@@ -157,6 +162,53 @@
                     });
                 }
             });
+            $("#btn_ownershop").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: window.location.pathname + "?a=os&uid=" + uid,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {
+                            var initShopDlg = function () {
+                                var tablecols = [[
+                                    { field: 'id', width: 100, title: 'ID' }
+                                    , { field: 'item_name', width: 200, title: 'item_name' }
+                                    , { field: 'price', width: 100, title: 'price' }
+                                    , { field: 'updated_at', width: 120 }
+                                ]];
+                                table.render({
+                                    elem: '#ownershop'
+                                    , cellMinWidth: 40
+                                    , height: "400px"
+                                    , cols: tablecols
+                                    , data: data.data
+                                    , limit: 99999
+                                });
+                            }
+                            layer.open({
+                                type: 1
+                                , title: "寄售列表"
+                                , resize: false
+                                , area: ['610px', '465px']
+                                , content: $('.dialog .ownershopdlg')
+                                , success: function (layero) {
+                                    initShopDlg();
+                                }
+                            });
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                }); 
+            });
+
             $("#btn_attack_damage").click(function () {
                 layer.load(2);
                 $.ajax({

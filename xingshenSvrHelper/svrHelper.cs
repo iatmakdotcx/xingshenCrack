@@ -1258,6 +1258,114 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
+        public static string Create_shop_sell(XingshenUser user, int price, string item_name, int itemType, int childType)
+        {
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v2/shops/sell";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["userdata"] = "{}";
+            req["player_zhong_yao"] = "";
+            req["player_data"] = "";
+            req["price"] = price.ToString();
+            req["item_name"] = item_name;            
+            req["data"] = "{\"childType\":\"" + childType + "\",\"itemType\":\"" + itemType + "\"}";
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "17")
+                    {
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        public static string Create_Owner_shop(XingshenUser user, out JArray data)
+        {
+            data = null;
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v2/shops/owner_shop";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;            
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "22")
+                    {
+                        data = (JArray)Repjo["data"];
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
         /// <summary>
         /// 添加商会令
         /// </summary>
@@ -1423,5 +1531,6 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
+
     }
 }

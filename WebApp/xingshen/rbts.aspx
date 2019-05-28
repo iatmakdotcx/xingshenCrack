@@ -48,7 +48,7 @@
                 </tr>
             </thead>
             <tbody>
-                <%foreach (var item in Web.Model.XingshenUser_BLL.GetGroup(Mak.Common.MakRequest.GetInt("gid", 1))){%>
+                <%foreach (var item in Web.Model.XingshenUser_BLL.GetGroup(Mak.Common.MakRequest.GetInt("gid", 1), Mak.Common.MakRequest.GetString("b")=="1")){%>
                 <tr>
                     <td><%=item.user_name %></td>
                     <td><%=item.uuid %></td>

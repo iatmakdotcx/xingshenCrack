@@ -390,10 +390,10 @@ layui.use(['layer', 'element', 'table'], function () {
         });
     });
     //物品编辑
-    $(".package .editor .layui-btn").click(function () {
+    $(".package .editor .strings .layui-btn").click(function () {
         changeitemData(player_data.playerDict.packageArr, $(".package .editor .fulldata").val(), this);
     });
-    $(".cangku .editor .layui-btn").click(function () {
+    $(".cangku .editor .strings .layui-btn").click(function () {
         changeitemData(player_data.playerDict.cangkuArr, $(".cangku .editor .fulldata").val(), this);
     });
     function changeitemData(d, v, t) {

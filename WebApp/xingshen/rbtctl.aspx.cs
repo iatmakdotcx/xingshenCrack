@@ -252,6 +252,31 @@ namespace telegramSvr.xingshen
                         return;
                     }
                     Rep["ok"] = true;
+                }else if (Request["a"] == "sell")//卖东西
+                {
+                    int price = Mak.Common.MakRequest.GetInt("p",1);
+                    string item_name = Mak.Common.MakRequest.GetString("in");
+                    int itemType = Mak.Common.MakRequest.GetInt("it", 0);
+                    int childType = Mak.Common.MakRequest.GetInt("ct", 0);
+                    string errMsg = svrHelper.Create_shop_sell(user, price, item_name, itemType, childType);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
+                }
+                else if (Request["a"] == "os")//自己卖的东西
+                {
+                    JArray data;
+                    string errMsg = svrHelper.Create_Owner_shop(user, out data);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["data"] = data;
+                    Rep["ok"] = true;
                 }
             }
             finally

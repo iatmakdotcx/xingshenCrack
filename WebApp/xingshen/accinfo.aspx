@@ -323,7 +323,7 @@
                                         </div>
                                         <div class="meta">
                                             <dl>
-                                                <dt>:</dt>
+                                                <dt><input type="button" class="layui-btn" id="btn_sell" value="卖" /></dt>
                                                 <dd></dd>
                                             </dl>
                                             <dl>
@@ -560,6 +560,7 @@
                 }
                 thisTimer = timer;
             });
+            $('#countdownlabel').hide();
             <%if (_optuser.isAdmin){%>
             //clearTimeout(thisTimer);
             $("#btn_AddEtime").click(function () {
@@ -622,6 +623,33 @@
                 })
             });
             <%}%>
+
+             $("#btn_sell").click(function () {
+                layer.prompt({ title: '价格',value:1 }, function (sid, index) {
+                    layer.close(index);
+                    layer.load(2);
+                    var item = player_data.playerDict.packageArr[selectedRow.data("id")];
+                    var in_ = ALLFILE_Item["ITEMFILE" + item.itemType][item.childType].name;
+                    $.ajax({
+                        url: "rbtctl.aspx?a=sell&uid=<%=Request["uid"]%>&p=" + sid+"&in="+in_+"&it="+item.itemType+"&ct="+item.childType,
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg("ok");
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (err) {
+                            layer.closeAll('loading');
+                            layer.msg(err.responseText, { icon: 2 });
+                        }
+                    });
+                });
+            });
         });
         
     </script>
