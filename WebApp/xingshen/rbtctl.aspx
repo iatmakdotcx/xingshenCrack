@@ -22,11 +22,18 @@
         .layui-table {
             margin: 0
         }
+        .mijingdlg{
+            padding: 20px;
+        }
+        .mijingdlg .info{
+            height:50px;
+            line-height: 50px;
+        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="layui-table-tool layui-border-box">
+        <div class="layui-table-tool layui-border-box" style="display:none">
             <div class="layui-table-tool-temp">
                 <div class="layui-btn-container">
                     <input type="button" class="layui-btn" id="btn_back" onclick="history.go(-1);" value="<<" />
@@ -55,8 +62,7 @@
                 <input type="button" class="layui-btn" id="btn_addling" value="新增" />
                 <input type="button" class="layui-btn" id="btn_shLst" value="列表" />
                 <input type="button" class="layui-btn" id="btn_ownershop" value="寄售列表" />
-                <input type="button" class="layui-btn" id="btn_sell" value=" - 卖 - " />
-                <input type="button" class="layui-btn" id="btn_buyone" style="display:none" value="BuyFirst" />
+                <input type="button" class="layui-btn" id="btn_sell" value=" - 卖 - " />                
             </div>
         </div>
 
@@ -67,7 +73,7 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
-
+                <input type="button" class="layui-btn" id="btn_mijings" value="秘境" />
             </div>
         </div>
     </form>
@@ -81,6 +87,25 @@
         <div class="ownershopdlg" style="display: none">
             <table id="ownershop" lay-filter="ownershop"></table>
         </div>
+        <div class="mijingdlg" style="padding: 20px;display: none">
+            <div class="layui-row">报名：<span class="isbm">是</span></div>
+            <div class="layui-row">个人:积分<span class="grjf"></span>，排名:<span class="grpm"></span></div>
+            <div class="layui-row">宗门:积分<span class="zmjf"></span>，排名:<span class="zmpm"></span></div>
+            <div class="layui-row layui-select-none mj">
+                <div class="layui-col-xs4">
+                    <div class="info">6/12</div>
+                    <a class="layui-btn layui-btn-xs" data-type="0">打</a>
+                </div>
+                <div class="layui-col-xs4">
+                    <div class="info">6/12</div>
+                    <a class="layui-btn layui-btn-xs" data-type="1">打</a>
+                </div>
+                <div class="layui-col-xs4">
+                    <div class="info">6/12</div>
+                    <a class="layui-btn layui-btn-xs" data-type="2">打</a>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="../js/layui/layui.min.js"></script>
     <script>
@@ -88,8 +113,83 @@
         var selectedRow;
         var uid ="<%=Request["uid"]%>";
 
+
         layui.use(['layer', 'element', 'table'], function () {
             var layer = layui.layer, $ = layui.$, table = layui.table;
+
+            $(".mijingdlg .mj a.layui-btn").click(function () {
+                var type = this.getAttribute("data-type");
+                layer.load(2);
+                $.ajax({
+                    url: "<%=Request.Path%>?a=mjs&uid=<%=Request["uid"]%>&sl=" + type,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll();
+                        if (data.ok) {
+                            layer.msg("ok");
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                });
+            });
+            $("#btn_mijings").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: window.location.pathname + "?a=mji&uid=" + uid,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {   
+                            data = data.data;
+                            if (data.isbm == "1") {
+                                $(".mijingdlg .isbm").html("是");
+                                $(".mijingdlg .grjf").html(data.owner_point);
+                                $(".mijingdlg .grpm").html(data.owner_ranking);
+                                $(".mijingdlg .zmjf").html(data.sect_point);
+                                $(".mijingdlg .zmpm").html(data.sect_ranking);
+
+                                $(".mijingdlg .mj .info:eq(0)").html(data.mi_jing[0].level);
+                                $(".mijingdlg .mj .info:eq(1)").html(data.mi_jing[1].level * 2);
+                                $(".mijingdlg .mj .info:eq(2)").html(data.mi_jing[2].level);
+                                $(".mijingdlg .mj .layui-btn").show();
+                            } else {
+                                $(".mijingdlg .isbm").html("No");
+                                $(".mijingdlg .grjf").html("");
+                                $(".mijingdlg .grpm").html("");
+                                $(".mijingdlg .zmjf").html("");
+                                $(".mijingdlg .zmpm").html("");
+                                $(".mijingdlg .mj .info").html("");
+                                $(".mijingdlg .mj .layui-btn").hide();
+                            }
+                             layer.open({
+                                type: 1
+                                , title: "秘境"
+                                , resize: false
+                                , area: ['210px', '265px']
+                                , content: $('.dialog .mijingdlg')
+                                , success: function (layero) {
+                    
+                                }
+                            });
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                }); 
+            });
             $("#btn_shLst").click(function () {
                 layer.load(2);
                 $.ajax({
@@ -318,28 +418,6 @@
                     }
                 });
             });
-            $("#btn_buyone").click(function () {
-                layer.load(2);
-                $.ajax({
-                    url: "<%=Request.Path%>?a=bo&uid=<%=Request["uid"]%>",
-                    async: true,
-                    type: "POST",
-                    dataType: "json",
-                    success: function (data) {
-                        layer.closeAll('loading');
-                        if (data.ok) {
-                            layer.msg(data.name);
-                            console.log(data.name);
-                        } else {
-                            layer.msg(data.msg);
-                        }
-                    },
-                    error: function (err) {
-                        layer.closeAll('loading');
-                        layer.msg(err.responseText, { icon: 2 });
-                    }
-                });
-            });
             $("#btn_qrysects").click(function () {
                 layer.load(2);
                 $.ajax({
@@ -416,31 +494,6 @@
                 });
             });
         });
-        var iiii = 0;
-        function byone() {
-            layui.$.ajax({
-                url: "<%=Request.Path%>?a=bo&uid=<%=Request["uid"]%>",
-                async: true,
-                type: "POST",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ok) {
-                        console.log((iiii++) + "》" + data.name);
-                    } else {
-                        console.log((iiii++) + "》" + data.msg);
-                    }
-                },
-                error: function (err) {
-                    console.log(err.responseText);
-                }
-            });
-        }
-
-        function l100() {
-            for (var i = 0; i < 100; i++) {               
-                byone()
-            }
-        }
     </script>
 
 </body>

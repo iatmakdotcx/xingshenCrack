@@ -79,11 +79,16 @@
         .layui-tab-item.other{
             padding:10px;
         }
+        .layui-tab-item.rbtctl iframe{
+           width:100%;
+           border:none;
+           min-height: 500px;
+        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <blockquote class="layui-elem-quote" id="countdownlabel"></blockquote>
+        <blockquote class="layui-elem-quote" id="countdownlabel" style="display:none"></blockquote>
         <div class="layui-table-tool layui-border-box">
             <div class="layui-table-tool-temp">
                  <%if(_optuser.isAdmin){ %>
@@ -113,7 +118,8 @@
                     <li>仓库</li>
                     <li>人物</li>
                     <li>SignData</li>
-                    <li>其他</li>
+                    <li>其他</li> 
+                    <li>RbtCtl</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show base">
@@ -416,6 +422,9 @@
                         <input type="button" class="layui-btn" id="btn_login" value="登录刷新token" />
                         <input type="button" class="layui-btn" id="btn_downfirst" value="Down" />
                         <%}%>
+                    </div>
+                    <div class="layui-tab-item rbtctl">
+                        <iframe src="rbtctl.aspx?uid=<%=Request["uid"] %>"></iframe>
                     </div>
                 </div>
             </div>

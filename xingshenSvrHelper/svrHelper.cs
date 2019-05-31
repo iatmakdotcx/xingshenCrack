@@ -1124,7 +1124,15 @@ namespace xingshenSvrHelper
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
                 request.Method = "POST";
-                request.ContentType = "application/json; charset=utf-8";
+                if (user.isAndroid)
+                {
+                    request.ContentType = "application/json; charset=utf-8";
+                }
+                else
+                {
+                    request.ContentType = "application/json, application/json";
+                    request.UserAgent = "%E6%94%BE%E7%BD%AE%E4%B8%89%E5%9B%BD/4.28 CFNetwork/976 Darwin/18.2.0";
+                }
                 request.Headers["Server-Time"] = ((DateTime.Now.AddHours(8).ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
                 request.Headers["Sign"] = SignData(user, request.Headers["Server-Time"], data);
 
@@ -1391,8 +1399,11 @@ namespace xingshenSvrHelper
             }
             else
             {
+                //苹果使用了v3的接口
+                url = "/api/v3/shops/add_ling";
                 req["sg_version"] = IOS_VERSION;
                 url = IOS_Svr + url;
+                req["hsStr"] = "";
             }
             req["token"] = user.token;
             req["uuid"] = user.uuid;
@@ -1532,6 +1543,108 @@ namespace xingshenSvrHelper
             }
             return errMsg;
         }
-
+        public static string Create_mi_jings_info(XingshenUser user,out JObject data)
+        {
+            data = null;
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v3/mi_jings/info";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;            
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "78")
+                    {
+                        data = (JObject)Repjo["data"];
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        public static string Create_mi_jings_success(XingshenUser user, int typeid)
+        {
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v3/mi_jings/challeng_success";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["type"] = typeid;
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "74")
+                    {
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
     }
 }

@@ -278,6 +278,29 @@ namespace telegramSvr.xingshen
                     Rep["data"] = data;
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "mji")//秘境信息
+                {
+                    JObject data;
+                    string errMsg = svrHelper.Create_mi_jings_info(user, out data);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["data"] = data;
+                    Rep["ok"] = true;
+                }
+                else if (Request["a"] == "mjs")//秘境攻击
+                {
+                    int sl = Mak.Common.MakRequest.GetInt("sl", 0);
+                    string errMsg = svrHelper.Create_mi_jings_success(user, sl);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
+                }
             }
             finally
             {

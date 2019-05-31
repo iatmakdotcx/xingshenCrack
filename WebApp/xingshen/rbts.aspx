@@ -96,7 +96,7 @@
         layui.use(['layer', 'element', "form"], function () {
             var layer = layui.layer, $ = layui.$, form = layui.form;
             $(".alluids tbody tr").click(function () {
-                location.href = "rbtctl.aspx?uid=" + $(this).find("td:eq(1)").text();
+                location.href = "accinfo.aspx?uid=" + $(this).find("td:eq(1)").text();
             });
 
             $("#btn_Createnew").click(function () {
