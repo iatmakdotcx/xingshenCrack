@@ -301,6 +301,16 @@ namespace telegramSvr.xingshen
                     }
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "mjjr")//进入秘境
+                {
+                    string errMsg = svrHelper.Create_mi_jings_explore(user);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
+                }
             }
             finally
             {

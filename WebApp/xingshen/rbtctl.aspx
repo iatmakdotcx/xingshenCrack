@@ -73,6 +73,7 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
+                <input type="button" class="layui-btn" id="btn_mjjr" value="进入秘境" />
                 <input type="button" class="layui-btn" id="btn_mijings" value="秘境" />
             </div>
         </div>
@@ -91,6 +92,7 @@
             <div class="layui-row">报名：<span class="isbm">是</span></div>
             <div class="layui-row">个人:积分<span class="grjf"></span>，排名:<span class="grpm"></span></div>
             <div class="layui-row">宗门:积分<span class="zmjf"></span>，排名:<span class="zmpm"></span></div>
+            <div class="layui-row">剩余次数:<span class="sycs"></span></div>
             <div class="layui-row layui-select-none mj">
                 <div class="layui-col-xs4">
                     <div class="info">6/12</div>
@@ -117,6 +119,27 @@
         layui.use(['layer', 'element', 'table'], function () {
             var layer = layui.layer, $ = layui.$, table = layui.table;
 
+            $("#btn_mjjr").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: window.location.pathname + "?a=mjjr&uid=" + uid,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {   
+                            layer.msg("ok");
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                }); 
+            });
             $(".mijingdlg .mj a.layui-btn").click(function () {
                 var type = this.getAttribute("data-type");
                 layer.load(2);
@@ -156,10 +179,20 @@
                                 $(".mijingdlg .grpm").html(data.owner_ranking);
                                 $(".mijingdlg .zmjf").html(data.sect_point);
                                 $(".mijingdlg .zmpm").html(data.sect_ranking);
+                                $(".mijingdlg .sycs").html(data.leftnum);
+
+                                if (data.mi_jing.length==0) {
+                                    layer.msg("未进入秘境！");
+                                    return;
+                                }
 
                                 $(".mijingdlg .mj .info:eq(0)").html(data.mi_jing[0].level);
                                 $(".mijingdlg .mj .info:eq(1)").html(data.mi_jing[1].level * 2);
-                                $(".mijingdlg .mj .info:eq(2)").html(data.mi_jing[2].level);
+                                var mjfs = parseInt(data.mi_jing[2].level / 10);
+                                if (mjfs < 5) {
+                                    mjfs = 5;
+                                }
+                                $(".mijingdlg .mj .info:eq(2)").html(mjfs);
                                 $(".mijingdlg .mj .layui-btn").show();
                             } else {
                                 $(".mijingdlg .isbm").html("No");
