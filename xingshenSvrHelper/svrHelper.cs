@@ -863,8 +863,8 @@ namespace xingshenSvrHelper
             }
             req["page"] = "1";
             JObject sect_info = new JObject();
-            sect_info["playerlv"] = "100";
-            sect_info["playerName"] = user.user_name;
+            sect_info["playerlv"] = "1000";
+            sect_info["playerName"] = ""; //user.username
             sect_info["uuid"] = user.uuid;
             sect_info["HYJF"] = "1";
             req["sect_info"] = sect_info;
@@ -1677,6 +1677,65 @@ namespace xingshenSvrHelper
                 {
                     Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
                     if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "73")
+                    {
+                        return "";
+                    }
+                    else if (Repjo["message"] != null)
+                    {
+                        return Repjo["message"].ToString();
+                    }
+                    else
+                    {
+                        return repdata;
+                    }
+                }
+                catch (Exception exx)
+                {
+                    return exx.Message;
+                }
+            }
+            return errMsg;
+        }
+        public static string Create_mi_jing_zhen_rongs(XingshenUser user, XingshenUserData userData)
+        {
+            string dct = "";
+            string errMsg = svrHelper.GetUserLastDCTime(user, out dct);
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                return errMsg;
+            }
+            string url = "/api/v3/mi_jing_zhen_rongs";
+            JObject req = new JObject();
+            req["net_id"] = user.net_id + 1;
+            if (user.isAndroid)
+            {
+                req["sg_version"] = Andorid_VERSION;
+                url = Andorid_Svr + url;
+            }
+            else
+            {
+                req["sg_version"] = IOS_VERSION;
+                url = IOS_Svr + url;
+            }
+            req["token"] = user.token;
+            req["uuid"] = user.uuid;
+            req["playerlv"] = "1000";
+            req["FirstRoleID"] = "1";
+            req["HYJF"] = "11";
+            req["zfDict"] = new JObject();
+            req["playerName"] = "";            
+            JObject jo = (JObject)JsonConvert.DeserializeObject(userData.data);
+            JObject player_data = (JObject)JsonConvert.DeserializeObject(jo["data"]["player_data"].ToString());
+            req["JJCRoles"] = player_data["playerDict"]["battleRolesArr"];
+
+            string repdata = PostData(user, url, req.ToString(Formatting.None), out errMsg);
+            if (!string.IsNullOrEmpty(repdata))
+            {
+                JObject Repjo = null;
+                try
+                {
+                    Repjo = (JObject)JsonConvert.DeserializeObject(repdata);
+                    if (Repjo["code"].ToString() == "0" && Repjo["type"].ToString() == "72")
                     {
                         return "";
                     }

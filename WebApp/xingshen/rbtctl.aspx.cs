@@ -311,6 +311,17 @@ namespace telegramSvr.xingshen
                     }
                     Rep["ok"] = true;
                 }
+                else if (Request["a"] == "mjbm")//秘境报名
+                {
+                    ud = XingshenUserData.GetModel(uid);
+                    string errMsg = svrHelper.Create_mi_jing_zhen_rongs(user, ud);
+                    if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Rep["msg"] = errMsg;
+                        return;
+                    }
+                    Rep["ok"] = true;
+                }
             }
             finally
             {

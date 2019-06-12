@@ -73,6 +73,7 @@
                 </div>
             </div>
             <div class="layui-table-tool-self">
+                <input type="button" class="layui-btn" id="btn_mjbm" value="报名" />
                 <input type="button" class="layui-btn" id="btn_mjjr" value="进入秘境" />
                 <input type="button" class="layui-btn" id="btn_mijings" value="秘境" />
             </div>
@@ -123,6 +124,27 @@
                 layer.load(2);
                 $.ajax({
                     url: window.location.pathname + "?a=mjjr&uid=" + uid,
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll('loading');
+                        if (data.ok) {   
+                            layer.msg("ok");
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (err) {
+                        layer.closeAll('loading');
+                        layer.msg(err.responseText, { icon: 2 });
+                    }
+                }); 
+            });
+            $("#btn_mjbm").click(function () {
+                layer.load(2);
+                $.ajax({
+                    url: window.location.pathname + "?a=mjbm&uid=" + uid,
                     async: true,
                     type: "POST",
                     dataType: "json",
