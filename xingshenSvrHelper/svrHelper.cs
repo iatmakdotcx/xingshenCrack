@@ -864,7 +864,7 @@ namespace xingshenSvrHelper
             req["page"] = "1";
             JObject sect_info = new JObject();
             sect_info["playerlv"] = "1000";
-            sect_info["playerName"] = ""; //user.username
+            sect_info["playerName"] = user.user_name;
             sect_info["uuid"] = user.uuid;
             sect_info["HYJF"] = "1";
             req["sect_info"] = sect_info;
